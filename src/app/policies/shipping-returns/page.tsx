@@ -18,8 +18,8 @@ export default function ShippingReturnsPage() {
           packaging review, and return authorization language.
         </p>
         <p>
-          ShipStation is not connected in Phase 1. Fulfillment details should be added
-          after WooCommerce order flow is active.
+          ShipStation is not connected yet. Fulfillment details should be added after
+          WooCommerce order flow is active.
         </p>
         <p>Replace this placeholder with reviewed policy copy before launch.</p>
       </div>

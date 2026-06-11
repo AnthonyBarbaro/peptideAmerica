@@ -4,7 +4,7 @@ import { getCommerceProvider } from "@/lib/commerce/provider";
 
 export const metadata: Metadata = {
   title: "Shop",
-  description: "Browse the Peptide America mock catalog with search, filters, and sorting.",
+  description: "Browse the Peptide America catalog with search, filters, and sorting.",
 };
 
 export default async function ShopPage({

@@ -97,7 +97,7 @@ export function ContactForm() {
       {submitted ? (
         <div className="mt-5 flex gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-900">
           <CheckCircle2 aria-hidden="true" size={20} />
-          Form validated locally. Email delivery is not connected in Phase 1.
+          Form validated locally. Email delivery is not connected yet.
         </div>
       ) : null}
     </form>

@@ -30,7 +30,7 @@ export const researchArticles: ResearchArticle[] = [
           "Batch identity helps purchasing teams compare the item in hand with the matching document instead of relying on a generic catalog entry.",
       },
       {
-        heading: "Phase 1 note",
+        heading: "Data readiness note",
         body:
           "Peptide America currently displays sample records only. Live supplier documents should replace every placeholder before launch.",
       },
@@ -107,7 +107,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         heading: "Data readiness",
         body:
-          "Phase 1 placeholder storage labels should be replaced during product data import and checked during launch QA.",
+          "Placeholder storage labels should be replaced during product data import and checked during launch QA.",
       },
     ],
   },

@@ -49,7 +49,7 @@ export function CheckoutPageClient() {
       >
         <h1 className="text-3xl font-bold text-slate-950">Checkout</h1>
         <p className="mt-3 text-slate-600">
-          Phase 1 validates the cart and prepares the later checkout handoff.
+          Checkout currently validates the cart and prepares a later hosted checkout handoff.
         </p>
         <label className="mt-8 block">
           <span className="text-sm font-semibold text-slate-700">Email</span>

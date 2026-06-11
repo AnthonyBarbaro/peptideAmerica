@@ -14,9 +14,8 @@ export default function PrivacyPolicyPage() {
       <h1 className="mt-2 text-4xl font-black text-slate-950">Privacy Policy</h1>
       <div className="mt-8 space-y-5 rounded-lg border border-slate-200 bg-white p-6 leading-7 text-slate-600 shadow-sm">
         <p>
-          This placeholder explains that Phase 1 may use browser storage for cart
-          state and accessibility preferences. No production analytics plan is active
-          in this frontend-only build.
+          This placeholder explains that the site may use browser storage for cart
+          state and accessibility preferences. No production analytics plan is active yet.
         </p>
         <p>
           Future integrations should document account data, order data, support

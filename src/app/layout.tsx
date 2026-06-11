@@ -17,12 +17,12 @@ export const metadata: Metadata = {
     template: `%s | ${brandName}`,
   },
   description:
-    "A premium ecommerce frontend for peptide catalog browsing, batch documentation, cart workflows, and COA lookup.",
+    "A premium peptide catalog for product browsing, batch documentation, cart workflows, and COA lookup.",
   applicationName: brandName,
   openGraph: {
     title: `${brandName} | Premium Peptide Catalog`,
     description:
-      "Batch-aware peptide ecommerce frontend with mock catalog data and clean integration adapters.",
+      "Batch-aware peptide catalog with product browsing, COA lookup, and cart workflows.",
     url: siteUrl,
     siteName: brandName,
     type: "website",
@@ -46,7 +46,7 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <div className="bg-red-700 px-4 py-2 text-center text-sm font-semibold text-white">
+        <div className="flex min-h-8 items-center justify-center bg-red-700 px-4 py-1.5 text-center text-[13px] font-semibold leading-5 text-white">
           Research use only. Not for human or animal use.
         </div>
         <Header products={products} />

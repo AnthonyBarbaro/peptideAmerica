@@ -4,7 +4,7 @@ import { getCommerceProvider } from "@/lib/commerce/provider";
 
 export const metadata: Metadata = {
   title: "COA Library",
-  description: "Search sample batch and COA records for the Peptide America mock catalog.",
+  description: "Search sample batch and COA records for the Peptide America catalog.",
 };
 
 export default async function CoaPage() {

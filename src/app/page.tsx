@@ -60,7 +60,7 @@ export default async function HomePage() {
           <MotionReveal>
             <div className="max-w-3xl">
               <p className="text-sm font-semibold uppercase tracking-[0.28em] text-red-200">
-                PeptideAmerica.com
+                Batch-aware research catalog
               </p>
               <h1 className="mt-5 text-4xl font-black leading-tight tracking-normal sm:text-6xl">
                 Premium peptide ecommerce for batch-aware lab purchasing.

@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "Are COA records available?",
     answer:
-      "The Phase 1 COA library uses sample records. Production launch should replace every placeholder with approved supplier documents.",
+      "The COA library currently uses sample records. Production launch should replace every placeholder with approved supplier documents.",
   },
   {
     question: "How does batch documentation work?",
@@ -29,13 +29,13 @@ const faqs = [
   {
     question: "How can support be contacted?",
     answer:
-      "Use the contact page to preview a support request. Email delivery is not connected in Phase 1.",
+      "Use the contact page to preview a support request. Email delivery is not connected yet.",
   },
 ];
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Concise answers about the Peptide America Phase 1 storefront.",
+  description: "Concise answers about the Peptide America storefront.",
 };
 
 export default function FaqPage() {

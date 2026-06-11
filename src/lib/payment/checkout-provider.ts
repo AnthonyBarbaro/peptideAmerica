@@ -22,6 +22,6 @@ export async function createCheckoutSession(
   return {
     ok: true,
     checkoutMode: "disabled",
-    message: "Phase 1 checkout is validated locally. Payment connection is not active.",
+    message: "Checkout is validated locally. Payment connection is not active.",
   };
 }

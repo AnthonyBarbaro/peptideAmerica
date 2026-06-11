@@ -65,7 +65,7 @@ export default async function SearchPage({
           </p>
         ) : (
           <p className="text-sm font-medium text-slate-600">
-            Enter a query to search the Phase 1 catalog.
+            Enter a query to search the catalog.
           </p>
         )}
         <div className="mt-5 grid gap-4">

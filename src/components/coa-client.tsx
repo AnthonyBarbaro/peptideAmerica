@@ -72,7 +72,7 @@ export function CoaClient({ products, batches }: CoaClientProps) {
         </div>
       </section>
       <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-950">
-        Sample/mock COA data is shown for Phase 1. Replace records with supplier documents before launch.
+        Sample COA data is shown while supplier records are pending. Replace records before launch.
       </div>
       <section className="mt-6 grid gap-4 md:grid-cols-2">
         {filteredBatches.map((batch) => {

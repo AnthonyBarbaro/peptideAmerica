@@ -7,8 +7,7 @@ export function Footer() {
         <div>
           <div className="text-base font-bold text-slate-950">Peptide America</div>
           <p className="mt-2 max-w-xl">
-            A Phase 1 ecommerce frontend with mock catalog data, COA lookup, cart state,
-            and clean integration points.
+            Premium catalog browsing, batch lookup, and responsive support.
           </p>
         </div>
         <nav className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Footer navigation">

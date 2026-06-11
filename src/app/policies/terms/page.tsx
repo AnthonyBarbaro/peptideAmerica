@@ -18,8 +18,8 @@ export default function TermsPage() {
           catalog, documentation, and site-use language before production launch.
         </p>
         <p>
-          Phase 1 checkout is disabled for payment processing and validates only the
-          storefront flow.
+          Checkout is currently disabled for payment processing and validates only the
+          storefront request flow.
         </p>
         <p>Replace this placeholder with reviewed policy copy before launch.</p>
       </div>

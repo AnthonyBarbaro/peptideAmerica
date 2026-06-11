@@ -17,8 +17,8 @@ export default function ContactPage() {
         </p>
         <h1 className="mt-2 text-4xl font-black text-slate-950">Catalog support</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Send a Phase 1 support request preview for catalog questions, sample COA
-          records, or storefront feedback. No email backend is connected yet.
+          Preview a support request for catalog questions, sample COA records, or
+          storefront feedback. No email backend is connected yet.
         </p>
         <div className="mt-8 grid gap-4">
           <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">

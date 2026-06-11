@@ -3,7 +3,7 @@ import { CheckoutPageClient } from "@/components/checkout-page-client";
 
 export const metadata: Metadata = {
   title: "Checkout",
-  description: "Validate the Phase 1 checkout flow with required catalog attestation.",
+  description: "Validate the checkout flow with required catalog attestation.",
 };
 
 export default function CheckoutPage() {
