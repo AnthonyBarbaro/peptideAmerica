@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, FileCheck2, LockKeyhole, PackageCheck, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  FileCheck2,
+  LockKeyhole,
+  Microscope,
+  PackageCheck,
+  ShieldCheck,
+} from "lucide-react";
 import { MotionReveal } from "@/components/motion-reveal";
 import { ProductCard } from "@/components/product-card";
 import { getCommerceProvider } from "@/lib/commerce/provider";
@@ -83,6 +90,10 @@ export default async function HomePage() {
                 >
                   View COA library
                 </Link>
+              </div>
+              <div className="mt-6 inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
+                <Microscope aria-hidden="true" size={18} className="text-red-200" />
+                Batch purity documentation
               </div>
             </div>
           </MotionReveal>
