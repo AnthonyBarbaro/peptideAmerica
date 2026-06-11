@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Peptide America
+
+Phase 1 builds a production-ready Next.js frontend for PeptideAmerica.com using mock commerce data. The app is Vercel-ready and does not connect to WooCommerce, payments, or ShipStation yet.
+
+## Stack
+
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- Zustand cart state
+- Framer Motion
+- Lucide icons
+- Radix UI dialogs and accordions
+- Zod route validation
+- GraphQL Yoga internal API route
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `.env.local` for local overrides. Phase 1 defaults to:
 
-## Learn More
+```bash
+COMMERCE_PROVIDER=mock
+CHECKOUT_MODE=disabled
+PAYMENT_PROVIDER=woocommerce_redirect
+SHIPSTATION_MODE=woocommerce_plugin
+```
 
-To learn more about Next.js, take a look at the following resources:
+Never expose `WOOCOMMERCE_CONSUMER_SECRET` or future payment secrets to client components.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Phase 1 Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Homepage with CSS/SVG biotech visual system
+- Shop grid with search, category filter, sorting, and quick add
+- Product detail pages with specs, COA records, and one compliance card
+- Zustand cart with persisted line items
+- Checkout validation with required attestation
+- Searchable COA library with sample/mock batch records
+- Accessibility panel with persisted preferences
+- REST API routes and internal GraphQL route backed by the same provider
+- Sitemap, robots, JSON-LD, and SEO metadata
+- Content compliance scanner
 
-## Deploy on Vercel
+## QA
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run lint
+npm run typecheck
+npm run check:content
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`npm run qa` runs lint, typecheck, Vitest, and content checks.
+
+## Compliance
+
+Displayed storefront copy is kept neutral and catalog-focused. Research-use-only messaging appears only in the global banner, the product detail compliance card, and the checkout attestation checkbox.
