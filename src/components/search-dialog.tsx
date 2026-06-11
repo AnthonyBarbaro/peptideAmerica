@@ -64,7 +64,7 @@ export function SearchDialog({ products }: SearchDialogProps) {
         <Dialog.Content className="fixed left-1/2 top-20 z-50 w-[min(calc(100vw-2rem),42rem)] -translate-x-1/2 rounded-lg border border-slate-200 bg-white p-4 shadow-2xl">
           <div className="flex items-center justify-between gap-4">
             <Dialog.Title className="text-lg font-semibold text-slate-950">
-              Product search
+              Site search
             </Dialog.Title>
             <Dialog.Close asChild>
               <button
@@ -107,10 +107,10 @@ export function SearchDialog({ products }: SearchDialogProps) {
           </div>
           <Dialog.Close asChild>
             <Link
-              href={`/shop${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ""}`}
+              href={`/search${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ""}`}
               className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
             >
-              Search shop
+              Search site
             </Link>
           </Dialog.Close>
         </Dialog.Content>

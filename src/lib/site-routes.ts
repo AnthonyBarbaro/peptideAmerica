@@ -1,0 +1,15 @@
+export const publicRoutes = [
+  "/",
+  "/shop",
+  "/coa",
+  "/research-library",
+  "/cart",
+  "/checkout",
+  "/search",
+  "/faq",
+  "/contact",
+  "/policies/research-use-only",
+  "/policies/privacy",
+  "/policies/terms",
+  "/policies/shipping-returns",
+];

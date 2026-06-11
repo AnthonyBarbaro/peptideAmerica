@@ -11,6 +11,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
   { href: "/coa", label: "COA" },
+  { href: "/research-library", label: "Library" },
 ];
 
 type HeaderProps = {

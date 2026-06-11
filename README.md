@@ -41,19 +41,41 @@ Never expose `WOOCOMMERCE_CONSUMER_SECRET` or future payment secrets to client c
 - Homepage with CSS/SVG biotech visual system
 - Shop grid with search, category filter, sorting, and quick add
 - Product detail pages with specs, COA records, and one compliance card
+- Research library with neutral catalog education articles
+- Site search across products, sample COA records, and research articles
 - Zustand cart with persisted line items
 - Checkout validation with required attestation
 - Searchable COA library with sample/mock batch records
+- FAQ, contact form UI, and placeholder policy pages
 - Accessibility panel with persisted preferences
 - REST API routes and internal GraphQL route backed by the same provider
 - Sitemap, robots, JSON-LD, and SEO metadata
 - Content compliance scanner
+
+## Public Routes
+
+- `/`
+- `/shop`
+- `/shop/[slug]`
+- `/coa`
+- `/research-library`
+- `/research-library/[slug]`
+- `/cart`
+- `/checkout`
+- `/search`
+- `/faq`
+- `/contact`
+- `/policies/research-use-only`
+- `/policies/privacy`
+- `/policies/terms`
+- `/policies/shipping-returns`
 
 ## QA
 
 ```bash
 npm run lint
 npm run typecheck
+npm run test
 npm run check:content
 npm run build
 ```
