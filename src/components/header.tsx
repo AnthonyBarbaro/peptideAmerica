@@ -37,9 +37,6 @@ export function Header({ products }: HeaderProps) {
             <span className="block truncate text-base font-bold leading-5">
               Peptide America
             </span>
-            <span className="block truncate text-xs text-slate-300">
-              PeptideAmerica.com
-            </span>
           </span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary navigation">
