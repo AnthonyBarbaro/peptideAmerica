@@ -66,15 +66,29 @@ export function Header({ products }: HeaderProps) {
             </span>
           </Link>
         </div>
-        <button
-          type="button"
-          className="inline-flex min-h-10 items-center justify-center rounded-md border border-white/15 p-2 md:hidden"
-          onClick={() => setMobileOpen((value) => !value)}
-          aria-label="Toggle navigation"
-          aria-expanded={mobileOpen}
-        >
-          {mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <Link
+            href="/cart"
+            className="relative inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-white/15 p-2 text-white transition hover:bg-white/10"
+            aria-label={`Cart with ${cartCount} item${cartCount === 1 ? "" : "s"}`}
+          >
+            <ShoppingCart aria-hidden="true" size={20} />
+            {cartCount > 0 ? (
+              <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-red-600 px-1 text-[11px] font-bold leading-none text-white">
+                {cartCount}
+              </span>
+            ) : null}
+          </Link>
+          <button
+            type="button"
+            className="inline-flex min-h-10 items-center justify-center rounded-md border border-white/15 p-2"
+            onClick={() => setMobileOpen((value) => !value)}
+            aria-label="Toggle navigation"
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          </button>
+        </div>
       </div>
       {mobileOpen ? (
         <div className="border-t border-white/10 px-4 pb-4 md:hidden">
