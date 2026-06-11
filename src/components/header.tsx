@@ -28,14 +28,18 @@ export function Header({ products }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/92 text-white backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-md bg-red-600">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <Link href="/" className="flex min-w-0 items-center gap-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-red-600">
             <FlaskConical aria-hidden="true" size={21} />
           </span>
-          <span>
-            <span className="block text-base font-bold leading-5">Peptide America</span>
-            <span className="block text-xs text-slate-300">PeptideAmerica.com</span>
+          <span className="min-w-0">
+            <span className="block truncate text-base font-bold leading-5">
+              Peptide America
+            </span>
+            <span className="block truncate text-xs text-slate-300">
+              PeptideAmerica.com
+            </span>
           </span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary navigation">
