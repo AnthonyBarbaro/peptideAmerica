@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FlaskConical, Menu, ShoppingCart, X } from "lucide-react";
+import { FlaskConical, Menu, ShoppingCart, UserRound, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Product } from "@/lib/commerce/types";
 import { SearchDialog } from "@/components/search-dialog";
@@ -53,6 +53,13 @@ export function Header({ products }: HeaderProps) {
         <div className="hidden items-center gap-3 md:flex">
           <SearchDialog products={products} />
           <Link
+            href="/my-account"
+            className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+          >
+            <UserRound aria-hidden="true" size={18} />
+            Account
+          </Link>
+          <Link
             href="/cart"
             className="inline-flex min-h-10 items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
           >
@@ -64,6 +71,13 @@ export function Header({ products }: HeaderProps) {
           </Link>
         </div>
         <div className="flex items-center gap-2 md:hidden">
+          <Link
+            href="/my-account"
+            className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-white/15 p-2 text-white transition hover:bg-white/10"
+            aria-label="My account"
+          >
+            <UserRound aria-hidden="true" size={20} />
+          </Link>
           <Link
             href="/cart"
             className="relative inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-white/15 p-2 text-white transition hover:bg-white/10"
@@ -103,6 +117,14 @@ export function Header({ products }: HeaderProps) {
           </nav>
           <div className="grid gap-2">
             <SearchDialog products={products} />
+            <Link
+              href="/my-account"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/15 px-3 py-2 text-sm font-semibold text-white"
+              onClick={() => setMobileOpen(false)}
+            >
+              <UserRound aria-hidden="true" size={18} />
+              Account
+            </Link>
             <Link
               href="/cart"
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-950"

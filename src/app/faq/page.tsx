@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 
 const faqs = [
   {
-    question: "What kind of products are listed?",
+    question: "What kind of catalog is this?",
     answer:
       "Peptide America is structured for research catalog browsing, product comparison, and batch document review.",
+  },
+  {
+    question: "Who should use this catalog?",
+    answer:
+      "The catalog is positioned for qualified researchers, labs, and institutions that need organized product records and batch documentation.",
   },
   {
     question: "Are COA records available?",
@@ -19,7 +24,7 @@ const faqs = [
   {
     question: "Is shipping connected?",
     answer:
-      "No. Shipping workflow integration is planned for a later phase after WooCommerce order flow is connected.",
+      "No. Shipping workflow integration is planned for a later phase after order flow is connected.",
   },
   {
     question: "Can checkout collect payment now?",
@@ -29,7 +34,12 @@ const faqs = [
   {
     question: "How can support be contacted?",
     answer:
-      "Use the contact page to preview a support request. Email delivery is not connected yet.",
+      "Use the support page or contact page to preview a support request. Email delivery is not connected yet.",
+  },
+  {
+    question: "Where are the site policies?",
+    answer:
+      "Support, privacy, return and refund, shipping and delivery, and terms pages are available from the footer navigation.",
   },
 ];
 

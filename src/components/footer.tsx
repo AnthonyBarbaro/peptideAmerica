@@ -12,16 +12,19 @@ export function Footer() {
         </div>
         <nav className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Footer navigation">
           {[
+            ["/support", "Support"],
+            ["/contact", "Contact Us"],
+            ["/my-account", "My Account"],
             ["/shop", "Shop"],
             ["/coa", "COA"],
             ["/research-library", "Research Library"],
             ["/search", "Search"],
             ["/faq", "FAQ"],
-            ["/contact", "Contact"],
             ["/policies/research-use-only", "Research Use Policy"],
-            ["/policies/privacy", "Privacy"],
-            ["/policies/terms", "Terms"],
-            ["/policies/shipping-returns", "Shipping and Returns"],
+            ["/policies/privacy", "Privacy Policy"],
+            ["/policies/return-refund", "Return and Refund Policy"],
+            ["/policies/shipping-returns", "Shipping and Delivery Policy"],
+            ["/policies/terms", "Terms and Conditions"],
           ].map(([href, label]) => (
             <Link key={href} href={href} className="font-medium hover:text-red-700">
               {label}

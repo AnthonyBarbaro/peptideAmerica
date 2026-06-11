@@ -29,6 +29,7 @@ Copy `.env.example` to `.env.local` for local overrides. Phase 1 defaults to:
 
 ```bash
 COMMERCE_PROVIDER=mock
+WORDPRESS_ACCOUNT_URL=
 CHECKOUT_MODE=disabled
 PAYMENT_PROVIDER=woocommerce_redirect
 SHIPSTATION_MODE=woocommerce_plugin
@@ -44,6 +45,7 @@ Never expose `WOOCOMMERCE_CONSUMER_SECRET` or future payment secrets to client c
 - Research library with neutral catalog education articles
 - Site search across products, sample COA records, and research articles
 - Zustand cart with persisted line items
+- My Account page prepared for WordPress/WooCommerce account handoff
 - Checkout validation with required attestation
 - Searchable COA library with sample/mock batch records
 - FAQ, contact form UI, and placeholder policy pages
@@ -60,6 +62,7 @@ Never expose `WOOCOMMERCE_CONSUMER_SECRET` or future payment secrets to client c
 - `/coa`
 - `/research-library`
 - `/research-library/[slug]`
+- `/my-account`
 - `/cart`
 - `/checkout`
 - `/search`
