@@ -79,10 +79,10 @@ export default async function HomePage() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/shop"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-red-600 px-6 py-3 text-sm font-bold text-white shadow-xl shadow-red-950/30 hover:bg-red-500"
+                  className="subtle-shine group inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-red-600 px-6 py-3 text-sm font-bold text-white shadow-xl shadow-red-950/30 hover:bg-red-500"
                 >
                   Shop catalog
-                  <ArrowRight aria-hidden="true" size={18} />
+                  <ArrowRight aria-hidden="true" size={18} className="transition group-hover:translate-x-0.5" />
                 </Link>
                 <Link
                   href="/coa"
@@ -94,6 +94,17 @@ export default async function HomePage() {
               <div className="mt-6 inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
                 <Microscope aria-hidden="true" size={18} className="text-red-200" />
                 Batch purity documentation
+              </div>
+              <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                <Link href="/quality" className="text-red-100 underline-offset-4 hover:underline">
+                  Quality documentation
+                </Link>
+                <Link href="/track-order" className="text-red-100 underline-offset-4 hover:underline">
+                  Track order
+                </Link>
+                <Link href="/partner-program" className="text-red-100 underline-offset-4 hover:underline">
+                  Partner program
+                </Link>
               </div>
             </div>
           </MotionReveal>
@@ -125,12 +136,14 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {valueCards.map((card) => (
-            <div key={card.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-              <card.icon aria-hidden="true" className="text-red-600" size={28} />
-              <h2 className="mt-4 text-lg font-bold text-slate-950">{card.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{card.text}</p>
-            </div>
+          {valueCards.map((card, index) => (
+            <MotionReveal key={card.title} delay={index * 0.06}>
+              <div className="h-full rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-lg">
+                <card.icon aria-hidden="true" className="text-red-600" size={28} />
+                <h2 className="mt-4 text-lg font-bold text-slate-950">{card.title}</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{card.text}</p>
+              </div>
+            </MotionReveal>
           ))}
         </div>
       </section>
@@ -165,13 +178,15 @@ export default async function HomePage() {
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            {["Search by SKU", "Select batch", "Review sample record"].map((item) => (
-              <div key={item} className="rounded-lg bg-slate-50 p-5">
-                <div className="text-sm font-bold text-slate-950">{item}</div>
-                <div className="mt-3 h-2 rounded-full bg-slate-200">
-                  <div className="h-2 w-2/3 rounded-full bg-red-600" />
+            {["Search by SKU", "Select batch", "Review sample record"].map((item, index) => (
+              <MotionReveal key={item} delay={index * 0.08}>
+                <div className="group rounded-lg bg-slate-50 p-5 transition hover:-translate-y-1 hover:bg-slate-100">
+                  <div className="text-sm font-bold text-slate-950">{item}</div>
+                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-200">
+                    <div className="h-2 w-2/3 rounded-full bg-red-600 transition group-hover:w-full" />
+                  </div>
                 </div>
-              </div>
+              </MotionReveal>
             ))}
           </div>
         </div>

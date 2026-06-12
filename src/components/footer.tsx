@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CatalogUpdatesForm } from "@/components/newsletter/catalog-updates-form";
 
 export function Footer() {
   return (
@@ -9,15 +10,19 @@ export function Footer() {
           <p className="mt-2 max-w-xl">
             Premium catalog browsing, batch lookup, and responsive support.
           </p>
+          <CatalogUpdatesForm />
         </div>
         <nav className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Footer navigation">
           {[
             ["/support", "Support"],
             ["/contact", "Contact Us"],
+            ["/track-order", "Track Order"],
             ["/my-account", "My Account"],
             ["/shop", "Shop"],
             ["/coa", "COA"],
+            ["/quality", "Quality Documentation"],
             ["/research-library", "Research Library"],
+            ["/partner-program", "Partner Program"],
             ["/search", "Search"],
             ["/faq", "FAQ"],
             ["/policies/research-use-only", "Research Use Policy"],

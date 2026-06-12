@@ -31,6 +31,7 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
         </defs>
         <rect width="300" height="220" fill={`url(#grid-${product.id})`} />
         <path
+          className="path-draw"
           d="M40 150 C80 80 120 190 165 116 S232 70 265 124"
           fill="none"
           stroke="white"

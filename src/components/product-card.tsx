@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FileCheck2 } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Product } from "@/lib/commerce/types";
 import { formatMoney, formatStockStatus } from "@/lib/format";
 import { AddToCartButton } from "@/components/add-to-cart-button";
@@ -12,8 +13,17 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product }: ProductCardProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+    <motion.article
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:shadow-xl"
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+      whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+      whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+      viewport={{ once: true, margin: "-70px" }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+    >
       <Link href={`/shop/${product.slug}`} className="block focus-visible:outline-none">
         <ProductVisual product={product} className="aspect-[4/3] rounded-none border-0" />
       </Link>
@@ -49,6 +59,6 @@ export function ProductCard({ product }: ProductCardProps) {
           <AddToCartButton product={product} label="Quick add" />
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }

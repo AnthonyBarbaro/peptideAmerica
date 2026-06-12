@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FileCheck2, HelpCircle, Mail, PackageCheck } from "lucide-react";
+import { MotionReveal } from "@/components/motion-reveal";
 
 export const metadata: Metadata = {
   title: "Support",
@@ -44,29 +45,30 @@ export default function SupportPage() {
         </p>
       </div>
       <section className="mt-8 grid gap-5 md:grid-cols-2">
-        {supportItems.map((item) => (
-          <article
-            key={item.title}
-            className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
-          >
-            <item.icon aria-hidden="true" className="text-red-600" size={28} />
-            <h2 className="mt-4 text-xl font-black text-slate-950">{item.title}</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{item.body}</p>
-          </article>
+        {supportItems.map((item, index) => (
+          <MotionReveal key={item.title} delay={index * 0.06}>
+            <article className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <item.icon aria-hidden="true" className="text-red-600" size={28} />
+              <h2 className="mt-4 text-xl font-black text-slate-950">{item.title}</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{item.body}</p>
+            </article>
+          </MotionReveal>
         ))}
       </section>
-      <div className="mt-8 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-black text-slate-950">Contact Us</h2>
-        <p className="mt-3 text-sm leading-6 text-slate-600">
-          The contact form currently validates requests in the browser only.
-        </p>
-        <Link
-          href="/contact"
-          className="mt-5 inline-flex min-h-11 items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-500"
-        >
-          Open contact form
-        </Link>
-      </div>
+      <MotionReveal className="mt-8" y={12}>
+        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-black text-slate-950">Contact Us</h2>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            The contact form currently validates requests in the browser only.
+          </p>
+          <Link
+            href="/contact"
+            className="subtle-shine mt-5 inline-flex min-h-11 items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-500"
+          >
+            Open contact form
+          </Link>
+        </div>
+      </MotionReveal>
     </div>
   );
 }

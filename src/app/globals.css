@@ -56,12 +56,54 @@ textarea {
   animation: molecule-drift 12s ease-in-out infinite alternate;
 }
 
+.path-draw {
+  stroke-dasharray: 460;
+  stroke-dashoffset: 460;
+  animation: path-draw 1.2s ease-out forwards;
+}
+
+.subtle-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.subtle-shine::after {
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 45%,
+    transparent 65%
+  );
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-120%);
+}
+
+.subtle-shine:hover::after,
+.subtle-shine:focus-visible::after {
+  animation: subtle-shine 700ms ease;
+}
+
 @keyframes molecule-drift {
   from {
     transform: translate3d(-8px, 0, 0) rotate(-1deg);
   }
   to {
     transform: translate3d(8px, -10px, 0) rotate(1deg);
+  }
+}
+
+@keyframes path-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes subtle-shine {
+  to {
+    transform: translateX(120%);
   }
 }
 
@@ -109,6 +151,10 @@ html[data-reduce-motion="true"] *::after {
   transition-duration: 0.01ms !important;
 }
 
+html[data-reduce-motion="true"] .path-draw {
+  stroke-dashoffset: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -117,5 +163,9 @@ html[data-reduce-motion="true"] *::after {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .path-draw {
+    stroke-dashoffset: 0;
   }
 }

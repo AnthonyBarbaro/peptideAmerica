@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { MotionReveal } from "@/components/motion-reveal";
 
 type PolicyShellProps = {
   title: string;
@@ -13,9 +14,11 @@ export function PolicyShell({ title, eyebrow = "Policies", children }: PolicyShe
         {eyebrow}
       </p>
       <h1 className="mt-2 text-4xl font-black text-slate-950">{title}</h1>
-      <div className="mt-8 space-y-5 rounded-lg border border-slate-200 bg-white p-6 leading-7 text-slate-600 shadow-sm">
-        {children}
-      </div>
+      <MotionReveal className="mt-8" y={12}>
+        <div className="space-y-5 rounded-lg border border-slate-200 bg-white p-6 leading-7 text-slate-600 shadow-sm">
+          {children}
+        </div>
+      </MotionReveal>
     </div>
   );
 }

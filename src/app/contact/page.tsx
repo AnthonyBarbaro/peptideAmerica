@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Mail, MessageSquareText } from "lucide-react";
+import { MotionReveal } from "@/components/motion-reveal";
 import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
@@ -21,25 +22,31 @@ export default function ContactPage() {
           storefront feedback. No email backend is connected yet.
         </p>
         <div className="mt-8 grid gap-4">
-          <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-            <Mail aria-hidden="true" className="text-red-600" />
-            <h2 className="mt-3 text-lg font-bold text-slate-950">Email workflow</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              This form validates locally only. A support mailbox integration can be
-              added in a later phase.
-            </p>
-          </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-            <MessageSquareText aria-hidden="true" className="text-red-600" />
-            <h2 className="mt-3 text-lg font-bold text-slate-950">Support scope</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Support copy stays focused on product records, batch documents, orders,
-              and storefront access.
-            </p>
-          </div>
+          <MotionReveal y={12}>
+            <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <Mail aria-hidden="true" className="text-red-600" />
+              <h2 className="mt-3 text-lg font-bold text-slate-950">Email workflow</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                This form validates locally only. A support mailbox integration can be
+                added in a later phase.
+              </p>
+            </div>
+          </MotionReveal>
+          <MotionReveal y={12} delay={0.06}>
+            <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <MessageSquareText aria-hidden="true" className="text-red-600" />
+              <h2 className="mt-3 text-lg font-bold text-slate-950">Support scope</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Support copy stays focused on product records, batch documents, orders,
+                and storefront access.
+              </p>
+            </div>
+          </MotionReveal>
         </div>
       </section>
-      <ContactForm />
+      <MotionReveal y={14}>
+        <ContactForm />
+      </MotionReveal>
     </div>
   );
 }
