@@ -27,7 +27,7 @@ export default async function ShopPage({
         </p>
         <h1 className="mt-2 text-4xl font-black text-slate-950">Shop products</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Browse placeholder product data with category filters, sorting, cart actions,
+          Browse live product data with category filters, sorting, cart actions,
           and COA-aware product cards.
         </p>
       </div>

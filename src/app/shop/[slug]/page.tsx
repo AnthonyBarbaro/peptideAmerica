@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/product-card";
 import { ProductVisual } from "@/components/product-visual";
 import { SpecAccordion } from "@/components/spec-accordion";
 import { getCommerceProvider } from "@/lib/commerce/provider";
-import { formatMoney, formatStockStatus } from "@/lib/format";
+import { formatCatalogPrice, formatStockStatus } from "@/lib/format";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo/jsonld";
 
 type ProductPageProps = {
@@ -72,7 +72,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 Price
               </div>
               <div className="mt-1 text-2xl font-black text-slate-950">
-                {formatMoney(product.priceCents)}
+                {formatCatalogPrice(product.priceCents)}
               </div>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-4">
@@ -129,10 +129,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   </span>
                 </div>
                 <div className="mt-3 text-sm text-slate-600">
-                  Purity: {batch.purityPercent ? `${batch.purityPercent}% sample` : "Pending"}
+                  Purity: {batch.purityPercent ? `${batch.purityPercent}%` : "Pending"}
                 </div>
               </div>
             ))}
+            {product.coaBatches.length === 0 ? (
+              <div className="rounded-md bg-slate-50 p-4 text-sm text-slate-600">
+                No COA documents are currently attached to this product.
+              </div>
+            ) : null}
           </div>
         </div>
       </section>

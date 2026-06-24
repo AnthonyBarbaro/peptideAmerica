@@ -71,9 +71,6 @@ export function CoaClient({ products, batches }: CoaClientProps) {
           </label>
         </div>
       </section>
-      <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-950">
-        Sample COA data is shown while supplier records are pending. Replace records before launch.
-      </div>
       <section className="mt-6 grid gap-4 md:grid-cols-2">
         {filteredBatches.map((batch) => {
           const product = productBySlug.get(batch.productSlug);
@@ -111,7 +108,7 @@ export function CoaClient({ products, batches }: CoaClientProps) {
                 <div>
                   <dt className="font-semibold text-slate-500">Purity</dt>
                   <dd className="mt-1 font-semibold text-slate-950">
-                    {batch.purityPercent ? `${batch.purityPercent}% sample` : "Pending"}
+                    {batch.purityPercent ? `${batch.purityPercent}%` : "Pending"}
                   </dd>
                 </div>
               </dl>
@@ -120,12 +117,20 @@ export function CoaClient({ products, batches }: CoaClientProps) {
                 href={batch.documentUrl}
                 className="mt-5 inline-flex min-h-10 items-center justify-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
               >
-                View placeholder document
+                View document
               </a>
             </article>
           );
         })}
       </section>
+      {filteredBatches.length === 0 ? (
+        <div className="mt-6 rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
+          <h2 className="text-lg font-semibold text-slate-950">No COA records found</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            COA records will appear here when Vial returns document data.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }

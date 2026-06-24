@@ -1,19 +1,19 @@
 # 00 Project Scope
 
-Phase 1 creates a frontend-only ecommerce experience for Peptide America. It uses mock product and COA data, with clean provider boundaries for later integrations.
+Peptide America is a Next.js ecommerce storefront with Vial as the active commerce backend target.
 
 In scope:
 - Next.js App Router storefront
-- Mock commerce provider
-- Cart and checkout validation UI
+- Vial commerce provider
+- Clerk account authentication
+- Cart and guarded checkout submission UI
 - COA library
 - Accessibility preferences
 - REST and GraphQL API routes
 - Integration planning docs
 
 Out of scope:
-- Live WordPress or WooCommerce connection
-- Live payment processor
-- Live ShipStation connection
-- Real supplier product data
-- Real COA documents
+- Direct card collection in Next.js
+- WooCommerce adapter work
+- Fake storefront product data
+- Fulfillment submission before payment/order approval

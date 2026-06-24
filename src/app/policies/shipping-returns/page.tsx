@@ -3,21 +3,21 @@ import { PolicyShell } from "@/components/policy-shell";
 
 export const metadata: Metadata = {
   title: "Shipping and Delivery Policy",
-  description: "Placeholder shipping and delivery policy page for Peptide America.",
+  description: "Shipping and delivery policy page for Peptide America.",
 };
 
 export default function ShippingReturnsPage() {
   return (
     <PolicyShell title="Shipping and Delivery Policy">
       <p>
-        This placeholder page reserves space for shipping workflow, carrier timing,
-        packaging review, and delivery-status language.
+        Shipping workflow, carrier timing, packaging review, and delivery-status language
+        should match the active fulfillment setup.
       </p>
       <p>
-        ShipStation is not connected yet. Fulfillment details should be added after
-        WooCommerce order flow is active.
+        Fulfillment details should be verified against the live Vial order workflow before
+        accepting orders.
       </p>
-      <p>Replace this placeholder with reviewed policy copy before launch.</p>
+      <p>Final policy review is required before accepting live customer orders.</p>
     </PolicyShell>
   );
 }

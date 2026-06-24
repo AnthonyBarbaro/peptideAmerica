@@ -1,9 +1,9 @@
 # 03 COA Management
 
-COA records currently live in mock product data.
+COA records should come from Vial catalog data or approved supplier document data.
 
-Future plan:
-- Store batch records as Woo product metadata, custom post types, or a dedicated document source.
+Plan:
+- Confirm whether Vial returns COA documents embedded in product rows or through a separate endpoint.
 - Require product slug, SKU, batch number, lab name, test date, status, and document URL.
-- Mark sample data clearly until supplier documents are imported.
-- Add admin review before a COA appears on production pages.
+- Do not display fixed purity values unless backed by the current lot document.
+- Add operational review before a COA is promoted.

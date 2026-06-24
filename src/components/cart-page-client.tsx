@@ -16,7 +16,7 @@ export function CartPageClient() {
       <div className="rounded-lg border border-slate-200 bg-white p-10 text-center shadow-sm">
         <ShoppingBag aria-hidden="true" className="mx-auto text-red-600" size={42} />
         <h1 className="mt-4 text-3xl font-bold text-slate-950">Your cart is empty</h1>
-        <p className="mt-3 text-slate-600">Browse the catalog and add sample products.</p>
+        <p className="mt-3 text-slate-600">Browse the catalog and add products.</p>
         <Link
           href="/shop"
           className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-500"

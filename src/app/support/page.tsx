@@ -11,17 +11,17 @@ export const metadata: Metadata = {
 const supportItems = [
   {
     title: "Catalog Questions",
-    body: "Request help finding SKUs, categories, placeholder product fields, or future supplier data requirements.",
+    body: "Request help finding SKUs, categories, product fields, or supplier data requirements.",
     icon: HelpCircle,
   },
   {
     title: "COA Records",
-    body: "Ask about sample batch records, document status labels, or launch-ready COA replacement workflows.",
+    body: "Ask about batch records, document status labels, or COA workflows.",
     icon: FileCheck2,
   },
   {
     title: "Shipping Workflow",
-    body: "Review the placeholder shipping and delivery policy before fulfillment integrations are connected.",
+    body: "Review shipping and delivery details before placing an order.",
     icon: PackageCheck,
   },
   {
@@ -40,8 +40,8 @@ export default function SupportPage() {
         </p>
         <h1 className="mt-2 text-4xl font-black text-slate-950">How can we help?</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Support is focused on catalog records, sample COA documents, checkout flow,
-          and policy questions.
+          Support is focused on catalog records, COA documents, checkout flow, and policy
+          questions.
         </p>
       </div>
       <section className="mt-8 grid gap-5 md:grid-cols-2">

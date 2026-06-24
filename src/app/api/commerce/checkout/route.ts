@@ -3,7 +3,21 @@ import { z } from "zod";
 import { createCheckoutSession } from "@/lib/payment/checkout-provider";
 
 const checkoutSchema = z.object({
-  email: z.string().email().optional().or(z.literal("")),
+  clientRequestId: z.string().min(1).optional(),
+  customer: z.object({
+    email: z.string().email(),
+    firstName: z.string().min(1),
+    lastName: z.string().min(1),
+    phone: z.string().optional(),
+  }),
+  shippingAddress: z.object({
+    line1: z.string().min(1),
+    line2: z.string().optional(),
+    city: z.string().min(1),
+    region: z.string().min(1),
+    postalCode: z.string().min(1),
+    country: z.string().min(2),
+  }),
   attestationAccepted: z.literal(true),
   items: z
     .array(

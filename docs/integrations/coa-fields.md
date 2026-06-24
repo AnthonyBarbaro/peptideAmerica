@@ -12,4 +12,4 @@ Required COA batch fields:
 - `documentUrl`
 - `notes`
 
-Phase 1 records are sample/mock only. Production records require approved supplier documents.
+COA records should come from approved supplier or Vial document data before they are displayed to customers.

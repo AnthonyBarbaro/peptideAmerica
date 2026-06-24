@@ -18,7 +18,7 @@ export function AddToCartButton({
 }: AddToCartButtonProps) {
   const addItem = useCartStore((state) => state.addItem);
   const [added, setAdded] = useState(false);
-  const disabled = product.stockStatus === "out_of_stock";
+  const disabled = product.stockStatus === "out_of_stock" || product.priceCents <= 0;
 
   return (
     <button

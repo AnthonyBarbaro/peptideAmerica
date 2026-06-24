@@ -7,8 +7,7 @@ import { buildSearchResults } from "@/lib/search";
 
 export const metadata: Metadata = {
   title: "Search",
-  description:
-    "Search products, sample COA batch records, and research library articles.",
+  description: "Search products, COA batch records, and research library articles.",
 };
 
 export default async function SearchPage({
@@ -34,7 +33,7 @@ export default async function SearchPage({
         </p>
         <h1 className="mt-2 text-4xl font-black text-slate-950">Search Peptide America</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Search product names, SKUs, sample batch records, and library articles.
+          Search product names, SKUs, batch records, and library articles.
         </p>
       </div>
       <form action="/search" className="mt-8 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FileCheck2 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Product } from "@/lib/commerce/types";
-import { formatMoney, formatStockStatus } from "@/lib/format";
+import { formatCatalogPrice, formatStockStatus } from "@/lib/format";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductVisual } from "@/components/product-visual";
 
@@ -45,14 +45,16 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="mt-4 flex-1 text-sm leading-6 text-slate-600">
           {product.shortDescription}
         </p>
-        <div className="mt-5 flex items-center gap-2 text-sm font-medium text-slate-700">
-          <FileCheck2 aria-hidden="true" size={18} className="text-red-600" />
-          COA available
-        </div>
+        {product.coaBatches.length > 0 ? (
+          <div className="mt-5 flex items-center gap-2 text-sm font-medium text-slate-700">
+            <FileCheck2 aria-hidden="true" size={18} className="text-red-600" />
+            COA available
+          </div>
+        ) : null}
         <div className="mt-5 flex items-center justify-between gap-3">
           <div>
             <div className="text-xl font-bold text-slate-950">
-              {formatMoney(product.priceCents)}
+              {formatCatalogPrice(product.priceCents)}
             </div>
             <div className="text-xs text-slate-500">{product.sizeLabel}</div>
           </div>

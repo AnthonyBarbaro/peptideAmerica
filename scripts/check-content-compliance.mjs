@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 const scanTargets = [
   "src/app",
   "src/components",
-  "src/lib/commerce/mock-provider.ts",
+  "src/lib/research/articles.ts",
 ];
 
 const allowedPhrases = [

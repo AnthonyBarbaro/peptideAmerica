@@ -15,22 +15,22 @@ const faqs = [
   {
     question: "Are COA records available?",
     answer:
-      "The COA library currently uses sample records. Production launch should replace every placeholder with approved supplier documents.",
+      "The COA library displays batch documents returned by the live catalog source.",
   },
   {
     question: "How does batch documentation work?",
     answer:
-      "Each sample product includes batch numbers, lab names, test dates, status labels, and placeholder document links.",
+      "Batch records can include batch numbers, lab names, test dates, status labels, and document links.",
   },
   {
     question: "Where can I review quality documentation?",
     answer:
-      "The quality documentation page explains how sample COA records, SKU fields, batch numbers, and supplier data readiness are organized.",
+      "The quality documentation page explains how COA records, SKU fields, batch numbers, and supplier data readiness are organized.",
   },
   {
     question: "How should I read storage labels?",
     answer:
-      "Storage labels are shown as supplier-provided catalog fields. Placeholder labels should be replaced with approved supplier records before launch.",
+      "Storage labels are shown as supplier-provided catalog fields.",
   },
   {
     question: "Is shipping connected?",
@@ -40,7 +40,7 @@ const faqs = [
   {
     question: "Can I track an order?",
     answer:
-      "A track-order page is available as a placeholder workflow. Live tracking requires order and fulfillment integrations.",
+      "Order tracking requires a connected order and fulfillment source.",
   },
   {
     question: "Do you ship internationally?",
@@ -50,7 +50,7 @@ const faqs = [
   {
     question: "Can checkout collect payment now?",
     answer:
-      "No. Checkout currently validates the cart and attestation only. A hosted checkout redirect can be added later.",
+      "No. This Next.js storefront does not collect card information.",
   },
   {
     question: "How can support be contacted?",
@@ -65,7 +65,7 @@ const faqs = [
   {
     question: "Is there a partner program?",
     answer:
-      "A partner program placeholder is available for future institutional or affiliate workflows after terms and reporting are approved.",
+      "Partner workflows require approved terms and reporting before launch.",
   },
 ];
 

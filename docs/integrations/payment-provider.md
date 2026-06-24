@@ -1,10 +1,17 @@
 # Payment Provider
 
-Phase 1 checkout mode is disabled and validates only local payload shape plus attestation.
+Checkout does not collect card data in this Next.js app. The active payment scaffold is Authorize.Net Accept Hosted.
 
-Future requirements:
-- Hosted checkout or WooCommerce redirect flow
-- Server-side credential handling
-- No direct card collection in Next.js
-- Provider webhook validation
-- Order creation only after successful provider response
+Live requirements:
+- Select and underwrite an approved high-risk merchant account.
+- Configure Authorize.Net Accept Hosted credentials.
+- Keep provider credentials server-side only.
+- Submit Vial orders only after payment approval unless a separate approved workflow handles payment.
+- Keep `VIAL_ALLOW_UNPAID_ORDERS=false` by default.
+- Add provider webhook validation and order-state reconciliation before fully automated fulfillment.
+
+Webhook endpoint:
+
+```text
+/api/payment/authorize-net/webhook
+```

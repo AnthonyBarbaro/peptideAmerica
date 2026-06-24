@@ -32,7 +32,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         heading: "Data readiness note",
         body:
-          "Peptide America currently displays sample records only. Live supplier documents should replace every placeholder before launch.",
+          "Published COA records should come from live supplier documents and should be reviewed before storefront release.",
       },
     ],
   },
@@ -52,7 +52,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         heading: "Status labels",
         body:
-          "Status labels should show whether a record is sample, pending, or verified so teams can understand the document state quickly.",
+          "Status labels should show whether a record is pending or verified so teams can understand the document state quickly.",
       },
       {
         heading: "Operational value",
@@ -75,9 +75,9 @@ export const researchArticles: ResearchArticle[] = [
           "Technical specifications should be presented as short labeled fields so details are easy to compare across catalog entries.",
       },
       {
-        heading: "Placeholder fields",
+        heading: "Pending fields",
         body:
-          "When supplier values are unavailable, placeholder labels should make that status obvious instead of implying final data.",
+          "When supplier values are unavailable, labels should make that status obvious instead of implying final data.",
       },
       {
         heading: "Review flow",
@@ -107,7 +107,7 @@ export const researchArticles: ResearchArticle[] = [
       {
         heading: "Data readiness",
         body:
-          "Placeholder storage labels should be replaced during product data import and checked during launch QA.",
+          "Storage labels should be checked during product data import and launch QA.",
       },
     ],
   },

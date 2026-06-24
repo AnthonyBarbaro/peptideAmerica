@@ -18,8 +18,7 @@ export default function ContactPage() {
         </p>
         <h1 className="mt-2 text-4xl font-black text-slate-950">Catalog support</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Preview a support request for catalog questions, sample COA records, or
-          storefront feedback. No email backend is connected yet.
+          Send catalog questions, COA record questions, or storefront feedback.
         </p>
         <div className="mt-8 grid gap-4">
           <MotionReveal y={12}>
@@ -27,8 +26,8 @@ export default function ContactPage() {
               <Mail aria-hidden="true" className="text-red-600" />
               <h2 className="mt-3 text-lg font-bold text-slate-950">Email workflow</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                This form validates locally only. A support mailbox integration can be
-                added in a later phase.
+                Connect this form to a support mailbox before using it for customer
+                support volume.
               </p>
             </div>
           </MotionReveal>

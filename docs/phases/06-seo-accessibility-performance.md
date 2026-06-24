@@ -2,7 +2,7 @@
 
 SEO:
 - Metadata is defined in layout and key pages.
-- Sitemap and robots are generated from app routes and mock products.
+- Sitemap and robots are generated from app routes and live provider products.
 - JSON-LD is emitted for organization and product pages.
 
 Accessibility:
@@ -12,5 +12,5 @@ Accessibility:
 
 Performance:
 - Use Server Components for data rendering.
-- Avoid external image assets in Phase 1.
+- Use approved image assets only.
 - Keep client bundles focused on actual interaction.

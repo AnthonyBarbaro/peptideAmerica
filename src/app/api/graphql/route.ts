@@ -73,7 +73,7 @@ const schema = createSchema({
       siteSettings: () => ({
         brandName: process.env.NEXT_PUBLIC_BRAND_NAME ?? "Peptide America",
         siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://peptideamerica.com",
-        commerceProvider: process.env.COMMERCE_PROVIDER ?? "mock",
+        commerceProvider: "vial",
         checkoutMode: process.env.CHECKOUT_MODE ?? "disabled",
       }),
     },

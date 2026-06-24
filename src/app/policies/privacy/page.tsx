@@ -3,21 +3,20 @@ import { PolicyShell } from "@/components/policy-shell";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Placeholder privacy policy page for Peptide America.",
+  description: "Privacy policy page for Peptide America.",
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <PolicyShell title="Privacy Policy">
       <p>
-        This placeholder explains that the site may use browser storage for cart
-        state and accessibility preferences. No production analytics plan is active yet.
+        This site may use browser storage for cart state and accessibility preferences.
       </p>
       <p>
-        Future integrations should document account data, order data, support
-        requests, cookies, analytics, and retention practices.
+        Account data, order data, support requests, cookies, analytics, and retention
+        practices should be reviewed against the active production configuration.
       </p>
-      <p>Replace this placeholder with reviewed policy copy before launch.</p>
+      <p>Final legal review is required before accepting live customer orders.</p>
     </PolicyShell>
   );
 }

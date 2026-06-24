@@ -3,16 +3,16 @@ import { PolicyShell } from "@/components/policy-shell";
 
 export const metadata: Metadata = {
   title: "Research Use Policy",
-  description: "Placeholder research-use policy page for Peptide America.",
+  description: "Research-use policy page for Peptide America.",
 };
 
 export default function ResearchUsePolicyPage() {
   return (
     <PolicyShell title="Research Use Policy">
       <p>
-        This placeholder policy describes the intended catalog framing for Peptide
-        America products. Items are presented for laboratory research and development
-        procurement, documentation review, and batch record workflows.
+        This policy describes the intended catalog framing for Peptide America products.
+        Items are presented for laboratory research and development procurement,
+        documentation review, and batch record workflows.
       </p>
       <p>
         Products are not consumer goods, dietary products, or personal-use items. All
@@ -24,7 +24,7 @@ export default function ResearchUsePolicyPage() {
         approved catalog language. Not for human or animal consumption.
       </p>
       <p>
-        Replace this placeholder with reviewed policy copy before launch. This page is
+        Final legal review is required before accepting live customer orders. This page is
         not legal advice.
       </p>
     </PolicyShell>

@@ -23,13 +23,13 @@ const valueCards = [
     icon: ShieldCheck,
   },
   {
-    title: "Fast Fulfillment Ready",
-    text: "Prepared for a later ShipStation handoff through WooCommerce.",
+    title: "Vial Fulfillment Ready",
+    text: "Built to submit approved order payloads through the Vial API.",
     icon: PackageCheck,
   },
   {
     title: "Secure Checkout Ready",
-    text: "Built for a later compliant payment redirect instead of direct card capture.",
+    text: "Built for live order handoff without direct card capture in Next.js.",
     icon: LockKeyhole,
   },
 ];
@@ -69,13 +69,13 @@ export default async function HomePage() {
               <p className="text-sm font-semibold uppercase tracking-[0.28em] text-red-200">
                 Batch-aware research catalog
               </p>
-              <h1 className="mt-5 text-4xl font-black leading-tight tracking-normal sm:text-6xl">
-                Premium peptide ecommerce for batch-aware lab purchasing.
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200">
-                A fast storefront with polished catalog browsing, COA lookup, cart
-                workflows, and clean adapter boundaries for later commerce integrations.
-              </p>
+                <h1 className="mt-5 text-4xl font-black leading-tight tracking-normal sm:text-6xl">
+                  Premium peptide ecommerce for batch-aware lab purchasing.
+                </h1>
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200">
+                  A fast storefront with polished catalog browsing, COA lookup, cart
+                workflows, and live Vial integration boundaries.
+                </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/shop"
@@ -111,23 +111,31 @@ export default async function HomePage() {
           <MotionReveal delay={0.12}>
             <div className="rounded-lg border border-white/10 bg-white/8 p-5 shadow-2xl backdrop-blur">
               <div className="grid gap-3">
-                {products.map((product) => (
-                  <Link
-                    key={product.id}
-                    href={`/shop/${product.slug}`}
-                    className="rounded-md border border-white/10 bg-slate-950/60 p-4 transition hover:border-red-300/60 hover:bg-slate-900"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <div className="font-semibold">{product.name}</div>
-                        <div className="mt-1 text-sm text-slate-300">{product.sku}</div>
+                {products.length > 0 ? (
+                  products.map((product) => (
+                    <Link
+                      key={product.id}
+                      href={`/shop/${product.slug}`}
+                      className="rounded-md border border-white/10 bg-slate-950/60 p-4 transition hover:border-red-300/60 hover:bg-slate-900"
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <div className="font-semibold">{product.name}</div>
+                          <div className="mt-1 text-sm text-slate-300">{product.sku}</div>
+                        </div>
+                        {product.coaBatches.length > 0 ? (
+                          <span className="rounded-full bg-red-600/20 px-3 py-1 text-xs font-semibold text-red-100">
+                            COA
+                          </span>
+                        ) : null}
                       </div>
-                      <span className="rounded-full bg-red-600/20 px-3 py-1 text-xs font-semibold text-red-100">
-                        COA
-                      </span>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))
+                ) : (
+                  <div className="rounded-md border border-white/10 bg-slate-950/60 p-4 text-sm text-slate-200">
+                    Live catalog data will appear after Vial credentials and endpoint paths are configured.
+                  </div>
+                )}
               </div>
             </div>
           </MotionReveal>
@@ -165,6 +173,14 @@ export default async function HomePage() {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+        {products.length === 0 ? (
+          <div className="mt-8 rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
+            <h3 className="text-lg font-semibold text-slate-950">No live products loaded</h3>
+            <p className="mt-2 text-sm text-slate-600">
+              Configure the Vial catalog endpoint before opening the storefront to customers.
+            </p>
+          </div>
+        ) : null}
       </section>
 
       <section className="border-y border-slate-200 bg-white">
@@ -178,7 +194,7 @@ export default async function HomePage() {
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            {["Search by SKU", "Select batch", "Review sample record"].map((item, index) => (
+            {["Search by SKU", "Select batch", "Review COA record"].map((item, index) => (
               <MotionReveal key={item} delay={index * 0.08}>
                 <div className="group rounded-lg bg-slate-50 p-5 transition hover:-translate-y-1 hover:bg-slate-100">
                   <div className="text-sm font-bold text-slate-950">{item}</div>

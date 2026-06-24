@@ -4,7 +4,7 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     service: "peptide-america-frontend",
-    provider: process.env.COMMERCE_PROVIDER ?? "mock",
+    provider: "vial",
     checkoutMode: process.env.CHECKOUT_MODE ?? "disabled",
   });
 }

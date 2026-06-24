@@ -2,16 +2,14 @@ import type { Metadata } from "next";
 import { LockKeyhole, PlugZap, ShieldCheck, type LucideIcon } from "lucide-react";
 import { AccountPortal } from "@/components/account/account-portal";
 import { MotionReveal } from "@/components/motion-reveal";
-import { getAccountIntegration } from "@/lib/account/provider";
 
 export const metadata: Metadata = {
   title: "My Account",
-  description:
-    "Login and registration surface prepared for WordPress/WooCommerce account handoff.",
+  description: "Login and account access for Peptide America.",
 };
 
 export default function MyAccountPage() {
-  const integration = getAccountIntegration();
+  const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
   return (
     <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
@@ -21,27 +19,27 @@ export default function MyAccountPage() {
         </p>
         <h1 className="mt-2 text-4xl font-black text-slate-950">Account access</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Login and registration are ready for a WordPress/WooCommerce account
-          portal. The storefront does not store passwords or payment details.
+          Login and registration are handled through Clerk. The storefront does not store
+          passwords or payment details.
         </p>
         <div className="mt-8 grid gap-4">
           {[
             {
               icon: PlugZap,
-              title: integration.connected ? "Portal connected" : "Portal not connected yet",
-              body: integration.connected
-                ? "Account actions hand off to the configured WordPress/WooCommerce portal."
-                : "Set WORDPRESS_ACCOUNT_URL or WOOCOMMERCE_URL to enable live account handoff.",
+              title: clerkEnabled ? "Clerk connected" : "Clerk not configured",
+              body: clerkEnabled
+                ? "Account actions are handled by Clerk-hosted authentication components."
+                : "Set Clerk publishable and secret keys to enable live account actions.",
             },
             {
               icon: LockKeyhole,
               title: "Credential handling",
-              body: "Credentials are not proxied through this Next.js frontend. The connected account portal should handle authentication.",
+              body: "Passwords and OAuth flows are handled by Clerk, not by custom storefront code.",
             },
             {
               icon: ShieldCheck,
               title: "Checkout alignment",
-              body: "Account access is separate from payment processing, which remains disabled until a hosted checkout flow is connected.",
+              body: "Account access is separate from payment processing and Vial fulfillment approval.",
             },
           ].map((item, index) => (
             <MotionReveal key={item.title} delay={index * 0.06} y={12}>
@@ -51,7 +49,7 @@ export default function MyAccountPage() {
         </div>
       </section>
       <MotionReveal y={14}>
-        <AccountPortal integration={integration} />
+        <AccountPortal clerkEnabled={clerkEnabled} />
       </MotionReveal>
     </div>
   );

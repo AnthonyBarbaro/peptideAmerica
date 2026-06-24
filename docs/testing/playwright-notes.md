@@ -1,6 +1,6 @@
 # Playwright Notes
 
-Playwright is installed, but Phase 1 does not yet include a committed Playwright
+Playwright is installed, but this repo does not yet include a committed Playwright
 configuration with `webServer`, browser projects, and test artifacts.
 
 Recommended e2e coverage when configured:

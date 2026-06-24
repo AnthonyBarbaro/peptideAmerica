@@ -5,7 +5,7 @@ import { MotionReveal } from "@/components/motion-reveal";
 
 export const metadata: Metadata = {
   title: "Partner Program",
-  description: "Placeholder partner program page for future affiliate and institutional workflows.",
+  description: "Partner program page for affiliate and institutional workflows.",
 };
 
 const partnerItems = [
@@ -37,8 +37,7 @@ export default function PartnerProgramPage() {
           Partner and institutional access
         </h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          This placeholder keeps a future partner program discoverable while approval,
-          terms, and reporting systems are still pending.
+          Partner access requires approval, terms, and reporting systems.
         </p>
       </div>
       <section className="mt-8 grid gap-5 md:grid-cols-3">

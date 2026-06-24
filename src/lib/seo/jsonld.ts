@@ -13,7 +13,7 @@ export function organizationJsonLd() {
 }
 
 export function productJsonLd(product: Product) {
-  return {
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
@@ -24,7 +24,10 @@ export function productJsonLd(product: Product) {
       "@type": "Brand",
       name: brandName,
     },
-    offers: {
+  };
+
+  if (product.priceCents > 0) {
+    jsonLd.offers = {
       "@type": "Offer",
       priceCurrency: "USD",
       price: (product.priceCents / 100).toFixed(2),
@@ -33,8 +36,10 @@ export function productJsonLd(product: Product) {
           ? "https://schema.org/OutOfStock"
           : "https://schema.org/InStock",
       url: `${siteUrl}/shop/${product.slug}`,
-    },
-  };
+    };
+  }
+
+  return jsonLd;
 }
 
 export function breadcrumbJsonLd(items: Array<{ name: string; href: string }>) {

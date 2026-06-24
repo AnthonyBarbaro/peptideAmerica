@@ -6,9 +6,9 @@ import {
   updateCartItemQuantity,
   type CartProduct,
 } from "../src/lib/cart-store";
-import { mockProducts } from "../src/lib/commerce/mock-provider";
+import { productFixtures } from "./fixtures/products";
 
-const product = mockProducts[0] as CartProduct;
+const product = productFixtures[0] as CartProduct;
 
 describe("cart helpers", () => {
   it("adds an item and increments an existing item", () => {

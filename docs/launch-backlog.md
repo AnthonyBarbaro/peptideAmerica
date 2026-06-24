@@ -1,34 +1,29 @@
 # Launch Backlog
 
-This is the remaining work needed to move Peptide America from the Phase 1 mock storefront to a production launch.
+This is the remaining work needed to move Peptide America to a Vial-backed production launch.
 
 ## Commerce And Product Data
 
-- Connect the commerce provider to WordPress/WooCommerce.
-- Map WooCommerce products into the existing `Product` model.
-- Replace placeholder product names, prices, SKUs, sizes, descriptions, specs, sequences, stock states, and tags with approved supplier/catalog data.
-- Confirm category taxonomy and product filtering rules.
-- Add real product images or approved generated/photographed catalog assets.
+- Confirm the real Vial catalog endpoint paths and response shape.
+- Set `VIAL_API_BASE_URL`, `VIAL_API_KEY`, `VIAL_PRODUCTS_PATH`, and optional `VIAL_PRODUCT_PATH`.
+- Confirm category taxonomy and product filtering rules from Vial data.
+- Confirm which Vial fields map to price, SKU, stock state, size, specs, sequence, storage label, and COA documents.
+- Add real product images or approved catalog assets.
 - Decide whether `/peptides` should be added as a category landing route or redirected to `/shop`.
 
 ## COA And Batch Documentation
 
-- Replace all sample COA records with real supplier batch records.
-- Store COA fields in WordPress/WooCommerce or a dedicated document source.
-- Upload production COA documents and update `documentUrl` values.
-- Add admin review workflow for COA status before publishing.
+- Confirm the Vial fields for COA documents and lot/batch records.
 - Confirm which purity/identity values can be displayed from approved documents.
 - Keep fixed purity claims out of copy unless backed by real batch documentation.
+- Add an operational review process for COA records before a product is promoted.
 
 ## Account And Login
 
-- Choose account handoff mode:
-  - `WORDPRESS_ACCOUNT_URL`
-  - or `WOOCOMMERCE_URL/my-account`
-- Confirm WordPress/WooCommerce account registration settings.
-- Confirm lost-password URL.
-- Decide whether account login stays as redirect handoff or later becomes a headless auth flow.
-- Do not proxy or store customer passwords in Next.js unless a formal auth architecture is approved.
+- Configure Clerk production application keys.
+- Enable approved OAuth providers in the Clerk dashboard.
+- Confirm email verification and account recovery settings.
+- Do not proxy or store customer passwords in Next.js.
 
 ## Newsletter And Forms
 
@@ -44,20 +39,25 @@ This is the remaining work needed to move Peptide America from the Phase 1 mock 
 
 ## Checkout And Payments
 
-- Select a hosted checkout or WooCommerce redirect flow.
+- Complete high-risk merchant underwriting.
+- Configure Authorize.Net Accept Hosted credentials.
 - Keep card collection out of the Next.js frontend.
 - Configure payment provider credentials server-side only.
 - Validate cart, customer data, and required attestation before checkout handoff.
-- Add webhook handling and order-state reconciliation.
+- Confirm whether Vial receives orders only after payment approval.
+- Keep `VIAL_ALLOW_UNPAID_ORDERS=false` unless an approved external process handles payment.
+- Add Postgres order ledger tables.
+- Store verified Authorize.Net webhook/payment events.
+- Add order-state reconciliation before Vial submission.
 - Add checkout failure, cancel, and success pages if needed.
 
 ## Shipping And Fulfillment
 
-- Decide whether ShipStation connects through WooCommerce plugin mode or direct API.
-- Configure shipping methods, packaging rules, and tracking sync.
+- Confirm whether Vial is the fulfillment source of truth.
+- Configure shipping methods, packaging rules, and tracking sync against the selected fulfillment source.
 - Connect `/track-order` to the real order/fulfillment source.
 - Finalize shipping regions and international shipping rules.
-- Replace placeholder shipping/delivery policy copy.
+- Finalize shipping/delivery policy copy.
 
 ## Policy And Compliance Review
 
@@ -110,9 +110,8 @@ This is the remaining work needed to move Peptide America from the Phase 1 mock 
 
 - Newsletter signup does not store emails yet.
 - Contact form validates locally only.
-- Account page is not connected to live WordPress/WooCommerce yet.
-- Checkout validates locally only and does not process payment.
-- Track order page is a placeholder.
+- Account page requires Clerk production keys and enabled sign-in methods.
+- Checkout is blocked unless Vial order env vars and order approval are configured.
+- Track order page needs a real order/fulfillment lookup.
 - Shipping and fulfillment are not connected.
-- COA records and product data are sample placeholders.
-- Partner program page is a placeholder.
+- Partner program needs approved terms before launch.

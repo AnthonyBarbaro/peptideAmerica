@@ -6,7 +6,7 @@ import { MotionReveal } from "@/components/motion-reveal";
 export const metadata: Metadata = {
   title: "Quality Documentation",
   description:
-    "How Peptide America presents sample COA records, batch identifiers, and future quality documentation workflows.",
+    "How Peptide America presents COA records, batch identifiers, and quality documentation workflows.",
 };
 
 const items = [
@@ -17,12 +17,12 @@ const items = [
   },
   {
     title: "COA access",
-    body: "Every sample product includes placeholder COA records so the storefront is ready for supplier document import.",
+    body: "Product records can display COA documents from the live catalog source when those documents are available.",
     icon: FileCheck2,
   },
   {
     title: "Supplier data readiness",
-    body: "Purity labels, technical specifications, and document links should be replaced with approved supplier data before launch.",
+    body: "Purity labels, technical specifications, and document links should come from approved supplier data.",
     icon: FlaskConical,
   },
 ];

@@ -1,6 +1,6 @@
 # Peptide America Agent Guide
 
-This repo is the Phase 1 Next.js frontend for PeptideAmerica.com. Agents must preserve the mock-provider-first architecture and avoid connecting WooCommerce, payments, or ShipStation until a later phase.
+This repo is the Next.js frontend for PeptideAmerica.com. Agents must preserve the Vial-first commerce architecture and avoid reintroducing mock storefront data or WooCommerce unless explicitly requested.
 
 ## Design Agent
 
@@ -9,7 +9,7 @@ Checks visual quality, mobile layout, colors, spacing, and animations.
 Acceptance criteria:
 - Dark navy, white, and red accent palette is consistent.
 - Layouts work at mobile, tablet, and desktop widths.
-- UI uses CSS/SVG/placeholder visuals only in Phase 1.
+- UI uses CSS/SVG/product-provider visuals unless approved assets are provided.
 - Motion is tasteful and respects reduced-motion preferences.
 - Cards, controls, and typography feel polished without marketing clutter.
 
@@ -18,22 +18,23 @@ Acceptance criteria:
 Checks components, routing, cart, product pages, state, and forms.
 
 Acceptance criteria:
-- Required Phase 1 routes render: `/`, `/shop`, `/shop/[slug]`, `/cart`, `/checkout`, `/coa`.
+- Required routes render: `/`, `/shop`, `/shop/[slug]`, `/cart`, `/checkout`, `/coa`.
 - Product cards, product pages, cart actions, and checkout validation work.
 - Zustand cart state persists in localStorage.
 - Client components are used only where interaction is required.
 - Forms use real inputs, labels, buttons, and accessible states.
+- Account access uses Clerk; do not reintroduce local password handling.
 
 ## Commerce Integration Agent
 
-Checks mock provider, REST routes, GraphQL route, and future Woo adapters.
+Checks Vial provider, REST routes, GraphQL route, and checkout handoff.
 
 Acceptance criteria:
 - Frontend, REST routes, and GraphQL route use `getCommerceProvider()`.
-- `COMMERCE_PROVIDER=mock` works without backend services.
-- WooCommerce REST and WPGraphQL/WooGraphQL files remain adapter placeholders.
+- `getCommerceProvider()` resolves to the Vial-backed provider.
 - Checkout provider never collects card data in Next.js.
 - Future secrets stay server-side only.
+- Clerk secret keys stay server-side only.
 
 ## Compliance/Content Agent
 
@@ -41,7 +42,7 @@ Checks no prohibited claims, no prohibited use language, and no repetitive discl
 
 Acceptance criteria:
 - No medical, dosing, administration, human-use, animal-use, outcome, or performance claims.
-- Product and COA values are clearly sample/mock until supplier data is provided.
+- Product and COA values come from the live commerce provider or remain absent.
 - Compliance messaging appears only in the top banner, product detail compliance card, and checkout attestation checkbox.
 - `npm run check:content` passes.
 

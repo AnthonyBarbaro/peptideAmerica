@@ -5,7 +5,7 @@ export type TechnicalSpec = {
   value: string;
 };
 
-export type CoaBatchStatus = "sample" | "pending" | "verified";
+export type CoaBatchStatus = "pending" | "verified";
 
 export type CoaBatch = {
   id: string;

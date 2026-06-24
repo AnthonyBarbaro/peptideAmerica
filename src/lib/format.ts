@@ -5,6 +5,10 @@ export function formatMoney(cents: number) {
   }).format(cents / 100);
 }
 
+export function formatCatalogPrice(cents: number) {
+  return cents > 0 ? formatMoney(cents) : "Price pending";
+}
+
 export function formatStockStatus(status: string) {
   switch (status) {
     case "in_stock":
