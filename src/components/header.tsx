@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
-import { FlaskConical, Menu, ShoppingCart, UserRound, X } from "lucide-react";
+import { Menu, ReceiptText, ShoppingCart, UserRound, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Product } from "@/lib/commerce/types";
 import { SearchDialog } from "@/components/search-dialog";
@@ -46,7 +47,7 @@ function ClerkAccountControl() {
   if (isSignedIn) {
     return (
       <div className="grid min-h-10 min-w-10 place-items-center rounded-md border border-white/15">
-        <UserButton />
+        <AccountUserButton />
       </div>
     );
   }
@@ -97,7 +98,7 @@ function ClerkMobileAccountControl({ onNavigate }: { onNavigate?: () => void }) 
   if (isSignedIn) {
     return (
       <div className="grid min-h-10 min-w-10 place-items-center rounded-md border border-white/15">
-        <UserButton />
+        <AccountUserButton />
       </div>
     );
   }
@@ -116,6 +117,20 @@ function ClerkMobileAccountControl({ onNavigate }: { onNavigate?: () => void }) 
   );
 }
 
+function AccountUserButton() {
+  return (
+    <UserButton>
+      <UserButton.MenuItems>
+        <UserButton.Link
+          href="/my-account"
+          label="Orders & invoices"
+          labelIcon={<ReceiptText aria-hidden="true" size={16} />}
+        />
+      </UserButton.MenuItems>
+    </UserButton>
+  );
+}
+
 export function Header({ products, clerkEnabled }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const items = useCartStore((state) => state.items);
@@ -126,15 +141,21 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/92 text-white backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex min-w-0 items-center gap-3">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-red-600">
-            <FlaskConical aria-hidden="true" size={21} />
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate text-base font-bold leading-5">
-              Peptide America
-            </span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex min-w-0 items-center">
+          <span className="relative block h-10 w-[166px] shrink-0 overflow-hidden sm:h-11 sm:w-[210px]">
+            <Image
+              src="/pa/logo.png"
+              alt="Peptide America"
+              fill
+              priority
+              sizes="(max-width: 640px) 166px, 210px"
+              className="object-cover object-center scale-[1.45]"
+              style={{
+                filter:
+                  "drop-shadow(0 1px 0 rgba(0,0,0,0.85)) drop-shadow(0 -1px 0 rgba(0,0,0,0.75)) drop-shadow(1px 0 0 rgba(0,0,0,0.75)) drop-shadow(-1px 0 0 rgba(0,0,0,0.75))",
+              }}
+            />
           </span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary navigation">
@@ -162,7 +183,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
             </span>
           </Link>
         </div>
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-1.5 md:hidden">
           <MobileAccountControl clerkEnabled={clerkEnabled} />
           <Link
             href="/cart"

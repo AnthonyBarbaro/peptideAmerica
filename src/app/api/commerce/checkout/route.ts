@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
 import { createCheckoutSession } from "@/lib/payment/checkout-provider";
+
+const clerkEnabled = Boolean(
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY,
+);
 
 const checkoutSchema = z.object({
   clientRequestId: z.string().min(1).optional(),
@@ -48,7 +53,21 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = await createCheckoutSession(parsed.data);
+  let clerkUserId: string | undefined;
+
+  if (clerkEnabled) {
+    try {
+      const authResult = await auth();
+      clerkUserId = authResult.userId ?? undefined;
+    } catch {
+      clerkUserId = undefined;
+    }
+  }
+
+  const response = await createCheckoutSession({
+    ...parsed.data,
+    clerkUserId,
+  });
 
   return NextResponse.json(response, { status: response.ok ? 200 : 400 });
 }

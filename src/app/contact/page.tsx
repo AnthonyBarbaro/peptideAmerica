@@ -24,10 +24,9 @@ export default function ContactPage() {
           <MotionReveal y={12}>
             <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
               <Mail aria-hidden="true" className="text-red-600" />
-              <h2 className="mt-3 text-lg font-bold text-slate-950">Email workflow</h2>
+              <h2 className="mt-3 text-lg font-bold text-slate-950">Support requests</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Connect this form to a support mailbox before using it for customer
-                support volume.
+                Share your contact details and question so the support team can review it.
               </p>
             </div>
           </MotionReveal>
@@ -36,8 +35,7 @@ export default function ContactPage() {
               <MessageSquareText aria-hidden="true" className="text-red-600" />
               <h2 className="mt-3 text-lg font-bold text-slate-950">Support scope</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Support copy stays focused on product records, batch documents, orders,
-                and storefront access.
+                Support covers product records, batch documents, orders, and account access.
               </p>
             </div>
           </MotionReveal>

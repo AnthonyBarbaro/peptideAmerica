@@ -1,7 +1,8 @@
 "use client";
 
 import * as Tabs from "@radix-ui/react-tabs";
-import { SignIn, SignUp, UserProfile, useUser } from "@clerk/nextjs";
+import { SignIn, SignOutButton, SignUp, useClerk, useUser } from "@clerk/nextjs";
+import { Settings } from "lucide-react";
 
 type AccountPortalProps = {
   clerkEnabled: boolean;
@@ -28,10 +29,9 @@ export function AccountPortal({ clerkEnabled }: AccountPortalProps) {
   if (!clerkEnabled) {
     return (
       <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-2xl font-black text-slate-950">Clerk is not configured</h2>
+        <h2 className="text-2xl font-black text-slate-950">Account access is unavailable</h2>
         <p className="mt-3 text-sm leading-6 text-slate-600">
-          Add `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` to enable
-          sign-in, sign-up, and account controls.
+          Sign-in and account management are temporarily unavailable. Please check back soon.
         </p>
       </div>
     );
@@ -52,11 +52,7 @@ function ClerkAccountPortal() {
   }
 
   if (isSignedIn) {
-    return (
-      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
-        <UserProfile routing="hash" appearance={appearance} />
-      </div>
-    );
+    return <SignedInAccountSummary />;
   }
 
   return (
@@ -86,6 +82,48 @@ function ClerkAccountPortal() {
           <SignUp routing="hash" appearance={appearance} />
         </Tabs.Content>
       </Tabs.Root>
+    </div>
+  );
+}
+
+function SignedInAccountSummary() {
+  const { user } = useUser();
+  const clerk = useClerk();
+  const primaryEmail = user?.primaryEmailAddress?.emailAddress;
+
+  return (
+    <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-red-700">
+            Account
+          </p>
+          <h2 className="mt-2 text-2xl font-black text-slate-950">
+            {user?.fullName || "Signed in"}
+          </h2>
+          {primaryEmail ? (
+            <p className="mt-1 text-sm font-medium text-slate-500">{primaryEmail}</p>
+          ) : null}
+        </div>
+      </div>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <button
+          type="button"
+          onClick={() => clerk.openUserProfile()}
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
+        >
+          <Settings aria-hidden="true" size={18} />
+          Profile settings
+        </button>
+        <SignOutButton>
+          <button
+            type="button"
+            className="inline-flex min-h-10 items-center justify-center rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+          >
+            Sign out
+          </button>
+        </SignOutButton>
+      </div>
     </div>
   );
 }

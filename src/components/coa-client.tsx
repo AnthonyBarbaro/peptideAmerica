@@ -125,9 +125,9 @@ export function CoaClient({ products, batches }: CoaClientProps) {
       </section>
       {filteredBatches.length === 0 ? (
         <div className="mt-6 rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
-          <h2 className="text-lg font-semibold text-slate-950">No COA records found</h2>
+          <h2 className="text-lg font-semibold text-slate-950">No matching COA records</h2>
           <p className="mt-2 text-sm text-slate-600">
-            COA records will appear here when Vial returns document data.
+            Try a different product, SKU, batch number, or lab name.
           </p>
         </div>
       ) : null}

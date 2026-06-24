@@ -26,7 +26,7 @@ const supportItems = [
   },
   {
     title: "Contact Form",
-    body: "Use the contact form to validate a support request locally. Email delivery is not connected yet.",
+    body: "Send catalog, COA, checkout, or policy questions to the support team.",
     icon: Mail,
   },
 ];
@@ -59,7 +59,7 @@ export default function SupportPage() {
         <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-black text-slate-950">Contact Us</h2>
           <p className="mt-3 text-sm leading-6 text-slate-600">
-            The contact form currently validates requests in the browser only.
+            Share your question and contact details so our team can review the request.
           </p>
           <Link
             href="/contact"

@@ -14,10 +14,13 @@ export default function ReturnRefundPolicyPage() {
         handled through Peptide America support.
       </p>
       <p>
-        Eligibility, documentation requirements, inspection steps, and support response
-        timing should be reviewed before live fulfillment is enabled.
+        Eligibility may depend on order status, product condition, documentation, and
+        fulfillment progress.
       </p>
-      <p>Final legal review is required before accepting live customer orders.</p>
+      <p>
+        Contact support before sending back any order materials or requesting a refund
+        review.
+      </p>
     </PolicyShell>
   );
 }

@@ -103,8 +103,8 @@ export function CheckoutPageClient() {
       >
         <h1 className="text-3xl font-bold text-slate-950">Checkout</h1>
         <p className="mt-3 text-slate-600">
-          Submit order details for the live fulfillment workflow. Card information is never
-          collected by this site.
+          Enter shipping details to prepare your order. Payment details are handled through
+          a hosted payment page.
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <label className="block">

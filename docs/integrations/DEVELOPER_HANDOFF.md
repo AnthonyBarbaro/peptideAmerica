@@ -31,6 +31,8 @@ The storefront should only display products returned by the Vial catalog adapter
 - `src/data/catalog-overrides.ts` overlays approved storefront pricing and display fields by Vial SKU.
 - `src/lib/payment/checkout-provider.ts` creates Authorize.Net hosted payment sessions and blocks direct Vial submission unless Vial order env vars and order approval are explicitly configured.
 - `src/lib/orders/order-ledger.ts` persists checkout snapshots, payment events, Vial submission status, and Vial fulfillment webhooks in Postgres.
+- `/my-account` shows Clerk-backed order history, tracking, and invoice links from the Postgres order ledger.
+- `/my-account/orders/[externalOrderId]/invoice` renders protected customer invoices.
 - `/track-order` uses `/api/orders/track` to read the live order ledger by order number and email.
 
 ## Required Environment
@@ -98,6 +100,7 @@ npm run build
 - Unpriced products display `Price pending` and cannot be added to cart.
 - Checkout does not collect card data in Next.js.
 - Account login is handled by Clerk, not by custom password code.
+- Signed-in checkout stores `clerk_user_id` on `commerce_orders`; account history also falls back to verified account emails for older rows.
 - Authorize.Net webhook verification and Postgres order logging exist.
 - Railway Postgres works through `DATABASE_URL`.
 - `/track-order` requires `DATABASE_URL`; without it the API returns a 503 configuration response.

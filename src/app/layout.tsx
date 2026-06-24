@@ -49,11 +49,11 @@ export default async function RootLayout({
         Skip to content
       </a>
       <div className="bg-red-700 text-white">
-        <div className="mx-auto flex min-h-8 max-w-7xl items-center gap-2 px-4 py-1.5 text-[13px] font-semibold leading-5 sm:px-6 lg:px-8">
-          <span className="rounded-sm bg-white/15 px-2 py-0.5 text-[11px] uppercase tracking-[0.16em]">
+        <div className="mx-auto flex min-h-8 max-w-7xl flex-wrap items-center gap-x-2 gap-y-1 px-4 py-1.5 text-[13px] font-semibold leading-5 sm:flex-nowrap sm:px-6 lg:px-8">
+          <span className="shrink-0 rounded-sm bg-white/15 px-2 py-0.5 text-[11px] uppercase tracking-[0.16em]">
             Research use only
           </span>
-          <span>Not for human or animal use.</span>
+          <span className="min-w-0 basis-full sm:basis-auto">Not for human or animal use.</span>
         </div>
       </div>
       <Header products={products} clerkEnabled={clerkEnabled} />

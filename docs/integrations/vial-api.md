@@ -50,3 +50,5 @@ The normal live path is Authorize.Net first, then Vial:
 4. Mark the order paid.
 5. Submit the stored order snapshot to Vial when `AUTO_SUBMIT_PAID_ORDERS_TO_VIAL=true`.
 6. Store Vial webhook tracking/status updates in the same ledger.
+
+Customer account history does not call Vial from the browser. Vial tracking/status webhooks update Postgres, then `/my-account` and `/track-order` read that ledger.

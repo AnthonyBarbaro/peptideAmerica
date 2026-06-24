@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CatalogUpdatesForm } from "@/components/newsletter/catalog-updates-form";
 
@@ -6,7 +7,19 @@ export function Footer() {
     <footer className="border-t border-slate-200 bg-white">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 text-sm text-slate-600 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:px-8">
         <div>
-          <div className="text-base font-bold text-slate-950">Peptide America</div>
+          <Link
+            href="/"
+            className="relative block h-10 w-52 overflow-hidden"
+            aria-label="Peptide America home"
+          >
+            <Image
+              src="/pa/logo.png"
+              alt=""
+              fill
+              sizes="208px"
+              className="object-cover object-center scale-[1.45]"
+            />
+          </Link>
           <p className="mt-2 max-w-xl">
             Premium catalog browsing, batch lookup, and responsive support.
           </p>

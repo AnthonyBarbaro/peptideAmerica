@@ -19,7 +19,7 @@ export async function GET(request: Request) {
 
   if (!isOrderLedgerConfigured()) {
     return NextResponse.json(
-      { ok: false, message: "Order tracking is not configured." },
+      { ok: false, message: "Order tracking is temporarily unavailable." },
       { status: 503 },
     );
   }
@@ -31,7 +31,20 @@ export async function GET(request: Request) {
     );
   }
 
-  const order = await getOrderByExternalId(externalOrderId);
+  let order;
+
+  try {
+    order = await getOrderByExternalId(externalOrderId);
+  } catch (error) {
+    console.error("Unable to load tracked order", {
+      message: error instanceof Error ? error.message : "Unknown database error",
+    });
+
+    return NextResponse.json(
+      { ok: false, message: "Order tracking is temporarily unavailable." },
+      { status: 503 },
+    );
+  }
 
   if (!order || order.checkoutRequest.customer?.email.toLowerCase() !== email) {
     return NextResponse.json(

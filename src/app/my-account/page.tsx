@@ -1,74 +1,67 @@
 import type { Metadata } from "next";
-import { LockKeyhole, PlugZap, ShieldCheck, type LucideIcon } from "lucide-react";
+import { AccountOrderHistory } from "@/components/account/order-history";
 import { AccountPortal } from "@/components/account/account-portal";
 import { MotionReveal } from "@/components/motion-reveal";
+import { getClerkAccountIdentity } from "@/lib/clerk/account";
+import {
+  type LedgerOrder,
+  isOrderLedgerConfigured,
+  listOrdersForAccount,
+} from "@/lib/orders/order-ledger";
 
 export const metadata: Metadata = {
   title: "My Account",
   description: "Login and account access for Peptide America.",
 };
 
-export default function MyAccountPage() {
+export default async function MyAccountPage() {
+  const identity = await getClerkAccountIdentity();
   const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+  const databaseConfigured = isOrderLedgerConfigured();
+  let orderHistoryAvailable = databaseConfigured;
+  let orders: LedgerOrder[] = [];
+
+  if (identity.signedIn && databaseConfigured) {
+    try {
+      orders = await listOrdersForAccount({
+          clerkUserId: identity.userId,
+          emails: identity.emails,
+        });
+    } catch (error) {
+      orderHistoryAvailable = false;
+      console.error("Unable to load account order history", {
+        message: error instanceof Error ? error.message : "Unknown database error",
+      });
+    }
+  }
 
   return (
-    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
-      <section>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <section className="max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
           My account
         </p>
-        <h1 className="mt-2 text-4xl font-black text-slate-950">Account access</h1>
+        <h1 className="mt-2 text-4xl font-black text-slate-950">
+          {identity.signedIn ? "Orders and account" : "Sign in"}
+        </h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Login and registration are handled through Clerk. The storefront does not store
-          passwords or payment details.
+          {identity.signedIn
+            ? "View order history, tracking, invoices, and account settings."
+            : "Sign in to view order history, tracking, and invoices."}
         </p>
-        <div className="mt-8 grid gap-4">
-          {[
-            {
-              icon: PlugZap,
-              title: clerkEnabled ? "Clerk connected" : "Clerk not configured",
-              body: clerkEnabled
-                ? "Account actions are handled by Clerk-hosted authentication components."
-                : "Set Clerk publishable and secret keys to enable live account actions.",
-            },
-            {
-              icon: LockKeyhole,
-              title: "Credential handling",
-              body: "Passwords and OAuth flows are handled by Clerk, not by custom storefront code.",
-            },
-            {
-              icon: ShieldCheck,
-              title: "Checkout alignment",
-              body: "Account access is separate from payment processing and Vial fulfillment approval.",
-            },
-          ].map((item, index) => (
-            <MotionReveal key={item.title} delay={index * 0.06} y={12}>
-              <InfoCard icon={item.icon} title={item.title} body={item.body} />
-            </MotionReveal>
-          ))}
-        </div>
       </section>
-      <MotionReveal y={14}>
-        <AccountPortal clerkEnabled={clerkEnabled} />
-      </MotionReveal>
-    </div>
-  );
-}
-
-function InfoCard({
-  icon: Icon,
-  title,
-  body,
-}: {
-  icon: LucideIcon;
-  title: string;
-  body: string;
-}) {
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <Icon aria-hidden="true" className="text-red-600" size={24} />
-      <h2 className="mt-3 text-lg font-bold text-slate-950">{title}</h2>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{body}</p>
+      <div className="mt-8 grid gap-6 lg:grid-cols-[20rem_1fr]">
+        <MotionReveal y={14}>
+          <AccountPortal clerkEnabled={clerkEnabled} />
+        </MotionReveal>
+        <MotionReveal y={14} delay={0.04}>
+          <AccountOrderHistory
+            identity={identity}
+            databaseConfigured={orderHistoryAvailable}
+            orders={orders}
+          />
+        </MotionReveal>
+      </div>
     </div>
   );
 }

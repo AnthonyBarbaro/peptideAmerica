@@ -29,6 +29,7 @@ export type CheckoutRequest = {
   customer?: CheckoutCustomer;
   shippingAddress?: CheckoutShippingAddress;
   clientRequestId?: string;
+  clerkUserId?: string;
 };
 
 export type CheckoutResponse = {

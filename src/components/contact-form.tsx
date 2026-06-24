@@ -92,12 +92,12 @@ export function ContactForm() {
         type="submit"
         className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-500"
       >
-        Preview support request
+        Review support request
       </button>
       {submitted ? (
         <div className="mt-5 flex gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-900">
           <CheckCircle2 aria-hidden="true" size={20} />
-          Form validated locally. Email delivery is not connected yet.
+          Your request details are ready for review.
         </div>
       ) : null}
     </form>

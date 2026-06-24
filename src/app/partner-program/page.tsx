@@ -5,23 +5,23 @@ import { MotionReveal } from "@/components/motion-reveal";
 
 export const metadata: Metadata = {
   title: "Partner Program",
-  description: "Partner program page for affiliate and institutional workflows.",
+  description: "Partner and institutional access for Peptide America.",
 };
 
 const partnerItems = [
   {
     title: "Institutional inquiries",
-    body: "Reserve space for lab, procurement, and repeat-order account workflows.",
+    body: "Request account support for lab, procurement, and repeat-order needs.",
     icon: Handshake,
   },
   {
     title: "Program controls",
-    body: "Future partner terms should define approval, content standards, and reporting before launch.",
+    body: "Partner access is reviewed for eligibility, account fit, and documentation needs.",
     icon: ShieldCheck,
   },
   {
-    title: "Reporting readiness",
-    body: "Analytics and attribution can be connected later without changing the public storefront structure.",
+    title: "Account support",
+    body: "Support can help with catalog questions, order history, and account requirements.",
     icon: LineChart,
   },
 ];
@@ -37,7 +37,8 @@ export default function PartnerProgramPage() {
           Partner and institutional access
         </h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Partner access requires approval, terms, and reporting systems.
+          Request support for institutional purchasing, repeat-order planning, and account
+          review.
         </p>
       </div>
       <section className="mt-8 grid gap-5 md:grid-cols-3">

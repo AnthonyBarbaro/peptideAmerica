@@ -35,27 +35,27 @@ const faqs = [
   {
     question: "Is shipping connected?",
     answer:
-      "No. Shipping workflow integration is planned for a later phase after order flow is connected.",
+      "Shipping availability and delivery details are shown during checkout when available.",
   },
   {
     question: "Can I track an order?",
     answer:
-      "Order tracking requires a connected order and fulfillment source.",
+      "Use the Track Order page with your order number and checkout email.",
   },
   {
     question: "Do you ship internationally?",
     answer:
-      "International shipping rules should be defined in reviewed shipping policy copy before live fulfillment is enabled.",
+      "Available destinations are confirmed during checkout and through support.",
   },
   {
     question: "Can checkout collect payment now?",
     answer:
-      "No. This Next.js storefront does not collect card information.",
+      "Payment details are handled through a hosted payment page, not stored by the storefront.",
   },
   {
     question: "How can support be contacted?",
     answer:
-      "Use the support page or contact page to preview a support request. Email delivery is not connected yet.",
+      "Use the support page or contact page for catalog, COA, checkout, or policy questions.",
   },
   {
     question: "Where are the site policies?",
@@ -65,7 +65,7 @@ const faqs = [
   {
     question: "Is there a partner program?",
     answer:
-      "Partner workflows require approved terms and reporting before launch.",
+      "The partner program page outlines institutional and repeat-order account options.",
   },
 ];
 

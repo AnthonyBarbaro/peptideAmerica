@@ -6,6 +6,7 @@ type JsonRecord = Record<string, unknown>;
 
 type CommerceOrderRow = {
   external_order_id: string;
+  clerk_user_id: string | null;
   status: string;
   customer_email: string;
   customer_first_name: string;
@@ -30,6 +31,7 @@ type CommerceOrderRow = {
 
 export type LedgerOrder = {
   externalOrderId: string;
+  clerkUserId: string | null;
   status: string;
   amountCents: number;
   checkoutRequest: CheckoutRequest;
@@ -37,6 +39,10 @@ export type LedgerOrder = {
   vialOrderId: string | null;
   vialStatus: string | null;
   tracking: JsonRecord | null;
+  createdAt: Date;
+  updatedAt: Date;
+  paidAt: Date | null;
+  submittedToVialAt: Date | null;
 };
 
 export type AuthorizeNetWebhookEvent = {
@@ -100,10 +106,12 @@ function isApprovedPaymentEvent(event: AuthorizeNetWebhookEvent) {
 function rowToLedgerOrder(row: CommerceOrderRow): LedgerOrder {
   return {
     externalOrderId: row.external_order_id,
+    clerkUserId: row.clerk_user_id,
     status: row.status,
     amountCents: row.amount_cents,
     checkoutRequest: {
       clientRequestId: row.external_order_id,
+      clerkUserId: row.clerk_user_id ?? undefined,
       customer: {
         email: row.customer_email,
         firstName: row.customer_first_name,
@@ -118,6 +126,10 @@ function rowToLedgerOrder(row: CommerceOrderRow): LedgerOrder {
     vialOrderId: row.vial_order_id,
     vialStatus: row.vial_status,
     tracking: row.tracking,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    paidAt: row.paid_at,
+    submittedToVialAt: row.submitted_to_vial_at,
   };
 }
 
@@ -131,6 +143,7 @@ export async function ensureOrderLedgerTables() {
       await dbQuery(`
         create table if not exists commerce_orders (
           external_order_id text primary key,
+          clerk_user_id text,
           status text not null default 'payment_pending',
           customer_email text not null,
           customer_first_name text not null,
@@ -153,6 +166,11 @@ export async function ensureOrderLedgerTables() {
           paid_at timestamptz,
           submitted_to_vial_at timestamptz
         )
+      `);
+
+      await dbQuery(`
+        alter table commerce_orders
+        add column if not exists clerk_user_id text
       `);
 
       await dbQuery(`
@@ -184,6 +202,9 @@ export async function ensureOrderLedgerTables() {
         "create index if not exists commerce_orders_customer_email_idx on commerce_orders (customer_email)",
       );
       await dbQuery(
+        "create index if not exists commerce_orders_clerk_user_id_idx on commerce_orders (clerk_user_id)",
+      );
+      await dbQuery(
         "create index if not exists commerce_orders_payment_transaction_idx on commerce_orders (payment_transaction_id)",
       );
     })();
@@ -207,6 +228,7 @@ export async function createPendingOrder(request: CheckoutRequest) {
     `
       insert into commerce_orders (
         external_order_id,
+        clerk_user_id,
         status,
         customer_email,
         customer_first_name,
@@ -219,8 +241,9 @@ export async function createPendingOrder(request: CheckoutRequest) {
         payment_provider,
         updated_at
       )
-      values ($1, 'payment_pending', $2, $3, $4, $5, $6::jsonb, $7::jsonb, $8, $9, 'authorize_net', now())
+      values ($1, $2, 'payment_pending', $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10, 'authorize_net', now())
       on conflict (external_order_id) do update set
+        clerk_user_id = coalesce(excluded.clerk_user_id, commerce_orders.clerk_user_id),
         customer_email = excluded.customer_email,
         customer_first_name = excluded.customer_first_name,
         customer_last_name = excluded.customer_last_name,
@@ -234,6 +257,7 @@ export async function createPendingOrder(request: CheckoutRequest) {
     `,
     [
       request.clientRequestId,
+      request.clerkUserId ?? null,
       request.customer.email,
       request.customer.firstName,
       request.customer.lastName,
@@ -252,6 +276,71 @@ export async function getOrderByExternalId(externalOrderId: string) {
   const result = await dbQuery<CommerceOrderRow>(
     "select * from commerce_orders where external_order_id = $1 limit 1",
     [externalOrderId],
+  );
+
+  return result.rows[0] ? rowToLedgerOrder(result.rows[0]) : null;
+}
+
+export async function listOrdersForAccount({
+  clerkUserId,
+  emails,
+}: {
+  clerkUserId?: string | null;
+  emails: string[];
+}) {
+  await ensureOrderLedgerTables();
+
+  const normalizedEmails = emails.map((email) => email.trim().toLowerCase()).filter(Boolean);
+
+  if (!clerkUserId && normalizedEmails.length === 0) {
+    return [];
+  }
+
+  const result = await dbQuery<CommerceOrderRow>(
+    `
+      select *
+      from commerce_orders
+      where
+        ($1::text is not null and clerk_user_id = $1)
+        or lower(customer_email) = any($2::text[])
+      order by created_at desc
+    `,
+    [clerkUserId ?? null, normalizedEmails],
+  );
+
+  return result.rows.map(rowToLedgerOrder);
+}
+
+export async function getOrderForAccount({
+  externalOrderId,
+  clerkUserId,
+  emails,
+}: {
+  externalOrderId: string;
+  clerkUserId?: string | null;
+  emails: string[];
+}) {
+  await ensureOrderLedgerTables();
+
+  const normalizedEmails = emails.map((email) => email.trim().toLowerCase()).filter(Boolean);
+
+  if (!externalOrderId || (!clerkUserId && normalizedEmails.length === 0)) {
+    return null;
+  }
+
+  const result = await dbQuery<CommerceOrderRow>(
+    `
+      select *
+      from commerce_orders
+      where
+        external_order_id = $1
+        and (
+          ($2::text is not null and clerk_user_id = $2)
+          or lower(customer_email) = any($3::text[])
+        )
+      limit 1
+    `,
+    [externalOrderId, clerkUserId ?? null, normalizedEmails],
   );
 
   return result.rows[0] ? rowToLedgerOrder(result.rows[0]) : null;

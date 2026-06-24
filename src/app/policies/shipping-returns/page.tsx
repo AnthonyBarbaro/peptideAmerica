@@ -10,14 +10,17 @@ export default function ShippingReturnsPage() {
   return (
     <PolicyShell title="Shipping and Delivery Policy">
       <p>
-        Shipping workflow, carrier timing, packaging review, and delivery-status language
-        should match the active fulfillment setup.
+        Shipping options, carrier details, and estimated delivery timing are presented
+        during checkout when available.
       </p>
       <p>
-        Fulfillment details should be verified against the live Vial order workflow before
-        accepting orders.
+        Order status and tracking details are provided after fulfillment updates are
+        available for the order.
       </p>
-      <p>Final policy review is required before accepting live customer orders.</p>
+      <p>
+        Contact support with questions about shipping eligibility, delivery status, or
+        order documentation.
+      </p>
     </PolicyShell>
   );
 }

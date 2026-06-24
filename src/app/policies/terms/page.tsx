@@ -10,17 +10,21 @@ export default function TermsPage() {
   return (
     <PolicyShell title="Terms and Conditions">
       <p>
-        These terms outline the need for approved ordering, account, catalog,
-        documentation, and site-use language.
+        These terms cover account access, catalog browsing, ordering, documentation,
+        and site use.
       </p>
       <p>
         Buyers should confirm they are authorized to request research catalog items
         and assume responsibility for lawful ordering, storage, and handling.
       </p>
       <p>
-        Checkout does not collect card information in this Next.js storefront.
+        Payment details are handled through a hosted payment page and are not stored by
+        this storefront.
       </p>
-      <p>Final legal review is required before accepting live customer orders.</p>
+      <p>
+        By using the site, buyers agree to follow applicable laws, policies, and
+        account requirements.
+      </p>
     </PolicyShell>
   );
 }

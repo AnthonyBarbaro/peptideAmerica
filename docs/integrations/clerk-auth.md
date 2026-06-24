@@ -8,6 +8,9 @@ Clerk handles account login, registration, OAuth, and user profile UI.
 - `src/app/layout.tsx` wraps the app in `ClerkProvider` when `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is set.
 - `src/components/header.tsx` shows Clerk sign-in and user controls.
 - `src/components/account/account-portal.tsx` embeds Clerk sign-in, sign-up, and user profile components.
+- `src/lib/clerk/account.ts` reads the signed-in Clerk user on the server.
+- `src/components/account/order-history.tsx` displays customer order history, tracking, and invoice links.
+- `src/app/my-account/orders/[externalOrderId]/invoice/page.tsx` renders a protected invoice page.
 
 ## Environment
 
@@ -21,3 +24,7 @@ OAuth providers such as Google should be enabled in the Clerk dashboard. Do not 
 ## Checkout
 
 Clerk identifies the user account. It does not approve payment and does not replace the Vial order safety gate.
+
+When a signed-in user starts checkout, the server stores `clerk_user_id` on the local `commerce_orders` row. Account history looks up orders by that Clerk user ID and by verified account email for older orders.
+
+Protected invoice routes live under `/my-account/orders/*`. They only render when the signed-in Clerk user matches the stored Clerk ID or customer email on the order.
