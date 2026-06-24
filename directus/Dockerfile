@@ -6,4 +6,4 @@ ENV HOST=0.0.0.0
 ENV DB_CLIENT=pg
 ENV MIGRATIONS_PATH=./migrations
 
-CMD ["sh", "-c", "export PORT=${PORT:-8055} && directus bootstrap && directus database migrate:latest && directus start"]
+CMD ["sh", "-c", "export PORT=${PORT:-8055} && node cli.js bootstrap && node cli.js start"]

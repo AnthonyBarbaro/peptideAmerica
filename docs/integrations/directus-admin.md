@@ -48,9 +48,8 @@ DB_SSL__REJECT_UNAUTHORIZED=false
 The `directus/Dockerfile` runs:
 
 ```bash
-directus bootstrap
-directus database migrate:latest
-directus start
+node cli.js bootstrap
+node cli.js start
 ```
 
 This creates Directus system tables, creates the initial admin user when
