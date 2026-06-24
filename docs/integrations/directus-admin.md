@@ -20,12 +20,13 @@ being online.
 
 ## Railway Service
 
-Create a second Railway service from the `directus/` folder and deploy it with
-Docker.
+Create a second Railway service from this repository and deploy it with the
+Directus Dockerfile.
 
 Required variables:
 
 ```bash
+RAILWAY_DOCKERFILE_PATH=directus/Dockerfile
 KEY=<random 32+ character secret>
 SECRET=<random 32+ character secret>
 PUBLIC_URL=https://admin.peptideamerica.com

@@ -1,6 +1,6 @@
 FROM directus/directus:12.0.2
 
-COPY migrations ./migrations
+COPY directus/migrations ./migrations
 
 ENV HOST=0.0.0.0
 ENV PORT=8055

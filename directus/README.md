@@ -1,6 +1,6 @@
 # Peptide America Directus Service
 
-Deploy this folder as a separate Railway service.
+Deploy this folder as a separate Railway service from the repository root.
 
 The Docker image is pinned to `directus/directus:12.0.2`. The container runs
 Directus bootstrap, applies the commerce/admin migration, then starts Directus.
@@ -8,6 +8,7 @@ Directus bootstrap, applies the commerce/admin migration, then starts Directus.
 Required Railway variables:
 
 ```bash
+RAILWAY_DOCKERFILE_PATH=directus/Dockerfile
 KEY=<random 32+ character secret>
 SECRET=<random 32+ character secret>
 PUBLIC_URL=https://admin.peptideamerica.com
