@@ -4,6 +4,8 @@ Deploy this folder as a separate Railway service from the repository root.
 
 The Docker image is pinned to `directus/directus:12.0.2`. The container runs
 Directus bootstrap, applies the commerce/admin migration, then starts Directus.
+It listens on Railway's injected `PORT` value and falls back to `8055` outside
+Railway.
 
 Required Railway variables:
 
