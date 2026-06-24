@@ -77,6 +77,9 @@ export async function up(knex) {
   if (!hasCatalogOverrides) {
     await knex.schema.createTable("catalog_product_overrides", (table) => {
       table.text("sku").primary();
+      table.text("product_name");
+      table.text("product_slug");
+      table.text("stock_status");
       table.integer("price_cents");
       table.integer("cost_cents");
       table.text("category");
@@ -94,6 +97,7 @@ export async function up(knex) {
       table.boolean("is_hidden").notNullable().defaultTo(false);
       table.text("notes");
       table.text("updated_by");
+      table.timestamp("vial_last_synced_at", { useTz: true });
       table.timestamp("created_at", { useTz: true }).notNullable().defaultTo(knex.fn.now());
       table.timestamp("updated_at", { useTz: true }).notNullable().defaultTo(knex.fn.now());
     });
@@ -101,6 +105,15 @@ export async function up(knex) {
 
   await addColumnIfMissing(knex, "catalog_product_overrides", "cost_cents", (table) =>
     table.integer("cost_cents"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "product_name", (table) =>
+    table.text("product_name"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "product_slug", (table) =>
+    table.text("product_slug"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "stock_status", (table) =>
+    table.text("stock_status"),
   );
   await addColumnIfMissing(knex, "catalog_product_overrides", "is_featured", (table) =>
     table.boolean("is_featured").notNullable().defaultTo(false),
@@ -113,6 +126,9 @@ export async function up(knex) {
   );
   await addColumnIfMissing(knex, "catalog_product_overrides", "updated_by", (table) =>
     table.text("updated_by"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "vial_last_synced_at", (table) =>
+    table.timestamp("vial_last_synced_at", { useTz: true }),
   );
   await addColumnIfMissing(knex, "catalog_product_overrides", "created_at", (table) =>
     table.timestamp("created_at", { useTz: true }).notNullable().defaultTo(knex.fn.now()),
@@ -142,6 +158,9 @@ export async function up(knex) {
 
   await knex.schema.raw(
     "create index if not exists catalog_product_images_sku_idx on catalog_product_images (sku, sort_order, id)",
+  );
+  await knex.schema.raw(
+    "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
   );
 }
 

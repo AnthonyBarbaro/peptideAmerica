@@ -85,11 +85,23 @@ Recommended role policy:
 ## Product Workflow
 
 1. Vial adds or updates a SKU.
-2. Next.js loads that SKU from Vial.
-3. Directus creates or edits a matching `catalog_product_overrides` row using the
-   same SKU.
+2. The storefront startup command runs `npm run catalog:sync` behavior before
+   `next start`, creating or updating one `catalog_product_overrides` row per
+   Vial SKU.
+3. Directus edits the synced row for retail price, cost, copy, featured/hidden
+   flags, and internal notes.
 4. Optional photos are added in `catalog_product_images` using the same SKU.
 5. The storefront immediately uses those overrides on the next server render.
+
+Run the sync manually any time with:
+
+```bash
+npm run catalog:sync
+```
+
+The sync preserves existing retail price, cost, product copy, flags, notes, and
+images. It only fills missing editable fields and refreshes Vial metadata such
+as product name, slug, stock status, and last sync time.
 
 If the database is unreachable, the storefront falls back to the Vial catalog
 without local overrides.

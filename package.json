@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/start-storefront.mjs",
     "db:setup": "node scripts/setup-database.mjs",
+    "catalog:sync": "node scripts/sync-vial-catalog.mjs",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

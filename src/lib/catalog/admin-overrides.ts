@@ -8,6 +8,9 @@ import {
 
 type CatalogAdminOverrideRow = {
   sku: string;
+  product_name: string | null;
+  product_slug: string | null;
+  stock_status: string | null;
   price_cents: number | null;
   cost_cents: number | null;
   category: string | null;
@@ -25,6 +28,7 @@ type CatalogAdminOverrideRow = {
   is_hidden: boolean;
   notes: string | null;
   updated_by: string | null;
+  vial_last_synced_at: Date | null;
   created_at: Date;
   updated_at: Date;
 };
@@ -168,6 +172,9 @@ export async function ensureCatalogAdminTables() {
       await dbQuery(`
         create table if not exists catalog_product_overrides (
           sku text primary key,
+          product_name text,
+          product_slug text,
+          stock_status text,
           price_cents integer,
           cost_cents integer,
           category text,
@@ -185,6 +192,7 @@ export async function ensureCatalogAdminTables() {
           is_hidden boolean not null default false,
           notes text,
           updated_by text,
+          vial_last_synced_at timestamptz,
           created_at timestamptz not null default now(),
           updated_at timestamptz not null default now()
         )
@@ -192,6 +200,10 @@ export async function ensureCatalogAdminTables() {
 
       await dbQuery(`
         alter table catalog_product_overrides
+        add column if not exists product_name text,
+        add column if not exists product_slug text,
+        add column if not exists stock_status text,
+        add column if not exists vial_last_synced_at timestamptz,
         add column if not exists cost_cents integer,
         add column if not exists is_featured boolean not null default false,
         add column if not exists is_hidden boolean not null default false,
@@ -215,6 +227,9 @@ export async function ensureCatalogAdminTables() {
 
       await dbQuery(
         "create index if not exists catalog_product_images_sku_idx on catalog_product_images (sku, sort_order, id)",
+      );
+      await dbQuery(
+        "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
       );
     })();
   }

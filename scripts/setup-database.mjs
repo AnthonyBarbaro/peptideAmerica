@@ -123,6 +123,9 @@ const statements = [
   `
     create table if not exists catalog_product_overrides (
       sku text primary key,
+      product_name text,
+      product_slug text,
+      stock_status text,
       price_cents integer,
       cost_cents integer,
       category text,
@@ -140,12 +143,17 @@ const statements = [
       is_hidden boolean not null default false,
       notes text,
       updated_by text,
+      vial_last_synced_at timestamptz,
       created_at timestamptz not null default now(),
       updated_at timestamptz not null default now()
     )
   `,
   `
     alter table catalog_product_overrides
+    add column if not exists product_name text,
+    add column if not exists product_slug text,
+    add column if not exists stock_status text,
+    add column if not exists vial_last_synced_at timestamptz,
     add column if not exists cost_cents integer,
     add column if not exists is_featured boolean not null default false,
     add column if not exists is_hidden boolean not null default false,
@@ -166,6 +174,7 @@ const statements = [
     )
   `,
   "create index if not exists catalog_product_images_sku_idx on catalog_product_images (sku, sort_order, id)",
+  "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
 ];
 
 async function main() {
