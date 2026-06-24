@@ -68,10 +68,12 @@ ships a custom Next.js admin page.
 In Directus Data Studio:
 
 - Edit `catalog_product_overrides` for retail price, private cost, copy, and
-  storefront flags.
+  storefront flags. Attach product images directly on the product row with
+  `Primary Product Image`, `Secondary Product Image`, and `Tertiary Product Image`.
 - Edit `catalog_product_images` for product images. Use the exact Vial SKU in
   `sku`, put the public image URL in `image_url`, and use `sort_order` to control
-  display order.
+  display order. This collection remains available for URL-based images, but
+  the direct upload fields on `catalog_product_overrides` are preferred.
 - Keep `commerce_orders`, `payment_events`, and `fulfillment_events` read-only
   for normal staff roles.
 
@@ -106,6 +108,13 @@ as product name, slug, stock status, and last sync time.
 Use `Retail Price ($)` for the public storefront price and `Private Cost ($)`
 for internal cost. The old cents fields remain hidden for compatibility with
 older order/catalog code.
+
+To render Directus-uploaded images on the storefront, set this variable on the
+Next.js storefront service:
+
+```bash
+DIRECTUS_PUBLIC_URL=https://your-directus-domain
+```
 
 If the database is unreachable, the storefront falls back to the Vial catalog
 without local overrides.

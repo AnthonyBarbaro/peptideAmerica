@@ -80,6 +80,9 @@ export async function up(knex) {
       table.text("product_name");
       table.text("product_slug");
       table.text("stock_status");
+      table.uuid("primary_image_file");
+      table.uuid("secondary_image_file");
+      table.uuid("tertiary_image_file");
       table.decimal("price_dollars", 10, 2);
       table.decimal("cost_dollars", 10, 2);
       table.integer("price_cents");
@@ -116,6 +119,15 @@ export async function up(knex) {
   );
   await addColumnIfMissing(knex, "catalog_product_overrides", "stock_status", (table) =>
     table.text("stock_status"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "primary_image_file", (table) =>
+    table.uuid("primary_image_file"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "secondary_image_file", (table) =>
+    table.uuid("secondary_image_file"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "tertiary_image_file", (table) =>
+    table.uuid("tertiary_image_file"),
   );
   await addColumnIfMissing(knex, "catalog_product_overrides", "price_dollars", (table) =>
     table.decimal("price_dollars", 10, 2),
