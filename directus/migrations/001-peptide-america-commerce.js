@@ -80,6 +80,8 @@ export async function up(knex) {
       table.text("product_name");
       table.text("product_slug");
       table.text("stock_status");
+      table.decimal("price_dollars", 10, 2);
+      table.decimal("cost_dollars", 10, 2);
       table.integer("price_cents");
       table.integer("cost_cents");
       table.text("category");
@@ -114,6 +116,12 @@ export async function up(knex) {
   );
   await addColumnIfMissing(knex, "catalog_product_overrides", "stock_status", (table) =>
     table.text("stock_status"),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "price_dollars", (table) =>
+    table.decimal("price_dollars", 10, 2),
+  );
+  await addColumnIfMissing(knex, "catalog_product_overrides", "cost_dollars", (table) =>
+    table.decimal("cost_dollars", 10, 2),
   );
   await addColumnIfMissing(knex, "catalog_product_overrides", "is_featured", (table) =>
     table.boolean("is_featured").notNullable().defaultTo(false),
@@ -162,6 +170,18 @@ export async function up(knex) {
   await knex.schema.raw(
     "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
   );
+  await knex.schema.raw(`
+    update catalog_product_overrides
+    set price_dollars = round(price_cents::numeric / 100, 2)
+    where price_dollars is null
+      and price_cents is not null
+  `);
+  await knex.schema.raw(`
+    update catalog_product_overrides
+    set cost_dollars = round(cost_cents::numeric / 100, 2)
+    where cost_dollars is null
+      and cost_cents is not null
+  `);
 }
 
 export async function down() {

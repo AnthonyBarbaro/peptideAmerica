@@ -385,6 +385,8 @@ async function ensureCatalogSchema(pool) {
       product_name text,
       product_slug text,
       stock_status text,
+      price_dollars numeric(10, 2),
+      cost_dollars numeric(10, 2),
       price_cents integer,
       cost_cents integer,
       category text,
@@ -414,6 +416,8 @@ async function ensureCatalogSchema(pool) {
     add column if not exists product_slug text,
     add column if not exists stock_status text,
     add column if not exists vial_last_synced_at timestamptz,
+    add column if not exists price_dollars numeric(10, 2),
+    add column if not exists cost_dollars numeric(10, 2),
     add column if not exists cost_cents integer,
     add column if not exists is_featured boolean not null default false,
     add column if not exists is_hidden boolean not null default false,
@@ -441,6 +445,18 @@ async function ensureCatalogSchema(pool) {
   await pool.query(
     "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
   );
+  await pool.query(`
+    update catalog_product_overrides
+    set price_dollars = round(price_cents::numeric / 100, 2)
+    where price_dollars is null
+      and price_cents is not null
+  `);
+  await pool.query(`
+    update catalog_product_overrides
+    set cost_dollars = round(cost_cents::numeric / 100, 2)
+    where cost_dollars is null
+      and cost_cents is not null
+  `);
 }
 
 async function upsertProduct(pool, product) {

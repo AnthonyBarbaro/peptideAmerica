@@ -56,8 +56,8 @@ const fields = [
   productField("product_name", "Vial Product Name", "input", 2, "half", false, true),
   productField("product_slug", "Storefront Slug", "input", 3, "half", false, true),
   productField("stock_status", "Vial Stock Status", "input", 4, "half", false, true),
-  productField("price_cents", "Retail Price Cents", "input", 5, "half", false),
-  productField("cost_cents", "Private Cost Cents", "input", 6, "half", false),
+  productField("price_dollars", "Retail Price ($)", "input", 5, "half", false),
+  productField("cost_dollars", "Private Cost ($)", "input", 6, "half", false),
   productField("category", "Category", "input", 7, "half", false),
   productField("size_label", "Size Label", "input", 8, "half", false),
   productField("short_description", "Card Description", "input-multiline", 9, "full", false),
@@ -76,6 +76,8 @@ const fields = [
   productField("vial_last_synced_at", "Last Vial Sync", "datetime", 22, "half", false, true),
   productField("created_at", "Created At", "datetime", 23, "half", false, true),
   productField("updated_at", "Updated At", "datetime", 24, "half", false, true),
+  productField("price_cents", "Retail Price Cents", "input", 25, "half", false, false, true),
+  productField("cost_cents", "Private Cost Cents", "input", 26, "half", false, false, true),
 
   imageField("id", "ID", "input", 1, "half", true, true),
   imageField("sku", "SKU", "input", 2, "half", true),
@@ -165,7 +167,7 @@ export async function down(knex) {
   }
 }
 
-function productField(field, label, directusInterface, sort, width, required, readonly = false) {
+function productField(field, label, directusInterface, sort, width, required, readonly = false, hidden = false) {
   return fieldMetadata(
     "catalog_product_overrides",
     field,
@@ -175,10 +177,11 @@ function productField(field, label, directusInterface, sort, width, required, re
     width,
     required,
     readonly,
+    hidden,
   );
 }
 
-function imageField(field, label, directusInterface, sort, width, required, readonly = false) {
+function imageField(field, label, directusInterface, sort, width, required, readonly = false, hidden = false) {
   return fieldMetadata(
     "catalog_product_images",
     field,
@@ -188,10 +191,11 @@ function imageField(field, label, directusInterface, sort, width, required, read
     width,
     required,
     readonly,
+    hidden,
   );
 }
 
-function orderField(field, label, directusInterface, sort, width, required, readonly = true) {
+function orderField(field, label, directusInterface, sort, width, required, readonly = true, hidden = false) {
   return fieldMetadata(
     "commerce_orders",
     field,
@@ -201,6 +205,7 @@ function orderField(field, label, directusInterface, sort, width, required, read
     width,
     required,
     readonly,
+    hidden,
   );
 }
 
@@ -212,7 +217,7 @@ function eventField(
   directusInterface = "input",
   width = "half",
 ) {
-  return fieldMetadata(collection, field, label, directusInterface, sort, width, false, true);
+  return fieldMetadata(collection, field, label, directusInterface, sort, width, false, true, false);
 }
 
 function fieldMetadata(
@@ -224,6 +229,7 @@ function fieldMetadata(
   width,
   required,
   readonly,
+  hidden,
 ) {
   return {
     collection,
@@ -231,7 +237,7 @@ function fieldMetadata(
     interface: directusInterface,
     display: "raw",
     readonly,
-    hidden: false,
+    hidden,
     required,
     sort,
     width,

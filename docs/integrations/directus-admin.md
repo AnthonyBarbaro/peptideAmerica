@@ -103,5 +103,9 @@ The sync preserves existing retail price, cost, product copy, flags, notes, and
 images. It only fills missing editable fields and refreshes Vial metadata such
 as product name, slug, stock status, and last sync time.
 
+Use `Retail Price ($)` for the public storefront price and `Private Cost ($)`
+for internal cost. The old cents fields remain hidden for compatibility with
+older order/catalog code.
+
 If the database is unreachable, the storefront falls back to the Vial catalog
 without local overrides.

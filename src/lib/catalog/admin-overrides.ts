@@ -11,6 +11,8 @@ type CatalogAdminOverrideRow = {
   product_name: string | null;
   product_slug: string | null;
   stock_status: string | null;
+  price_dollars: string | number | null;
+  cost_dollars: string | number | null;
   price_cents: number | null;
   cost_cents: number | null;
   category: string | null;
@@ -37,6 +39,17 @@ type CatalogProductImageRow = {
   sku: string;
   image_url: string;
 };
+
+function parseDollarCents(value: string | number | null) {
+  if (value === null) {
+    return null;
+  }
+
+  const parsed =
+    typeof value === "number" ? value : Number(value.replace(/[$,]/g, ""));
+
+  return Number.isFinite(parsed) ? Math.max(0, Math.round(parsed * 100)) : null;
+}
 
 export type CatalogAdminOverride = {
   sku: string;
@@ -88,10 +101,13 @@ function parseTechnicalSpecs(value: unknown): TechnicalSpec[] {
 }
 
 function rowToAdminOverride(row: CatalogAdminOverrideRow): CatalogAdminOverride {
+  const priceDollarCents = parseDollarCents(row.price_dollars);
+  const costDollarCents = parseDollarCents(row.cost_dollars);
+
   return {
     sku: row.sku,
-    priceCents: row.price_cents,
-    costCents: row.cost_cents,
+    priceCents: priceDollarCents ?? row.price_cents,
+    costCents: costDollarCents ?? row.cost_cents,
     category: row.category,
     sizeLabel: row.size_label,
     shortDescription: row.short_description,
@@ -175,6 +191,8 @@ export async function ensureCatalogAdminTables() {
           product_name text,
           product_slug text,
           stock_status text,
+          price_dollars numeric(10, 2),
+          cost_dollars numeric(10, 2),
           price_cents integer,
           cost_cents integer,
           category text,
@@ -204,6 +222,8 @@ export async function ensureCatalogAdminTables() {
         add column if not exists product_slug text,
         add column if not exists stock_status text,
         add column if not exists vial_last_synced_at timestamptz,
+        add column if not exists price_dollars numeric(10, 2),
+        add column if not exists cost_dollars numeric(10, 2),
         add column if not exists cost_cents integer,
         add column if not exists is_featured boolean not null default false,
         add column if not exists is_hidden boolean not null default false,
@@ -231,6 +251,18 @@ export async function ensureCatalogAdminTables() {
       await dbQuery(
         "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
       );
+      await dbQuery(`
+        update catalog_product_overrides
+        set price_dollars = round(price_cents::numeric / 100, 2)
+        where price_dollars is null
+          and price_cents is not null
+      `);
+      await dbQuery(`
+        update catalog_product_overrides
+        set cost_dollars = round(cost_cents::numeric / 100, 2)
+        where cost_dollars is null
+          and cost_cents is not null
+      `);
     })();
   }
 

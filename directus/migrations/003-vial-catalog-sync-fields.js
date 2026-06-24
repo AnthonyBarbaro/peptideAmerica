@@ -3,8 +3,8 @@ const productFields = [
   fieldMetadata("product_name", "Vial Product Name", "input", 2, "half", false, true),
   fieldMetadata("product_slug", "Storefront Slug", "input", 3, "half", false, true),
   fieldMetadata("stock_status", "Vial Stock Status", "input", 4, "half", false, true),
-  fieldMetadata("price_cents", "Retail Price Cents", "input", 5, "half", false, false),
-  fieldMetadata("cost_cents", "Private Cost Cents", "input", 6, "half", false, false),
+  fieldMetadata("price_dollars", "Retail Price ($)", "input", 5, "half", false, false),
+  fieldMetadata("cost_dollars", "Private Cost ($)", "input", 6, "half", false, false),
   fieldMetadata("category", "Category", "input", 7, "half", false, false),
   fieldMetadata("size_label", "Size Label", "input", 8, "half", false, false),
   fieldMetadata("short_description", "Card Description", "input-multiline", 9, "full", false, false),
@@ -23,6 +23,8 @@ const productFields = [
   fieldMetadata("vial_last_synced_at", "Last Vial Sync", "datetime", 22, "half", false, true),
   fieldMetadata("created_at", "Created At", "datetime", 23, "half", false, true),
   fieldMetadata("updated_at", "Updated At", "datetime", 24, "half", false, true),
+  fieldMetadata("price_cents", "Retail Price Cents", "input", 25, "half", false, false, true),
+  fieldMetadata("cost_cents", "Private Cost Cents", "input", 26, "half", false, false, true),
 ];
 
 export async function up(knex) {
@@ -31,12 +33,26 @@ export async function up(knex) {
     add column if not exists product_name text,
     add column if not exists product_slug text,
     add column if not exists stock_status text,
-    add column if not exists vial_last_synced_at timestamptz
+    add column if not exists vial_last_synced_at timestamptz,
+    add column if not exists price_dollars numeric(10, 2),
+    add column if not exists cost_dollars numeric(10, 2)
   `);
 
   await knex.schema.raw(
     "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
   );
+  await knex.schema.raw(`
+    update catalog_product_overrides
+    set price_dollars = round(price_cents::numeric / 100, 2)
+    where price_dollars is null
+      and price_cents is not null
+  `);
+  await knex.schema.raw(`
+    update catalog_product_overrides
+    set cost_dollars = round(cost_cents::numeric / 100, 2)
+    where cost_dollars is null
+      and cost_cents is not null
+  `);
 
   if (await knex.schema.hasTable("directus_collections")) {
     await knex("directus_collections")
@@ -68,14 +84,14 @@ export async function down() {
   // Preserve synced catalog data.
 }
 
-function fieldMetadata(field, label, directusInterface, sort, width, required, readonly) {
+function fieldMetadata(field, label, directusInterface, sort, width, required, readonly, hidden = false) {
   return {
     collection: "catalog_product_overrides",
     field,
     interface: directusInterface,
     display: "raw",
     readonly,
-    hidden: false,
+    hidden,
     required,
     sort,
     width,
