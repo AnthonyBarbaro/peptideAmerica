@@ -49,12 +49,14 @@ The `directus/Dockerfile` runs:
 
 ```bash
 node cli.js bootstrap
+node cli.js database migrate:latest
 node cli.js start
 ```
 
 This creates Directus system tables, creates the initial admin user when
 `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set, and applies the commerce/admin
-migration in `directus/migrations/`.
+migrations in `directus/migrations/`. The second custom migration registers the
+commerce tables as Directus collections so they appear in the Content sidebar.
 
 ## Admin Access
 

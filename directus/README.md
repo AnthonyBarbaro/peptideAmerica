@@ -3,8 +3,9 @@
 Deploy this folder as a separate Railway service from the repository root.
 
 The Docker image is pinned to `directus/directus:12.0.2`. The container runs
-Directus bootstrap through `node cli.js bootstrap`, applies the commerce/admin
-migration, then starts Directus with `node cli.js start`.
+Directus bootstrap through `node cli.js bootstrap`, applies Directus and custom
+migrations through `node cli.js database migrate:latest`, then starts Directus
+with `node cli.js start`.
 It listens on Railway's injected `PORT` value and falls back to `8055` outside
 Railway.
 
