@@ -7,6 +7,19 @@ function cleanEnv(value: string | undefined) {
   return trimmed.length > 0 ? trimmed : "";
 }
 
+function isRailwayRuntime() {
+  return Boolean(
+    process.env.RAILWAY_ENVIRONMENT ||
+      process.env.RAILWAY_ENVIRONMENT_ID ||
+      process.env.RAILWAY_PROJECT_ID ||
+      process.env.RAILWAY_SERVICE_ID,
+  );
+}
+
+function isRailwayInternalHost(hostname: string) {
+  return hostname.endsWith(".railway.internal");
+}
+
 export function isDatabaseConfigured() {
   const connectionString = cleanEnv(process.env.DATABASE_URL);
 
@@ -16,6 +29,11 @@ export function isDatabaseConfigured() {
 
   try {
     const url = new URL(connectionString);
+
+    if (isRailwayInternalHost(url.hostname) && !isRailwayRuntime()) {
+      return false;
+    }
+
     return (
       (url.protocol === "postgres:" || url.protocol === "postgresql:") &&
       Boolean(url.hostname && url.pathname.replace(/^\/+/, ""))

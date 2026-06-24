@@ -311,6 +311,23 @@ export async function listOrdersForAccount({
   return result.rows.map(rowToLedgerOrder);
 }
 
+export async function listRecentOrdersForAdmin(limit = 50) {
+  await ensureOrderLedgerTables();
+
+  const pageSize = Math.min(Math.max(Math.round(limit), 1), 200);
+  const result = await dbQuery<CommerceOrderRow>(
+    `
+      select *
+      from commerce_orders
+      order by created_at desc
+      limit $1
+    `,
+    [pageSize],
+  );
+
+  return result.rows.map(rowToLedgerOrder);
+}
+
 export async function getOrderForAccount({
   externalOrderId,
   clerkUserId,

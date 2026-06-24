@@ -29,7 +29,7 @@ export default async function MyAccountPage() {
         });
     } catch (error) {
       orderHistoryAvailable = false;
-      console.error("Unable to load account order history", {
+      console.warn("Unable to load account order history", {
         message: error instanceof Error ? error.message : "Unknown database error",
       });
     }

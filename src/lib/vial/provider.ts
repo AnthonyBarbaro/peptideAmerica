@@ -1,8 +1,11 @@
 import type { CommerceProvider, Product, ProductQuery } from "@/lib/commerce/types";
+import { applyDatabaseCatalogOverrides } from "@/lib/catalog/admin-overrides";
 import { applyCatalogOverrides } from "@/lib/catalog/overrides";
 import { getVialConfig, isVialCatalogConfigured } from "./config";
 import { VialClient } from "./client";
 import { mapVialProducts, mergeVialInventory } from "./mapper";
+
+let loggedCatalogOverrideWarning = false;
 
 function normalize(value: string) {
   return value.trim().toLowerCase();
@@ -57,10 +60,24 @@ async function listVialProducts() {
     client.requestJson<unknown>(config.inventoryPath).catch(() => null),
   ]);
   const products = mapVialProducts(productsPayload);
-
-  return applyCatalogOverrides(
+  const staticProducts = applyCatalogOverrides(
     inventoryPayload ? mergeVialInventory(products, inventoryPayload) : products,
   );
+
+  try {
+    return await applyDatabaseCatalogOverrides(staticProducts);
+  } catch (error) {
+    if (!loggedCatalogOverrideWarning) {
+      loggedCatalogOverrideWarning = true;
+      console.warn(
+        `Using Vial catalog without database overrides: ${
+          error instanceof Error ? error.message : "Unknown database error"
+        }`,
+      );
+    }
+
+    return staticProducts;
+  }
 }
 
 export const vialCommerceProvider: CommerceProvider = {

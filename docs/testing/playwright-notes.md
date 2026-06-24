@@ -1,7 +1,7 @@
 # Playwright Notes
 
-Playwright is installed, but this repo does not yet include a committed Playwright
-configuration with `webServer`, browser projects, and test artifacts.
+Playwright is configured with a Next.js `webServer` and a Chromium smoke suite in
+`e2e/`.
 
 Recommended e2e coverage when configured:
 - Homepage loads.
@@ -13,5 +13,6 @@ Recommended e2e coverage when configured:
 - Escape closes the search dialog.
 - Accessibility panel changes text size and persists preferences.
 
-Current automated coverage is focused in Vitest for provider data, search helpers,
-cart helpers, checkout behavior, route inventory, and content compliance.
+Current Playwright coverage is intentionally light. Vitest remains the primary
+coverage for provider data, search helpers, cart helpers, checkout behavior,
+route inventory, and content compliance.

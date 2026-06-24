@@ -73,15 +73,16 @@ Do not expose `VIAL_API_KEY` to client components.
 ## Launch Blockers
 
 1. Set `VIAL_WEBHOOK_SECRET` from the Vial portal signing secret. The API key is not the webhook signing secret.
-2. Provision Railway Postgres and set `DATABASE_URL`.
-3. Configure Authorize.Net production credentials and webhook URL.
-4. Keep `VIAL_ALLOW_UNPAID_ORDERS=false` unless payment is handled by an approved external process.
-5. Keep `AUTO_SUBMIT_PAID_ORDERS_TO_VIAL=false` until one sandbox payment webhook has marked an order paid and one test Vial order has been reviewed.
-6. After testing, set `AUTO_SUBMIT_PAID_ORDERS_TO_VIAL=true` to submit paid orders to Vial automatically.
-7. Configure Clerk production keys and approved OAuth providers.
-8. Connect the contact/newsletter forms to real storage or support tooling.
-9. Finalize privacy, return, shipping, terms, and research-use policy copy with legal/compliance review.
-10. Run full QA and production smoke testing before opening checkout.
+2. Provision Railway Postgres, set `DATABASE_URL`, and run `npm run db:setup`.
+3. Deploy Directus from `directus/` and use that Directus URL for admin access.
+4. Configure Authorize.Net production credentials and webhook URL.
+5. Keep `VIAL_ALLOW_UNPAID_ORDERS=false` unless payment is handled by an approved external process.
+6. Keep `AUTO_SUBMIT_PAID_ORDERS_TO_VIAL=false` until one sandbox payment webhook has marked an order paid and one test Vial order has been reviewed.
+7. After testing, set `AUTO_SUBMIT_PAID_ORDERS_TO_VIAL=true` to submit paid orders to Vial automatically.
+8. Configure Clerk production keys and approved OAuth providers.
+9. Connect the contact/newsletter forms to real storage or support tooling.
+10. Finalize privacy, return, shipping, terms, and research-use policy copy with legal/compliance review.
+11. Run full QA and production smoke testing before opening checkout.
 
 ## Verification Commands
 
@@ -90,6 +91,7 @@ npm run lint
 npm run typecheck
 npm run test
 npm run check:content
+npm run db:setup
 npm run build
 ```
 
@@ -97,11 +99,15 @@ npm run build
 
 - WooCommerce is not used.
 - Mock storefront product data is not used.
+- Directus is the primary business admin for product overrides, product images,
+  private cost, and order review. See `docs/integrations/directus-admin.md`.
 - Unpriced products display `Price pending` and cannot be added to cart.
 - Checkout does not collect card data in Next.js.
 - Account login is handled by Clerk, not by custom password code.
 - Signed-in checkout stores `clerk_user_id` on `commerce_orders`; account history also falls back to verified account emails for older rows.
 - Authorize.Net webhook verification and Postgres order logging exist.
-- Railway Postgres works through `DATABASE_URL`.
+- Railway Postgres works through `DATABASE_URL`. `postgres.railway.internal`
+  hostnames only resolve inside Railway; use Railway CLI variables or the public
+  Postgres connection URL for local database setup.
 - `/track-order` requires `DATABASE_URL`; without it the API returns a 503 configuration response.
 - COA and product values should come from Vial or approved supplier records.
