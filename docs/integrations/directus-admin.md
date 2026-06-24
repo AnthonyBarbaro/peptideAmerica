@@ -116,5 +116,9 @@ Next.js storefront service:
 DIRECTUS_PUBLIC_URL=https://your-directus-domain
 ```
 
+The Directus migration grants public read access to `directus_files` so uploaded
+product images can render through `/assets/<file-id>`. Treat uploaded product
+images as public website assets.
+
 If the database is unreachable, the storefront falls back to the Vial catalog
 without local overrides.

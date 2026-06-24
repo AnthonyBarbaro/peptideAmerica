@@ -60,7 +60,15 @@ function getDirectusPublicUrl() {
     process.env.DIRECTUS_ADMIN_URL?.trim() ||
     "";
 
-  return value.replace(/\/+$/, "");
+  if (!value) {
+    return "";
+  }
+
+  try {
+    return new URL(value).origin;
+  } catch {
+    return value.replace(/\/+$/, "");
+  }
 }
 
 function directusAssetUrl(fileId: string | null) {
