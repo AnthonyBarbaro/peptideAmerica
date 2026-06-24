@@ -185,18 +185,6 @@ const statements = [
   `,
   "create index if not exists catalog_product_images_sku_idx on catalog_product_images (sku, sort_order, id)",
   "create unique index if not exists catalog_product_images_sku_url_idx on catalog_product_images (sku, image_url)",
-  `
-    update catalog_product_overrides
-    set price_dollars = round(price_cents::numeric / 100, 2)
-    where price_dollars is null
-      and price_cents is not null
-  `,
-  `
-    update catalog_product_overrides
-    set cost_dollars = round(cost_cents::numeric / 100, 2)
-    where cost_dollars is null
-      and cost_cents is not null
-  `,
 ];
 
 async function main() {

@@ -17,32 +17,46 @@ type ProductVisualProps = {
 };
 
 export function ProductVisual({ product, className = "" }: ProductVisualProps) {
+  const primaryImage = product.images[0];
+
   return (
     <div
       className={`relative overflow-hidden rounded-lg border border-white/10 bg-slate-950 ${className}`}
       style={{ background: visualStyles[product.slug] ?? visualStyles["pa-research-peptide-alpha"] }}
-      aria-hidden="true"
+      aria-label={`${product.name} product image`}
     >
-      <svg className="absolute inset-0 h-full w-full opacity-30" viewBox="0 0 300 220">
-        <defs>
-          <pattern id={`grid-${product.id}`} width="28" height="28" patternUnits="userSpaceOnUse">
-            <path d="M 28 0 L 0 0 0 28" fill="none" stroke="white" strokeOpacity="0.28" />
-          </pattern>
-        </defs>
-        <rect width="300" height="220" fill={`url(#grid-${product.id})`} />
-        <path
-          className="path-draw"
-          d="M40 150 C80 80 120 190 165 116 S232 70 265 124"
-          fill="none"
-          stroke="white"
-          strokeOpacity="0.6"
-          strokeWidth="4"
+      {primaryImage ? (
+        // Directus asset URLs are runtime-configured and should render without Next image domain coupling.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={primaryImage}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
         />
-        <circle cx="58" cy="132" r="10" fill="white" fillOpacity="0.72" />
-        <circle cx="139" cy="145" r="8" fill="#ef4444" fillOpacity="0.82" />
-        <circle cx="207" cy="92" r="11" fill="white" fillOpacity="0.72" />
-        <circle cx="253" cy="120" r="7" fill="#ef4444" fillOpacity="0.82" />
-      </svg>
+      ) : (
+        <svg className="absolute inset-0 h-full w-full opacity-30" viewBox="0 0 300 220">
+          <defs>
+            <pattern id={`grid-${product.id}`} width="28" height="28" patternUnits="userSpaceOnUse">
+              <path d="M 28 0 L 0 0 0 28" fill="none" stroke="white" strokeOpacity="0.28" />
+            </pattern>
+          </defs>
+          <rect width="300" height="220" fill={`url(#grid-${product.id})`} />
+          <path
+            className="path-draw"
+            d="M40 150 C80 80 120 190 165 116 S232 70 265 124"
+            fill="none"
+            stroke="white"
+            strokeOpacity="0.6"
+            strokeWidth="4"
+          />
+          <circle cx="58" cy="132" r="10" fill="white" fillOpacity="0.72" />
+          <circle cx="139" cy="145" r="8" fill="#ef4444" fillOpacity="0.82" />
+          <circle cx="207" cy="92" r="11" fill="white" fillOpacity="0.72" />
+          <circle cx="253" cy="120" r="7" fill="#ef4444" fillOpacity="0.82" />
+        </svg>
+      )}
+      {primaryImage ? <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" /> : null}
       <div className="absolute inset-x-4 bottom-4 rounded-md border border-white/10 bg-slate-950/70 p-3 backdrop-blur">
         <div className="text-xs font-semibold uppercase tracking-[0.22em] text-red-200">
           {product.sku}
