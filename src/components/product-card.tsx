@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FileCheck2 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Product } from "@/lib/commerce/types";
-import { formatCatalogPrice, formatStockStatus } from "@/lib/format";
+import { formatCatalogPrice, formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductVisual } from "@/components/product-visual";
 
@@ -38,7 +38,9 @@ export function ProductCard({ product }: ProductCardProps) {
             </Link>
             <p className="mt-1 text-sm text-slate-500">{product.sku}</p>
           </div>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${stockStatusBadgeClassName(product.stockStatus)}`}
+          >
             {formatStockStatus(product.stockStatus)}
           </span>
         </div>

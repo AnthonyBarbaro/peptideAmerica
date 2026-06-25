@@ -21,3 +21,16 @@ export function formatStockStatus(status: string) {
       return status;
   }
 }
+
+export function stockStatusBadgeClassName(status: string) {
+  switch (status) {
+    case "in_stock":
+      return "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200";
+    case "low_stock":
+      return "bg-amber-50 text-amber-700 ring-1 ring-amber-200";
+    case "out_of_stock":
+      return "bg-red-50 text-red-700 ring-1 ring-red-200";
+    default:
+      return "bg-slate-100 text-slate-700";
+  }
+}

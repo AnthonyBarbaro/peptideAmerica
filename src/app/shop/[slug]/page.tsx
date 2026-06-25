@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/product-card";
 import { ProductVisual } from "@/components/product-visual";
 import { SpecAccordion } from "@/components/spec-accordion";
 import { getCommerceProvider } from "@/lib/commerce/provider";
-import { formatCatalogPrice, formatStockStatus } from "@/lib/format";
+import { formatCatalogPrice, formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo/jsonld";
 
 type ProductPageProps = {
@@ -59,7 +59,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
               {product.category}
             </span>
-            <span className="rounded-full bg-red-50 px-3 py-1 text-sm font-semibold text-red-700">
+            <span
+              className={`rounded-full px-3 py-1 text-sm font-semibold ${stockStatusBadgeClassName(product.stockStatus)}`}
+            >
               {formatStockStatus(product.stockStatus)}
             </span>
           </div>
