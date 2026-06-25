@@ -14,10 +14,7 @@ export default async function ShopPage({
 }) {
   const params = await searchParams;
   const commerce = getCommerceProvider();
-  const [products, categories] = await Promise.all([
-    commerce.listProducts(),
-    commerce.listCategories(),
-  ]);
+  const products = await commerce.listProducts();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -32,7 +29,7 @@ export default async function ShopPage({
         </p>
       </div>
       <div className="mt-8">
-        <ShopClient products={products} categories={categories} initialQuery={params.q ?? ""} />
+        <ShopClient products={products} initialQuery={params.q ?? ""} />
       </div>
     </div>
   );

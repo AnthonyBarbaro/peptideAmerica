@@ -1,6 +1,7 @@
 import { useId } from "react";
 
 import type { Product } from "@/lib/commerce/types";
+import { getProductResearchArea } from "@/lib/catalog/research-areas";
 
 const visualStyles: Record<string, string> = {
   "pa-research-peptide-alpha":
@@ -22,6 +23,7 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
   const primaryImage = product.images?.[0];
   const labelName = getLabelName(product);
   const labelSize = getLabelSize(product);
+  const researchArea = getProductResearchArea(product);
 
   return (
     <div
@@ -55,6 +57,10 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
       {primaryImage ? (
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
       ) : null}
+
+      <div className="absolute right-3 top-3 max-w-[72%] rounded-full border border-white/70 bg-white/85 px-3 py-1 text-xs font-bold text-slate-800 shadow-sm backdrop-blur">
+        <span className="block truncate">{researchArea}</span>
+      </div>
 
       {primaryImage ? (
         <div className="absolute inset-x-4 bottom-4 rounded-md border border-white/10 bg-slate-950/70 p-3 backdrop-blur">

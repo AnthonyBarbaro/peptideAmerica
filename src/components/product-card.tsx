@@ -7,6 +7,7 @@ import type { Product } from "@/lib/commerce/types";
 import { formatCatalogPrice, formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductVisual } from "@/components/product-visual";
+import { getProductCardDescriptor } from "@/lib/catalog/research-areas";
 
 type ProductCardProps = {
   product: Product;
@@ -14,6 +15,7 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const prefersReducedMotion = useReducedMotion();
+  const cardDescriptor = getProductCardDescriptor(product);
 
   return (
     <motion.article
@@ -45,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
         <p className="mt-4 flex-1 text-sm leading-6 text-slate-600">
-          {product.shortDescription}
+          {cardDescriptor}
         </p>
         {product.coaBatches.length > 0 ? (
           <div className="mt-5 flex items-center gap-2 text-sm font-medium text-slate-700">

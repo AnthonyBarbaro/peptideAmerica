@@ -4,11 +4,11 @@ import { Search, SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Product, StockStatus } from "@/lib/commerce/types";
 import { ProductCard } from "@/components/product-card";
+import { getProductResearchArea } from "@/lib/catalog/research-areas";
 import { formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
 
 type ShopClientProps = {
   products: Product[];
-  categories: string[];
   initialQuery?: string;
 };
 
@@ -22,15 +22,18 @@ const availabilityOptions: AvailabilityOption[] = [
   "out_of_stock",
 ];
 
-export function ShopClient({ products, categories, initialQuery = "" }: ShopClientProps) {
+export function ShopClient({ products, initialQuery = "" }: ShopClientProps) {
   const [query, setQuery] = useState(initialQuery);
   const [category, setCategory] = useState("all");
   const [availability, setAvailability] = useState<AvailabilityOption>("all");
   const [sort, setSort] = useState<SortOption>("featured");
 
   const researchAreas = useMemo(
-    () => [...new Set(categories.filter(Boolean))].sort((a, b) => a.localeCompare(b)),
-    [categories],
+    () =>
+      [...new Set(products.map((product) => getProductResearchArea(product)))]
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b)),
+    [products],
   );
   const meaningfulResearchAreas = useMemo(
     () => researchAreas.filter((area) => area.trim().toLowerCase() !== "catalog"),
@@ -42,7 +45,8 @@ export function ShopClient({ products, categories, initialQuery = "" }: ShopClie
     const counts = new Map<string, number>();
 
     for (const product of products) {
-      counts.set(product.category, (counts.get(product.category) ?? 0) + 1);
+      const area = getProductResearchArea(product);
+      counts.set(area, (counts.get(area) ?? 0) + 1);
     }
 
     return counts;
@@ -67,7 +71,8 @@ export function ShopClient({ products, categories, initialQuery = "" }: ShopClie
   const visibleProducts = useMemo(() => {
     const term = query.trim().toLowerCase();
     const filtered = products.filter((product) => {
-      const categoryMatches = category === "all" || product.category === category;
+      const researchArea = getProductResearchArea(product);
+      const categoryMatches = category === "all" || researchArea === category;
       const availabilityMatches =
         availability === "all" || product.stockStatus === availability;
       const queryMatches =
@@ -75,7 +80,7 @@ export function ShopClient({ products, categories, initialQuery = "" }: ShopClie
         [
           product.name,
           product.sku,
-          product.category,
+          researchArea,
           product.shortDescription,
           product.researchOverview,
           ...product.tags,
@@ -123,7 +128,7 @@ export function ShopClient({ products, categories, initialQuery = "" }: ShopClie
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Name, SKU, research area"
+                placeholder="Name, SKU, focus"
                 className="min-h-11 w-full rounded-md border border-slate-300 px-10 text-base text-slate-950 outline-none transition focus:border-red-600 focus:ring-2 focus:ring-red-600/20"
               />
               {query ? (
@@ -157,7 +162,7 @@ export function ShopClient({ products, categories, initialQuery = "" }: ShopClie
           <div className="mt-5 border-t border-slate-100 pt-4">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
-                Research area
+                Focus
               </h2>
               {category !== "all" ? (
                 <button

@@ -6,6 +6,7 @@ import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductCard } from "@/components/product-card";
 import { ProductVisual } from "@/components/product-visual";
 import { SpecAccordion } from "@/components/spec-accordion";
+import { getProductResearchArea } from "@/lib/catalog/research-areas";
 import { getCommerceProvider } from "@/lib/commerce/provider";
 import { formatCatalogPrice, formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo/jsonld";
@@ -42,6 +43,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const relatedProducts = (await commerce.listProducts())
     .filter((item) => item.slug !== product.slug)
     .slice(0, 3);
+  const researchArea = getProductResearchArea(product);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -57,7 +59,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div>
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
-              {product.category}
+              {researchArea}
             </span>
             <span
               className={`rounded-full px-3 py-1 text-sm font-semibold ${stockStatusBadgeClassName(product.stockStatus)}`}
