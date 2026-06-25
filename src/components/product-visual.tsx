@@ -59,22 +59,26 @@ type GeneratedVialLabelProps = {
 
 function GeneratedVialLabel({ labelName, labelSize }: GeneratedVialLabelProps) {
   return (
-    <div className="absolute inset-0 overflow-hidden bg-[radial-gradient(circle_at_50%_16%,#ffffff_0%,#eef3f8_34%,#c7d2de_70%,#f8fafc_100%)]">
-      <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(15,23,42,0.16),transparent_24%,transparent_72%,rgba(127,29,29,0.18))]" />
-      <div className="absolute inset-x-[10%] bottom-[5%] h-[10%] rounded-full bg-slate-500/20 blur-xl" />
+    <div className="absolute inset-0 overflow-hidden bg-[radial-gradient(circle_at_50%_22%,#ffffff_0%,#f4f7fa_34%,#c9d4df_74%,#f8fafc_100%)]">
+      <div className="absolute inset-0 bg-[linear-gradient(112deg,rgba(15,23,42,0.13),transparent_27%,transparent_72%,rgba(127,29,29,0.14))]" />
+      <div className="absolute inset-x-[8%] bottom-[4%] h-[9%] rounded-full bg-slate-500/18 blur-xl" />
 
-      <div className="absolute left-1/2 top-[4%] h-[12%] w-[34%] -translate-x-1/2 rounded-t-[999px] rounded-b-md border border-slate-300/80 bg-[linear-gradient(180deg,#ffffff,#cbd5e1_48%,#f8fafc)] shadow-[0_10px_24px_rgba(15,23,42,0.2)]">
-        <div className="absolute inset-x-[12%] top-[22%] h-[22%] rounded-full bg-white/75" />
+      <div className="absolute left-1/2 top-[4%] h-[13%] w-[42%] -translate-x-1/2 rounded-t-[999px] rounded-b-md border border-slate-300/80 bg-[linear-gradient(90deg,#f8fafc_0%,#d7dee6_18%,#ffffff_42%,#b8c2cc_68%,#eef2f7_100%)] shadow-[0_9px_22px_rgba(15,23,42,0.24)]">
+        <div className="absolute inset-x-[7%] top-[18%] h-[22%] rounded-full bg-white/72" />
+        <div className="absolute inset-x-[10%] bottom-[12%] h-[24%] rounded-full bg-slate-500/18 blur-[1px]" />
       </div>
 
-      <div className="absolute left-1/2 top-[14%] h-[12%] w-[24%] -translate-x-1/2 border-x border-slate-300/70 bg-[linear-gradient(90deg,rgba(226,232,240,0.54),rgba(255,255,255,0.86),rgba(203,213,225,0.5))]" />
+      <div className="absolute left-1/2 top-[14%] h-[14%] w-[28%] -translate-x-1/2 border-x border-slate-300/70 bg-[linear-gradient(90deg,rgba(203,213,225,0.44),rgba(255,255,255,0.82)_45%,rgba(148,163,184,0.28))]">
+        <div className="absolute inset-x-[10%] top-[28%] h-[34%] rounded-full bg-slate-950/22 blur-sm" />
+      </div>
 
-      <div className="absolute left-1/2 top-[21%] h-[72%] w-[46%] -translate-x-1/2 rounded-t-[34%] rounded-b-[18%] border border-slate-300/75 bg-[linear-gradient(90deg,rgba(255,255,255,0.42),rgba(255,255,255,0.86)_26%,rgba(255,255,255,0.72)_70%,rgba(203,213,225,0.46))] shadow-[0_22px_48px_rgba(15,23,42,0.24)] backdrop-blur-sm">
-        <div className="absolute left-[10%] top-[8%] h-[78%] w-[10%] rounded-full bg-white/55 blur-sm" />
-        <div className="absolute right-[11%] top-[12%] h-[62%] w-[7%] rounded-full bg-slate-300/24 blur-sm" />
-        <div className="absolute inset-x-[13%] bottom-[5%] h-[9%] rounded-full border border-slate-300/40 bg-white/30" />
+      <div className="absolute left-1/2 top-[23%] h-[68%] w-[50%] -translate-x-1/2 rounded-t-[30%] rounded-b-[13%] border border-slate-300/75 bg-[linear-gradient(90deg,rgba(255,255,255,0.36),rgba(255,255,255,0.9)_24%,rgba(255,255,255,0.72)_69%,rgba(203,213,225,0.4))] shadow-[0_22px_46px_rgba(15,23,42,0.25)] backdrop-blur-sm">
+        <div className="absolute inset-x-[8%] top-[1%] h-[16%] rounded-t-[999px] border-t border-white/80 bg-white/32" />
+        <div className="absolute left-[8%] top-[12%] h-[74%] w-[8%] rounded-full bg-white/62 blur-sm" />
+        <div className="absolute right-[10%] top-[16%] h-[56%] w-[7%] rounded-full bg-slate-300/24 blur-sm" />
+        <div className="absolute inset-x-[12%] bottom-[5%] h-[8%] rounded-full border border-slate-300/40 bg-white/30" />
 
-        <div className="absolute inset-x-[8%] top-[33%] overflow-hidden rounded-md border border-slate-200 bg-white/94 shadow-[0_8px_22px_rgba(15,23,42,0.12)]">
+        <div className="absolute inset-x-[9%] top-[30%] overflow-hidden rounded-sm border border-slate-200 bg-white/94 shadow-[0_8px_22px_rgba(15,23,42,0.12)]">
           <div className="absolute inset-0 opacity-[0.055]">
             <div className="grid h-full grid-cols-3 gap-3 p-3">
               <div className="rounded-md border border-slate-700" />
@@ -85,25 +89,27 @@ function GeneratedVialLabel({ labelName, labelSize }: GeneratedVialLabelProps) {
               <div className="rounded-md border border-slate-700" />
             </div>
           </div>
-          <div className="relative flex flex-col items-center px-3 pb-3 pt-3 text-center">
+          <div className="relative flex flex-col items-center px-3 pb-3 pt-4 text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/pa/logo.png"
               alt=""
-              className="mb-2 h-6 max-w-[82%] object-contain drop-shadow-[0_1px_0_rgba(255,255,255,0.85)]"
+              className="mb-3 h-7 max-w-[86%] object-contain drop-shadow-[0_1px_0_rgba(255,255,255,0.85)]"
               loading="lazy"
             />
             <div
-              className="max-w-full break-words text-center text-xl font-semibold leading-none text-[#0a6484]"
+              className="max-w-full break-words text-center text-[1.18rem] font-medium leading-none text-[#2a6f9f]"
               title={labelName}
             >
               {labelName}
             </div>
-            <div className="mt-1 text-base font-medium leading-none text-[#0a6484]">
+            <div className="mt-1 text-sm font-medium leading-none text-[#2a6f9f]">
               {labelSize}
             </div>
           </div>
-          <div className="relative h-8 bg-[#155fa7]" aria-hidden="true" />
+          <div className="relative bg-[#1f67a8] px-1 py-2 text-center text-[0.45rem] font-semibold uppercase leading-none tracking-[0.08em] text-white">
+            Research purposes only.
+          </div>
         </div>
       </div>
     </div>
