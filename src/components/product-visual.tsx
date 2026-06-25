@@ -1,4 +1,6 @@
-import { useId } from "react";
+"use client";
+
+import { useId, useState } from "react";
 
 import type { Product } from "@/lib/commerce/types";
 import { getProductResearchArea } from "@/lib/catalog/research-areas";
@@ -21,6 +23,8 @@ type ProductVisualProps = {
 
 export function ProductVisual({ product, className = "" }: ProductVisualProps) {
   const primaryImage = product.images?.[0];
+  const [failedImageSrc, setFailedImageSrc] = useState<string | null>(null);
+  const showImage = Boolean(primaryImage && primaryImage !== failedImageSrc);
   const labelName = getLabelName(product);
   const labelSize = getLabelSize(product);
   const researchArea = getProductResearchArea(product);
@@ -28,10 +32,10 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
   return (
     <div
       className={`relative overflow-hidden rounded-lg border border-white/10 ${
-        primaryImage ? "bg-slate-950" : "bg-slate-100"
+        showImage ? "bg-slate-950" : "bg-slate-100"
       } ${className}`}
       style={
-        primaryImage
+        showImage
           ? {
               background:
                 visualStyles[product.slug] ?? visualStyles["pa-research-peptide-alpha"],
@@ -40,7 +44,7 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
       }
       aria-label={`${product.name} product image`}
     >
-      {primaryImage ? (
+      {showImage ? (
         // Directus asset URLs are runtime-configured and should render without Next image domain coupling.
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -49,12 +53,13 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
           className="absolute inset-0 h-full w-full object-cover"
           loading="lazy"
           decoding="async"
+          onError={() => setFailedImageSrc(primaryImage ?? null)}
         />
       ) : (
         <GeneratedVialLabel labelName={labelName} labelSize={labelSize} />
       )}
 
-      {primaryImage ? (
+      {showImage ? (
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
       ) : null}
 
@@ -62,7 +67,7 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
         <span className="block truncate">{researchArea}</span>
       </div>
 
-      {primaryImage ? (
+      {showImage ? (
         <div className="absolute inset-x-4 bottom-4 rounded-md border border-white/10 bg-slate-950/70 p-3 backdrop-blur">
           <div className="text-xs font-semibold uppercase tracking-[0.22em] text-red-200">
             {product.sku}
