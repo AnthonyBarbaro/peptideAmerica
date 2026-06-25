@@ -22,7 +22,7 @@ export default async function CoaPage() {
         </p>
         <h1 className="mt-2 text-4xl font-black text-slate-950">Batch documents</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Search product, SKU, batch, and lab fields from the live catalog provider.
+          Search product, SKU, batch, and lab fields from catalog and supplier documents.
         </p>
       </div>
       <div className="mt-8">

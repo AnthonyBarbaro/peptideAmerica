@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { Menu, ReceiptText, ShoppingCart, UserRound, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import type { Product } from "@/lib/commerce/types";
 import { SearchDialog } from "@/components/search-dialog";
 import { useCartStore } from "@/lib/cart-store";
@@ -133,11 +134,30 @@ function AccountUserButton() {
 
 export function Header({ products, clerkEnabled }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
   const items = useCartStore((state) => state.items);
   const cartCount = useMemo(
     () => items.reduce((total, item) => total + item.quantity, 0),
     [items],
   );
+
+  useEffect(() => {
+    if (!mobileOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobileOpen]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/92 text-white backdrop-blur">
@@ -203,42 +223,77 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
             onClick={() => setMobileOpen((value) => !value)}
             aria-label="Toggle navigation"
             aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation-drawer"
           >
             {mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </button>
         </div>
       </div>
-      {mobileOpen ? (
-        <div className="border-t border-white/10 px-4 pb-4 md:hidden">
-          <nav className="grid gap-2 py-3" aria-label="Mobile navigation">
-            {navItems.map((item) => (
+      <AnimatePresence>
+        {mobileOpen ? (
+          <motion.div
+            id="mobile-navigation-drawer"
+            className="absolute inset-x-0 top-full overflow-hidden border-t border-white/10 bg-slate-950 shadow-2xl shadow-slate-950/35 md:hidden"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: -18 }}
+            animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, y: -14 }}
+            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="mx-auto grid max-w-7xl gap-4 px-4 py-4">
+              <div className="[&>button]:min-h-11 [&>button]:w-full [&>button]:justify-center [&>button]:rounded-lg">
+                <SearchDialog products={products} />
+              </div>
+              <nav className="grid gap-2" aria-label="Mobile navigation">
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.href}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
+                    animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                    transition={{ delay: 0.04 + index * 0.035, duration: 0.2 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className="flex min-h-12 items-center justify-between rounded-lg border border-white/10 bg-white/[0.035] px-4 py-3 text-base font-bold text-slate-100 transition hover:bg-white/10"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {item.label}
+                      <ArrowIndicator />
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
               <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-md px-3 py-3 text-sm font-medium text-slate-100 hover:bg-white/10"
+                href="/shop"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-black text-slate-950"
                 onClick={() => setMobileOpen(false)}
               >
-                {item.label}
+                Shop catalog
+                <ShoppingCart aria-hidden="true" size={18} />
               </Link>
-            ))}
-          </nav>
-          <div className="grid gap-2">
-            <SearchDialog products={products} />
-            <MobileAccountControl
-              clerkEnabled={clerkEnabled}
-              onNavigate={() => setMobileOpen(false)}
-            />
-            <Link
-              href="/cart"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-950"
-              onClick={() => setMobileOpen(false)}
-            >
-              <ShoppingCart aria-hidden="true" size={18} />
-              Cart ({cartCount})
-            </Link>
-          </div>
-        </div>
-      ) : null}
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </header>
+  );
+}
+
+function ArrowIndicator() {
+  return (
+    <span
+      aria-hidden="true"
+      className="grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white/80"
+    >
+      <svg viewBox="0 0 20 20" className="h-4 w-4">
+        <path
+          d="M7.5 4.5 12.5 10l-5 5.5"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        />
+      </svg>
+    </span>
   );
 }

@@ -1,5 +1,9 @@
 import type { CommerceProvider, Product, ProductQuery } from "@/lib/commerce/types";
 import { applyDatabaseCatalogOverrides } from "@/lib/catalog/admin-overrides";
+import {
+  applyApprovedCoaDocuments,
+  mergeApprovedCoaBatches,
+} from "@/lib/catalog/approved-coas";
 import { applyCatalogOverrides } from "@/lib/catalog/overrides";
 import { getVialConfig, isVialCatalogConfigured } from "./config";
 import { VialClient } from "./client";
@@ -65,7 +69,7 @@ async function listVialProducts() {
   );
 
   try {
-    return await applyDatabaseCatalogOverrides(staticProducts);
+    return applyApprovedCoaDocuments(await applyDatabaseCatalogOverrides(staticProducts));
   } catch (error) {
     if (!loggedCatalogOverrideWarning) {
       loggedCatalogOverrideWarning = true;
@@ -76,7 +80,7 @@ async function listVialProducts() {
       );
     }
 
-    return staticProducts;
+    return applyApprovedCoaDocuments(staticProducts);
   }
 }
 
@@ -95,11 +99,21 @@ export const vialCommerceProvider: CommerceProvider = {
     return typeof query.first === "number" ? sorted.slice(0, query.first) : sorted;
   },
   async getProduct(slug) {
+    const listedProduct = (await vialCommerceProvider.listProducts()).find(
+      (product) => product.slug === slug,
+    );
+
+    if (listedProduct) {
+      return listedProduct;
+    }
+
     const config = getVialConfig();
 
     if (isVialCatalogConfigured(config) && config.productPath) {
       const path = config.productPath.replace(":slug", encodeURIComponent(slug));
-      const products = mapVialProducts(await new VialClient(config).requestJson<unknown>(path));
+      const products = applyApprovedCoaDocuments(
+        mapVialProducts(await new VialClient(config).requestJson<unknown>(path)),
+      );
       const directMatch = products.find((product) => product.slug === slug);
 
       if (directMatch) {
@@ -107,7 +121,7 @@ export const vialCommerceProvider: CommerceProvider = {
       }
     }
 
-    return (await vialCommerceProvider.listProducts()).find((product) => product.slug === slug) ?? null;
+    return null;
   },
   async searchProducts(query) {
     return (await vialCommerceProvider.listProducts()).filter((product) => productMatches(product, query));
@@ -118,10 +132,9 @@ export const vialCommerceProvider: CommerceProvider = {
     ).sort();
   },
   async listCoaBatches(productSlug) {
-    const batches = (await vialCommerceProvider.listProducts()).flatMap((product) => product.coaBatches);
+    const products = await vialCommerceProvider.listProducts();
+    const batches = products.flatMap((product) => product.coaBatches);
 
-    return productSlug
-      ? batches.filter((batch) => batch.productSlug === productSlug)
-      : batches;
+    return mergeApprovedCoaBatches(batches, products, productSlug);
   },
 };

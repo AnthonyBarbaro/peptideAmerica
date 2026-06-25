@@ -10,6 +10,7 @@ export type CoaBatchStatus = "pending" | "verified";
 export type CoaBatch = {
   id: string;
   productSlug: string;
+  productName?: string;
   sku: string;
   batchNumber: string;
   labName: string;

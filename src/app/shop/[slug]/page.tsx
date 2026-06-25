@@ -135,6 +135,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <div className="mt-3 text-sm text-slate-600">
                   Purity: {batch.purityPercent ? `${batch.purityPercent}%` : "Pending"}
                 </div>
+                <a
+                  href={batch.documentUrl}
+                  className="mt-3 inline-flex text-sm font-semibold text-red-700 hover:text-red-600"
+                >
+                  View document
+                </a>
               </div>
             ))}
             {product.coaBatches.length === 0 ? (

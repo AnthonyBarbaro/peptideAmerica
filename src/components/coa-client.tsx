@@ -17,6 +17,27 @@ export function CoaClient({ products, batches }: CoaClientProps) {
     () => new Map(products.map((product) => [product.slug, product])),
     [products],
   );
+  const productOptions = useMemo(() => {
+    const options = products.map((product) => ({
+      slug: product.slug,
+      name: product.name,
+    }));
+    const knownSlugs = new Set(options.map((option) => option.slug));
+
+    for (const batch of batches) {
+      if (knownSlugs.has(batch.productSlug)) {
+        continue;
+      }
+
+      knownSlugs.add(batch.productSlug);
+      options.push({
+        slug: batch.productSlug,
+        name: batch.productName ?? batch.sku,
+      });
+    }
+
+    return options;
+  }, [batches, products]);
 
   const filteredBatches = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -26,13 +47,14 @@ export function CoaClient({ products, batches }: CoaClientProps) {
       const productMatches = productSlug === "all" || batch.productSlug === productSlug;
       const queryMatches =
         !term ||
-        [
-          batch.batchNumber,
-          batch.sku,
-          batch.labName,
-          product?.name ?? "",
-          batch.notes,
-        ]
+          [
+            batch.batchNumber,
+            batch.sku,
+            batch.labName,
+            batch.productName ?? "",
+            product?.name ?? "",
+            batch.notes,
+          ]
           .join(" ")
           .toLowerCase()
           .includes(term);
@@ -62,8 +84,8 @@ export function CoaClient({ products, batches }: CoaClientProps) {
               className="mt-2 min-h-11 w-full rounded-md border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition focus:border-red-600 focus:ring-2 focus:ring-red-600/20"
             >
               <option value="all">All products</option>
-              {products.map((product) => (
-                <option key={product.id} value={product.slug}>
+              {productOptions.map((product) => (
+                <option key={product.slug} value={product.slug}>
                   {product.name}
                 </option>
               ))}
@@ -83,7 +105,7 @@ export function CoaClient({ products, batches }: CoaClientProps) {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-bold text-slate-950">
-                    {product?.name ?? batch.productSlug}
+                    {product?.name ?? batch.productName ?? batch.sku}
                   </h2>
                   <p className="mt-1 text-sm text-slate-500">{batch.sku}</p>
                 </div>

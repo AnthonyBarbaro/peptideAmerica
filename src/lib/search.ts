@@ -68,6 +68,7 @@ export function searchCoaBatches(
         batch.sku,
         batch.labName,
         batch.notes,
+        batch.productName ?? "",
         product?.name ?? "",
       ],
       query,
@@ -118,7 +119,7 @@ export function buildSearchResults({
         title: batch.batchNumber,
         href: "/coa",
         eyebrow: `${batch.sku} · ${batch.labName}`,
-        summary: `${product?.name ?? batch.productSlug} batch record with ${batch.status} status.`,
+        summary: `${product?.name ?? batch.productName ?? batch.productSlug} batch record with ${batch.status} status.`,
       };
     }),
     ...searchArticles(articles, query).map((article): SearchResult => ({
