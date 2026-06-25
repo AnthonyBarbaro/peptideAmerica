@@ -30,6 +30,48 @@ const researchAreaAliases: Record<string, string> = {
   "redox cofactor research": "Cofactor",
 };
 
+const researchAreaDetails: Record<
+  string,
+  { label: string; group: string; examples: string; note: string }
+> = {
+  Cellular: {
+    label: "Tissue Repair Research",
+    group: "Tissue Repair Research",
+    examples: "BPC-157, TB-500",
+    note: "Use this to narrow BPC and TB items.",
+  },
+  Cofactor: {
+    label: "Cellular Research",
+    group: "Cellular Research",
+    examples: "NAD+ 1000mg",
+    note: "Use this for NAD+ listings.",
+  },
+  "Copper Complex": {
+    label: "Dermal Research",
+    group: "Dermal Research",
+    examples: "GHK-CU",
+    note: "Use this for copper peptide listings.",
+  },
+  Glycoprotein: {
+    label: "Endocrine Research",
+    group: "Endocrine Research",
+    examples: "HCG 10000iu",
+    note: "Use this for HCG listings.",
+  },
+  Metabolic: {
+    label: "Metabolic Research",
+    group: "Metabolic Research",
+    examples: "AOD 9604, Retatrutide",
+    note: "Use this for AOD and Retatrutide listings.",
+  },
+  "Peptide Blend": {
+    label: "Peptide Blend Research",
+    group: "Peptide Blend Research",
+    examples: "GLOW",
+    note: "Use this for blend listings.",
+  },
+};
+
 export function getProductResearchArea(product: Product) {
   const skuArea = researchAreaBySku[product.sku.toUpperCase()];
 
@@ -49,6 +91,17 @@ export function getProductResearchArea(product: Product) {
   }
 
   return category;
+}
+
+export function getResearchAreaDetails(area: string) {
+  return (
+    researchAreaDetails[area] ?? {
+      label: area,
+      group: "Catalog focus",
+      examples: area,
+      note: `Use this for ${area} listings.`,
+    }
+  );
 }
 
 export function getProductCardDescriptor(product: Product) {
