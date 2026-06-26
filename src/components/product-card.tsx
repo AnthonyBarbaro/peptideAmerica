@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { Product } from "@/lib/commerce/types";
 import { formatCatalogPrice, formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
 import { AddToCartButton } from "@/components/add-to-cart-button";
-import { ProductVisual } from "@/components/product-visual";
+import { ProductImage } from "@/components/product-image";
 import {
   getProductResearchArea,
   getResearchAreaDetails,
@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
         aria-label={`View ${product.name}`}
         className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
       >
-        <ProductVisual product={product} className="aspect-[4/3] rounded-none border-0" />
+        <ProductImage product={product} className="aspect-[4/3]" />
       </Link>
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-3">

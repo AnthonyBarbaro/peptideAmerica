@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, FileCheck2 } from "lucide-react";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductCard } from "@/components/product-card";
-import { ProductVisual } from "@/components/product-visual";
+import { ProductImage } from "@/components/product-image";
 import { SpecAccordion } from "@/components/spec-accordion";
 import { getProductResearchArea } from "@/lib/catalog/research-areas";
 import { getCommerceProvider } from "@/lib/commerce/provider";
@@ -55,7 +55,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         Back to shop
       </Link>
       <section className="mt-8 grid gap-10 lg:grid-cols-[.95fr_1.05fr]">
-        <ProductVisual product={product} className="aspect-square" />
+        <ProductImage product={product} className="aspect-square rounded-lg border border-slate-200" />
         <div>
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
