@@ -16,15 +16,19 @@ const visualStyles: Record<string, string> = {
     "radial-gradient(circle at 70% 72%, rgba(255,255,255,.28), transparent 18%), linear-gradient(135deg, #172554, #0b1120 58%, #7f1d1d)",
 };
 
+const ENABLE_UPLOADED_PRODUCT_IMAGES = false;
+
 type ProductVisualProps = {
   product: Product;
   className?: string;
 };
 
 export function ProductVisual({ product, className = "" }: ProductVisualProps) {
-  const primaryImage = product.images?.[0];
+  const primaryImage = ENABLE_UPLOADED_PRODUCT_IMAGES ? product.images?.[0] : null;
   const [failedImageSrc, setFailedImageSrc] = useState<string | null>(null);
-  const showImage = Boolean(primaryImage && primaryImage !== failedImageSrc);
+  const showImage = Boolean(
+    ENABLE_UPLOADED_PRODUCT_IMAGES && primaryImage && primaryImage !== failedImageSrc,
+  );
   const labelName = getLabelName(product);
   const labelSize = getLabelSize(product);
   const researchArea = getProductResearchArea(product);
@@ -48,7 +52,7 @@ export function ProductVisual({ product, className = "" }: ProductVisualProps) {
         // Directus asset URLs are runtime-configured and should render without Next image domain coupling.
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={primaryImage}
+          src={primaryImage ?? undefined}
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
           loading="lazy"
