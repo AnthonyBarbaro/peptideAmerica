@@ -278,7 +278,7 @@ export function mapVialProduct(source: JsonRecord): Product {
   const product = getNestedProductRecord(source);
   const name = getText(product, textKeys.name, "Untitled product");
   const sku = getText(product, textKeys.sku, getText(source, textKeys.sku, slugify(name).toUpperCase()));
-  const slug = getText(product, textKeys.slug, slugify(`${name}-${sku}`));
+  const slug = getText(product, textKeys.slug, slugify(name));
   const sizeLabel =
     getText(product, textKeys.sizeLabel) || inferSizeLabel(name, sku) || "See details";
 

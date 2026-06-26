@@ -110,6 +110,25 @@ function normalizeSku(sku: string) {
   return sku.trim().toUpperCase();
 }
 
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function cleanProductSlug(slug: string | null, sku: string) {
+  const normalizedSlug = slugify(slug ?? "");
+  const normalizedSku = slugify(sku);
+  const duplicateSuffix = normalizedSku ? `-${normalizedSku}` : "";
+
+  if (duplicateSuffix && normalizedSlug.endsWith(duplicateSuffix)) {
+    return normalizedSlug.slice(0, -duplicateSuffix.length).replace(/-+$/, "") || normalizedSlug;
+  }
+
+  return normalizedSlug || null;
+}
+
 function parseTechnicalSpecs(value: unknown): TechnicalSpec[] {
   if (!Array.isArray(value)) {
     return [];
@@ -151,7 +170,7 @@ function rowToAdminOverride(row: CatalogAdminOverrideRow): CatalogAdminOverride 
   return {
     sku: row.sku,
     name: row.product_name,
-    slug: row.product_slug,
+    slug: cleanProductSlug(row.product_slug, row.sku),
     stockStatus: parseStockStatus(row.stock_status),
     priceCents: priceDollarCents,
     costCents: costDollarCents,
