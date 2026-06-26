@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { LayoutGrid, Rows3, Search, SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { Product, StockStatus } from "@/lib/commerce/types";
 import { ProductCard } from "@/components/product-card";
@@ -17,6 +17,7 @@ type ShopClientProps = {
 type SortOption = "featured" | "stock" | "price-asc" | "price-desc" | "coa" | "name";
 type AvailabilityOption = "all" | "available" | "out_of_stock";
 type DocumentationOption = "all" | "coa";
+type MobileCatalogView = "grid" | "single";
 
 const availabilityFilterOptions: Exclude<AvailabilityOption, "all">[] = [
   "available",
@@ -39,6 +40,7 @@ export function ShopClient({ products, initialQuery = "" }: ShopClientProps) {
   const [documentation, setDocumentation] = useState<DocumentationOption>("all");
   const [sort, setSort] = useState<SortOption>("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [mobileView, setMobileView] = useState<MobileCatalogView>("grid");
 
   const researchAreas = useMemo(
     () =>
@@ -400,15 +402,46 @@ export function ShopClient({ products, initialQuery = "" }: ShopClientProps) {
         <p className="text-sm font-medium text-slate-600">
           {visibleProducts.length} catalog {visibleProducts.length === 1 ? "item" : "items"}
         </p>
-        {hasActiveFilters ? (
-          <p className="text-sm font-semibold text-slate-700">
-            {activeFilterCount} active {activeFilterCount === 1 ? "filter" : "filters"}
-          </p>
-        ) : null}
+        <div className="flex items-center gap-2">
+          {hasActiveFilters ? (
+            <p className="hidden text-sm font-semibold text-slate-700 sm:block">
+              {activeFilterCount} active {activeFilterCount === 1 ? "filter" : "filters"}
+            </p>
+          ) : null}
+          <div
+            className="inline-flex rounded-md border border-slate-300 bg-white p-0.5 sm:hidden"
+            aria-label="Mobile product layout"
+          >
+            <button
+              type="button"
+              aria-pressed={mobileView === "grid"}
+              onClick={() => setMobileView("grid")}
+              className={mobileViewButtonClassName(mobileView === "grid")}
+            >
+              <LayoutGrid aria-hidden="true" size={16} />
+              <span className="sr-only">Grid view</span>
+            </button>
+            <button
+              type="button"
+              aria-pressed={mobileView === "single"}
+              onClick={() => setMobileView("single")}
+              className={mobileViewButtonClassName(mobileView === "single")}
+            >
+              <Rows3 aria-hidden="true" size={16} />
+              <span className="sr-only">Single column view</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <section className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <section
+        className={`mt-6 grid ${
+          mobileView === "grid"
+            ? "grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 xl:grid-cols-3"
+            : "grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3"
+        }`}
+      >
         {visibleProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} compactMobile={mobileView === "grid"} />
         ))}
       </section>
       {visibleProducts.length === 0 ? (
@@ -442,6 +475,12 @@ function filterToggleClassName(selected: boolean) {
     selected
       ? "border-red-700 bg-red-700 text-white hover:border-red-800 hover:bg-red-800"
       : "border-slate-300 bg-white text-slate-950 hover:border-slate-400 hover:bg-slate-50"
+  }`;
+}
+
+function mobileViewButtonClassName(selected: boolean) {
+  return `inline-flex h-9 w-9 items-center justify-center rounded text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-red-600 ${
+    selected ? "bg-slate-950 text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
   }`;
 }
 

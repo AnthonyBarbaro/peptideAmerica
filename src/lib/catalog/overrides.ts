@@ -1,7 +1,10 @@
-import type { Product, TechnicalSpec } from "@/lib/commerce/types";
+import type { Product, StockStatus, TechnicalSpec } from "@/lib/commerce/types";
 import { catalogOverrides } from "../../data/catalog-overrides";
 
 export type CatalogProductOverride = {
+  name?: string;
+  slug?: string;
+  stockStatus?: StockStatus;
   priceCents?: number;
   category?: string;
   sizeLabel?: string;
@@ -28,6 +31,18 @@ function cleanPriceCents(value: number | undefined) {
     : undefined;
 }
 
+function cleanText(value: string | undefined) {
+  const trimmed = value?.trim() ?? "";
+
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function cleanStockStatus(value: StockStatus | undefined) {
+  return value === "in_stock" || value === "low_stock" || value === "out_of_stock"
+    ? value
+    : undefined;
+}
+
 export function applyCatalogOverrides(
   products: Product[],
   overrides: CatalogOverrides = catalogOverrides,
@@ -47,6 +62,9 @@ export function applyCatalogOverrides(
 
     return {
       ...product,
+      name: cleanText(override.name) ?? product.name,
+      slug: cleanText(override.slug) ?? product.slug,
+      stockStatus: cleanStockStatus(override.stockStatus) ?? product.stockStatus,
       priceCents: priceCents ?? product.priceCents,
       category: override.category ?? product.category,
       sizeLabel: override.sizeLabel ?? product.sizeLabel,

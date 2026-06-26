@@ -31,7 +31,7 @@ export function ProductImage({ product, className = "" }: ProductImageProps) {
           onError={() => setFailedSrc(imageSrc ?? null)}
         />
       ) : (
-        <div className="flex h-full min-h-48 flex-col items-center justify-center gap-2 border border-dashed border-slate-300 bg-slate-50 px-6 text-center">
+        <div className="flex h-full flex-col items-center justify-center gap-2 border border-dashed border-slate-300 bg-slate-50 px-4 text-center">
           <div className="text-sm font-bold text-slate-900">Image pending</div>
           <div className="text-xs font-medium text-slate-500">{product.sku}</div>
         </div>

@@ -1,4 +1,5 @@
-import type { Product, TechnicalSpec } from "@/lib/commerce/types";
+import type { Product, StockStatus, TechnicalSpec } from "@/lib/commerce/types";
+import { getDirectusPublicUrl } from "@/lib/directus/config";
 import { dbQuery, isDatabaseConfigured } from "@/lib/db/postgres";
 import {
   type CatalogOverrides,
@@ -54,23 +55,6 @@ function parseDollarCents(value: string | number | null) {
   return Number.isFinite(parsed) ? Math.max(0, Math.round(parsed * 100)) : null;
 }
 
-function getDirectusPublicUrl() {
-  const value =
-    process.env.DIRECTUS_PUBLIC_URL?.trim() ||
-    process.env.DIRECTUS_ADMIN_URL?.trim() ||
-    "";
-
-  if (!value) {
-    return "";
-  }
-
-  try {
-    return new URL(value).origin;
-  } catch {
-    return value.replace(/\/+$/, "");
-  }
-}
-
 function directusAssetUrl(fileId: string | null) {
   const directusUrl = getDirectusPublicUrl();
   const cleanFileId = fileId?.trim();
@@ -96,6 +80,9 @@ function getAttachedImageUrls(row: CatalogAdminOverrideRow) {
 
 export type CatalogAdminOverride = {
   sku: string;
+  name: string | null;
+  slug: string | null;
+  stockStatus: StockStatus | null;
   priceCents: number | null;
   costCents: number | null;
   category: string | null;
@@ -143,12 +130,29 @@ function parseTechnicalSpecs(value: unknown): TechnicalSpec[] {
     .filter((item): item is TechnicalSpec => Boolean(item));
 }
 
+function parseStockStatus(value: string | null): StockStatus | null {
+  const normalized = value?.trim().toLowerCase();
+
+  if (
+    normalized === "in_stock" ||
+    normalized === "low_stock" ||
+    normalized === "out_of_stock"
+  ) {
+    return normalized;
+  }
+
+  return null;
+}
+
 function rowToAdminOverride(row: CatalogAdminOverrideRow): CatalogAdminOverride {
   const priceDollarCents = parseDollarCents(row.price_dollars);
   const costDollarCents = parseDollarCents(row.cost_dollars);
 
   return {
     sku: row.sku,
+    name: row.product_name,
+    slug: row.product_slug,
+    stockStatus: parseStockStatus(row.stock_status),
     priceCents: priceDollarCents,
     costCents: costDollarCents,
     category: row.category,
@@ -203,6 +207,9 @@ function toPublicCatalogOverrides(rows: CatalogAdminOverride[]): CatalogOverride
     rows.map((row) => {
       const override: CatalogProductOverride = {};
 
+      if (row.name) override.name = row.name;
+      if (row.slug) override.slug = row.slug;
+      if (row.stockStatus) override.stockStatus = row.stockStatus;
       if (row.priceCents !== null) override.priceCents = row.priceCents;
       if (row.category) override.category = row.category;
       if (row.sizeLabel) override.sizeLabel = row.sizeLabel;

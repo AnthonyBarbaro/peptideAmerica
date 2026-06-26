@@ -1,24 +1,8 @@
 import { NextResponse } from "next/server";
+import { getDirectusAssetToken, getDirectusPublicUrl } from "@/lib/directus/config";
 
 const ASSET_CACHE_CONTROL =
   "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800";
-
-function getDirectusPublicUrl() {
-  const value =
-    process.env.DIRECTUS_PUBLIC_URL?.trim() ||
-    process.env.DIRECTUS_ADMIN_URL?.trim() ||
-    "";
-
-  if (!value) {
-    return "";
-  }
-
-  try {
-    return new URL(value).origin;
-  } catch {
-    return value.replace(/\/+$/, "");
-  }
-}
 
 function isSafeFileId(fileId: string) {
   return /^[a-zA-Z0-9_-]+$/.test(fileId);
@@ -40,7 +24,7 @@ export async function GET(
   }
 
   const assetUrl = new URL(`/assets/${fileId}`, directusUrl);
-  const assetToken = process.env.DIRECTUS_ASSET_TOKEN?.trim();
+  const assetToken = getDirectusAssetToken();
 
   if (assetToken) {
     assetUrl.searchParams.set("access_token", assetToken);

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isDirectusAssetAuthConfigured, isDirectusConfigured } from "@/lib/directus/config";
 import { dbQuery, isDatabaseConfigured } from "@/lib/db/postgres";
 import { getVialConfig, isVialCatalogConfigured, isVialOrdersConfigured } from "@/lib/vial/config";
 
@@ -42,6 +43,10 @@ export async function GET() {
       catalogProductOverrides: counts[0],
       catalogProductImages: counts[1],
       commerceOrders: counts[2],
+    },
+    directus: {
+      configured: isDirectusConfigured(),
+      assetAuthConfigured: isDirectusAssetAuthConfigured(),
     },
   });
 }
