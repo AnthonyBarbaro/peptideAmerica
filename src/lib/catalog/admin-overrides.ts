@@ -70,6 +70,10 @@ function directusAssetUrl(fileId: string | null) {
   return `/api/directus/assets/${cleanFileId}`;
 }
 
+function isDirectusProductImagesEnabled() {
+  return process.env.DIRECTUS_PRODUCT_IMAGES_ENABLED === "true";
+}
+
 function getAttachedImageUrls(row: CatalogAdminOverrideRow) {
   return [
     directusAssetUrl(row.primary_image_file),
@@ -222,6 +226,8 @@ function applyImageRows(
 
 
 function toPublicCatalogOverrides(rows: CatalogAdminOverride[]): CatalogOverrides {
+  const directusProductImagesEnabled = isDirectusProductImagesEnabled();
+
   return Object.fromEntries(
     rows.map((row) => {
       const override: CatalogProductOverride = {};
@@ -239,7 +245,7 @@ function toPublicCatalogOverrides(rows: CatalogAdminOverride[]): CatalogOverride
       if (row.molecularWeight) override.molecularWeight = row.molecularWeight;
       if (row.sequence) override.sequence = row.sequence;
       if (row.tags.length > 0) override.tags = row.tags;
-      if (row.images.length > 0) override.images = row.images;
+      if (directusProductImagesEnabled && row.images.length > 0) override.images = row.images;
       if (row.technicalSpecs.length > 0) override.technicalSpecs = row.technicalSpecs;
 
       return [row.sku, override];
