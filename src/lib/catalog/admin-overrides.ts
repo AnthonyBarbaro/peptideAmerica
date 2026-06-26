@@ -75,7 +75,15 @@ function directusAssetUrl(fileId: string | null) {
   const directusUrl = getDirectusPublicUrl();
   const cleanFileId = fileId?.trim();
 
-  return directusUrl && cleanFileId ? `${directusUrl}/assets/${cleanFileId}` : null;
+  if (!directusUrl || !cleanFileId) {
+    return null;
+  }
+
+  if (process.env.DIRECTUS_ASSET_PROXY === "false") {
+    return `${directusUrl}/assets/${cleanFileId}`;
+  }
+
+  return `/api/directus/assets/${cleanFileId}`;
 }
 
 function getAttachedImageUrls(row: CatalogAdminOverrideRow) {
