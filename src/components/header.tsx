@@ -27,7 +27,7 @@ function AccountControl({ clerkEnabled }: { clerkEnabled: boolean }) {
     return (
       <Link
         href="/my-account"
-        className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+        className="inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
       >
         <UserRound aria-hidden="true" size={18} />
         Account
@@ -42,12 +42,12 @@ function ClerkAccountControl() {
   const { isLoaded, isSignedIn } = useUser();
 
   if (!isLoaded) {
-    return <div className="min-h-10 min-w-10 rounded-md border border-white/15" />;
+    return <div className="min-h-10 min-w-10 rounded-md border border-slate-200" />;
   }
 
   if (isSignedIn) {
     return (
-      <div className="grid min-h-10 min-w-10 place-items-center rounded-md border border-white/15">
+      <div className="grid min-h-10 min-w-10 place-items-center rounded-md border border-slate-200">
         <AccountUserButton />
       </div>
     );
@@ -57,7 +57,7 @@ function ClerkAccountControl() {
     <SignInButton mode="modal">
       <button
         type="button"
-        className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+        className="inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
       >
         <UserRound aria-hidden="true" size={18} />
         Sign in
@@ -77,7 +77,7 @@ function MobileAccountControl({
     return (
       <Link
         href="/my-account"
-        className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-white/15 p-2 text-white transition hover:bg-white/10"
+        className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-slate-200 p-2 text-slate-800 transition hover:bg-slate-50"
         aria-label="My account"
         onClick={onNavigate}
       >
@@ -93,12 +93,12 @@ function ClerkMobileAccountControl({ onNavigate }: { onNavigate?: () => void }) 
   const { isLoaded, isSignedIn } = useUser();
 
   if (!isLoaded) {
-    return <div className="min-h-10 min-w-10 rounded-md border border-white/15" />;
+    return <div className="min-h-10 min-w-10 rounded-md border border-slate-200" />;
   }
 
   if (isSignedIn) {
     return (
-      <div className="grid min-h-10 min-w-10 place-items-center rounded-md border border-white/15">
+      <div className="grid min-h-10 min-w-10 place-items-center rounded-md border border-slate-200">
         <AccountUserButton />
       </div>
     );
@@ -108,7 +108,7 @@ function ClerkMobileAccountControl({ onNavigate }: { onNavigate?: () => void }) 
     <SignInButton mode="modal">
       <button
         type="button"
-        className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-white/15 p-2 text-white transition hover:bg-white/10"
+        className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-slate-200 p-2 text-slate-800 transition hover:bg-slate-50"
         aria-label="Sign in"
         onClick={onNavigate}
       >
@@ -160,7 +160,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
   }, [mobileOpen]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/92 text-white backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 text-slate-950 shadow-sm backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex min-w-0 items-center">
           <span className="relative block h-10 w-[166px] shrink-0 overflow-hidden sm:h-11 sm:w-[210px]">
@@ -171,10 +171,6 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
               priority
               sizes="(max-width: 640px) 166px, 210px"
               className="object-cover object-center scale-[1.45]"
-              style={{
-                filter:
-                  "drop-shadow(0 1px 0 rgba(0,0,0,0.85)) drop-shadow(0 -1px 0 rgba(0,0,0,0.75)) drop-shadow(1px 0 0 rgba(0,0,0,0.75)) drop-shadow(-1px 0 0 rgba(0,0,0,0.75))",
-              }}
             />
           </span>
         </Link>
@@ -183,7 +179,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-slate-200 underline-offset-4 hover:text-white"
+              className="text-sm font-semibold text-slate-700 underline-offset-4 hover:text-red-700"
             >
               {item.label}
             </Link>
@@ -194,11 +190,11 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
           <AccountControl clerkEnabled={clerkEnabled} />
           <Link
             href="/cart"
-            className="inline-flex min-h-10 items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+            className="inline-flex min-h-10 items-center gap-2 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm shadow-red-950/15 transition hover:bg-red-500"
           >
             <ShoppingCart aria-hidden="true" size={18} />
             Cart
-            <span className="rounded-full bg-red-600 px-2 py-0.5 text-xs text-white">
+            <span className="rounded-full bg-white px-2 py-0.5 text-xs text-red-700">
               {cartCount}
             </span>
           </Link>
@@ -207,7 +203,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
           <MobileAccountControl clerkEnabled={clerkEnabled} />
           <Link
             href="/cart"
-            className="relative inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-white/15 p-2 text-white transition hover:bg-white/10"
+            className="relative inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border border-slate-200 p-2 text-slate-800 transition hover:bg-slate-50"
             aria-label={`Cart with ${cartCount} item${cartCount === 1 ? "" : "s"}`}
           >
             <ShoppingCart aria-hidden="true" size={20} />
@@ -219,7 +215,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
           </Link>
           <button
             type="button"
-            className="inline-flex min-h-10 items-center justify-center rounded-md border border-white/15 p-2"
+            className="inline-flex min-h-10 items-center justify-center rounded-md border border-slate-200 p-2 text-slate-800 transition hover:bg-slate-50"
             onClick={() => setMobileOpen((value) => !value)}
             aria-label="Toggle navigation"
             aria-expanded={mobileOpen}
@@ -233,7 +229,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
         {mobileOpen ? (
           <motion.div
             id="mobile-navigation-drawer"
-            className="absolute inset-x-0 top-full overflow-hidden border-t border-white/10 bg-slate-950 shadow-2xl shadow-slate-950/35 md:hidden"
+            className="absolute inset-x-0 top-full overflow-hidden border-t border-slate-200 bg-white shadow-2xl shadow-slate-950/12 md:hidden"
             initial={prefersReducedMotion ? false : { opacity: 0, y: -18 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? undefined : { opacity: 0, y: -14 }}
@@ -253,7 +249,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
                   >
                     <Link
                       href={item.href}
-                      className="flex min-h-12 items-center justify-between rounded-lg border border-white/10 bg-white/[0.035] px-4 py-3 text-base font-bold text-slate-100 transition hover:bg-white/10"
+                      className="flex min-h-12 items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base font-bold text-slate-900 transition hover:bg-slate-100"
                       onClick={() => setMobileOpen(false)}
                     >
                       {item.label}
@@ -264,7 +260,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
               </nav>
               <Link
                 href="/shop"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-black text-slate-950"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-black text-white"
                 onClick={() => setMobileOpen(false)}
               >
                 Shop catalog
@@ -282,7 +278,7 @@ function ArrowIndicator() {
   return (
     <span
       aria-hidden="true"
-      className="grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white/80"
+      className="grid h-8 w-8 place-items-center rounded-full bg-white text-slate-600 ring-1 ring-slate-200"
     >
       <svg viewBox="0 0 20 20" className="h-4 w-4">
         <path

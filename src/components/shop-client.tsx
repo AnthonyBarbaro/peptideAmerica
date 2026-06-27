@@ -8,6 +8,7 @@ import {
   getProductResearchArea,
   getResearchAreaDetails,
 } from "@/lib/catalog/research-areas";
+import { getCatalogPriceCents } from "@/lib/format";
 
 type ShopClientProps = {
   products: Product[];
@@ -95,8 +96,9 @@ export function ShopClient({ products, initialQuery = "" }: ShopClientProps) {
       const researchArea = getProductResearchArea(product);
       const categoryMatches = category === "all" || researchArea === category;
       const availabilityMatches = availabilityMatchesStock(product.stockStatus, availability);
+      const productPriceCents = getCatalogPriceCents(product.priceCents);
       const priceFilterMatches =
-        !priceFilterActive || (product.priceCents > 0 && product.priceCents <= maxPriceCents);
+        !priceFilterActive || productPriceCents <= maxPriceCents;
       const documentationMatches =
         documentation === "all" || product.coaBatches.length > 0;
       const queryMatches =
@@ -141,7 +143,11 @@ export function ShopClient({ products, initialQuery = "" }: ShopClientProps) {
           return a.name.localeCompare(b.name);
         case "featured":
         default:
-          return Number(!a.tags.includes("featured")) - Number(!b.tags.includes("featured"));
+          return (
+            compareStockStatus(a.stockStatus, b.stockStatus) ||
+            Number(!a.tags.includes("featured")) - Number(!b.tags.includes("featured")) ||
+            a.name.localeCompare(b.name)
+          );
       }
     });
   }, [
@@ -511,7 +517,9 @@ function formatAvailabilityOption(option: AvailabilityOption) {
 function getHighestProductPriceCents(products: Product[]) {
   return products.reduce(
     (highestPrice, product) =>
-      product.priceCents > highestPrice ? product.priceCents : highestPrice,
+      getCatalogPriceCents(product.priceCents) > highestPrice
+        ? getCatalogPriceCents(product.priceCents)
+        : highestPrice,
     0,
   );
 }
@@ -535,25 +543,17 @@ function compareStockStatus(a: StockStatus, b: StockStatus) {
 }
 
 function comparePriceAscending(a: Product, b: Product) {
-  const aPending = a.priceCents <= 0;
-  const bPending = b.priceCents <= 0;
-
-  if (aPending !== bPending) {
-    return aPending ? 1 : -1;
-  }
-
-  return a.priceCents - b.priceCents || a.name.localeCompare(b.name);
+  return (
+    getCatalogPriceCents(a.priceCents) - getCatalogPriceCents(b.priceCents) ||
+    a.name.localeCompare(b.name)
+  );
 }
 
 function comparePriceDescending(a: Product, b: Product) {
-  const aPending = a.priceCents <= 0;
-  const bPending = b.priceCents <= 0;
-
-  if (aPending !== bPending) {
-    return aPending ? 1 : -1;
-  }
-
-  return b.priceCents - a.priceCents || a.name.localeCompare(b.name);
+  return (
+    getCatalogPriceCents(b.priceCents) - getCatalogPriceCents(a.priceCents) ||
+    a.name.localeCompare(b.name)
+  );
 }
 
 function compareResearchAreas(a: string, b: string) {

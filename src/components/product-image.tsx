@@ -16,7 +16,7 @@ export function ProductImage({ product, className = "" }: ProductImageProps) {
 
   return (
     <div
-      className={`relative overflow-hidden bg-slate-100 ${className}`}
+      className={`relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100 ${className}`}
       aria-label={`${product.name} product image`}
     >
       {showImage ? (
@@ -25,7 +25,7 @@ export function ProductImage({ product, className = "" }: ProductImageProps) {
         <img
           src={imageSrc}
           alt={product.name}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain p-1.5 transition duration-300 group-hover:scale-[1.03] sm:p-3"
           loading="lazy"
           decoding="async"
           onError={() => setFailedSrc(imageSrc ?? null)}

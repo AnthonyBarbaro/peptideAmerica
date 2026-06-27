@@ -53,7 +53,7 @@ export function SearchDialog({ products }: SearchDialogProps) {
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 px-3 py-2 text-sm font-medium text-white/90 transition hover:border-white/35 hover:text-white"
+          className="inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
         >
           <Search aria-hidden="true" size={18} />
           Search

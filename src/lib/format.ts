@@ -5,8 +5,14 @@ export function formatMoney(cents: number) {
   }).format(cents / 100);
 }
 
+export const CATALOG_FALLBACK_PRICE_CENTS = 9998;
+
+export function getCatalogPriceCents(cents: number) {
+  return cents > 0 ? cents : CATALOG_FALLBACK_PRICE_CENTS;
+}
+
 export function formatCatalogPrice(cents: number) {
-  return cents > 0 ? formatMoney(cents) : "Price pending";
+  return formatMoney(getCatalogPriceCents(cents));
 }
 
 export function formatStockStatus(status: string) {

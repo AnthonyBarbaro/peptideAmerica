@@ -8,13 +8,13 @@ import {
   FlaskConical,
   LockKeyhole,
   PackageCheck,
-  Search,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { MotionReveal } from "@/components/motion-reveal";
 import { ProductCard } from "@/components/product-card";
 import { getCommerceProvider } from "@/lib/commerce/provider";
+
+const showPartnerAccessSection = false;
 
 const valueCards = [
   {
@@ -39,104 +39,61 @@ const valueCards = [
   },
 ];
 
-const trustItems = [
-  "99%+ purity documentation",
-  "COA with published products",
-  "Batch-level organization",
-  "Premium vial presentation",
-];
-
-const documentationCards = [
-  {
-    title: "Search product records",
-    text: "Find available documents by product name, SKU, or batch number.",
-    icon: Search,
-  },
-  {
-    title: "Match batch details",
-    text: "Compare batch identifiers with the product record before checkout.",
-    icon: PackageCheck,
-  },
-  {
-    title: "Review COA files",
-    text: "Open available COA records and keep documentation close to the catalog.",
-    icon: FileCheck2,
-  },
-];
-
 const orderingSteps = [
   {
-    step: "01",
-    title: "Browse the catalog",
-    text: "Compare catalog cards, size labels, stock status, and available documentation before adding items.",
+    title: "Live stock status",
+    text: "See in-stock, low-stock, and unavailable items before building a cart.",
   },
   {
-    step: "02",
-    title: "Review documentation",
-    text: "Open available COA files, product identifiers, and batch details before moving forward.",
+    title: "COA access",
+    text: "Open available documents from the catalog or COA library.",
   },
   {
-    step: "03",
-    title: "Track fulfillment",
-    text: "Keep order status, tracking information, and invoice history close to your account.",
+    title: "Checkout handoff",
+    text: "Payment details stay inside the processor flow, not the storefront.",
+  },
+  {
+    title: "Order history",
+    text: "Signed-in accounts keep tracking, invoices, and status updates together.",
   },
 ];
 
 const qualityCards = [
   {
-    title: "Published document library",
-    text: "COA files live in one searchable library with product, SKU, batch, and lab fields.",
+    title: "COA Library",
+    text: "Documents organized by product, SKU, batch, and lab.",
     icon: FileCheck2,
   },
   {
-    title: "SKU-level catalog controls",
-    text: "Product pricing, imagery, and page copy stay consistent across every catalog card.",
+    title: "Catalog Controls",
+    text: "Pricing, imagery, copy, and stock stay aligned.",
     icon: ClipboardCheck,
   },
   {
-    title: "Consistent vial presentation",
-    text: "Product visuals use one branded system across cards and detail pages for a cleaner shopping flow.",
+    title: "Product Images",
+    text: "Branded visuals stay consistent across cards and pages.",
     icon: FlaskConical,
   },
   {
-    title: "Account-ready commerce",
-    text: "Signed-in buyers can return to order history, tracking details, and invoices.",
+    title: "Account Orders",
+    text: "Signed-in buyers can review history and invoices.",
     icon: ShieldCheck,
   },
   {
-    title: "Fulfillment event trail",
-    text: "Status updates are organized around the order so customers can follow progress.",
+    title: "Tracking Updates",
+    text: "Fulfillment events stay tied to each order.",
     icon: PackageCheck,
   },
   {
-    title: "Lean checkout surface",
-    text: "Checkout stays focused, polished, and connected to the account experience.",
+    title: "Clean Checkout",
+    text: "Payment stays inside the processor flow.",
     icon: LockKeyhole,
-  },
-];
-
-const marketingStats = [
-  {
-    value: "99%+",
-    label: "Purity documentation shown where supplier COA records are published",
-  },
-  {
-    value: "COA",
-    label: "Product documents organized by SKU, batch, and lab",
-  },
-  {
-    value: "Batch",
-    label: "Lot-level records kept close to product pages",
-  },
-  {
-    value: "Premium",
-    label: "Clean vial visuals and branded product presentation",
   },
 ];
 
 export default async function HomePage() {
   const commerce = getCommerceProvider();
-  const products = await commerce.listProducts({ first: 3 });
+  const products = await commerce.listProducts({ first: 5 });
 
   return (
     <>
@@ -181,14 +138,6 @@ export default async function HomePage() {
                 Browse COA library
               </Link>
             </div>
-            <div className="mt-6 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-2">
-              {trustItems.map((item) => (
-                <span key={item} className="inline-flex items-center gap-2">
-                  <CheckCircle2 aria-hidden="true" size={17} className="shrink-0 text-blue-700" />
-                  {item}
-                </span>
-              ))}
-            </div>
           </div>
           <div className="relative sm:hidden">
             <Image
@@ -203,44 +152,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[linear-gradient(100deg,#005ea8_0%,#004b93_58%,#0f172a_100%)] text-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-3 px-4 py-4 text-center text-xs font-black uppercase tracking-[0.14em] sm:px-6 lg:px-8">
-          {trustItems.map((item, index) => (
-            <span key={item} className="inline-flex items-center gap-3">
-              {index > 0 ? <span className="hidden text-white/35 sm:inline">/</span> : null}
-              {item}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-          {marketingStats.map((item, index) => (
-            <MotionReveal key={item.label} delay={index * 0.05}>
-              <div className="border-l-[3px] border-red-600 pl-5">
-                <p className="text-3xl font-black tracking-normal text-blue-950 sm:text-4xl">
-                  {item.value}
-                </p>
-                <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
-                  {item.label}
-                </p>
-              </div>
-            </MotionReveal>
-          ))}
-        </div>
-      </section>
-
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-4">
           {valueCards.map((card, index) => (
             <MotionReveal key={card.title} delay={index * 0.06}>
-              <div className="h-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-blue-100 hover:shadow-lg">
-                <div className="grid h-11 w-11 place-items-center rounded-lg bg-blue-50 text-blue-800">
-                  <card.icon aria-hidden="true" size={22} />
+              <div className="h-full rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-blue-100 hover:shadow-lg sm:p-5">
+                <div className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-blue-800 sm:h-11 sm:w-11">
+                  <card.icon aria-hidden="true" size={20} />
                 </div>
-                <h2 className="mt-4 text-lg font-bold text-slate-950">{card.title}</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{card.text}</p>
+                <h2 className="mt-3 text-sm font-bold leading-snug text-slate-950 sm:mt-4 sm:text-lg">
+                  {card.title}
+                </h2>
+                <p className="mt-1.5 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-6">
+                  {card.text}
+                </p>
               </div>
             </MotionReveal>
           ))}
@@ -265,10 +190,20 @@ export default async function HomePage() {
             View all products
           </Link>
         </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        <div
+          className="-mx-4 mt-8 overflow-x-auto px-4 pb-3 [scrollbar-width:thin] sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+          aria-label="Featured products"
+        >
+          <div className="flex snap-x snap-mandatory gap-4 lg:gap-5">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="w-[82vw] max-w-[23rem] shrink-0 snap-start sm:w-[20rem] lg:w-[18rem] xl:w-[calc((100%-5rem)/5)] xl:max-w-none"
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
         </div>
         {products.length === 0 ? (
           <div className="mt-8 rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
@@ -282,27 +217,34 @@ export default async function HomePage() {
 
       <section className="border-y border-slate-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-          <div className="max-w-2xl">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
-              Ordering flow
+              Buying workflow
             </p>
             <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
-              Three steps. Less guessing.
+              Everything needed before checkout.
             </h2>
             <p className="mt-4 text-base font-medium leading-7 text-slate-600">
-              The storefront is built around the path from product review to checkout,
-              account history, and fulfillment updates.
+              Product cards, documents, checkout, and order records are organized so
+              buyers can move through the catalog without hunting for basics.
             </p>
+            </div>
+            <Link href="/my-account" className="text-sm font-bold text-red-700 hover:text-red-600">
+              View account
+            </Link>
           </div>
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {orderingSteps.map((item, index) => (
               <MotionReveal key={item.title} delay={index * 0.06}>
-                <div className="h-full rounded-xl border border-slate-200 bg-slate-50 p-6">
-                  <span className="inline-flex rounded-md bg-blue-50 px-2.5 py-1 text-xs font-black tracking-[0.12em] text-blue-800">
-                    STEP {item.step}
+                <div className="h-full rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-xs font-black text-blue-800 ring-1 ring-blue-100">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-4 text-lg font-black text-slate-950">{item.title}</h3>
-                  <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+                  <h3 className="mt-3 text-sm font-black leading-snug text-slate-950 sm:text-lg">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1.5 text-xs font-medium leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-6">
                     {item.text}
                   </p>
                 </div>
@@ -326,15 +268,17 @@ export default async function HomePage() {
               feels polished on the front end and manageable in the backend.
             </p>
           </div>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             {qualityCards.map((card, index) => (
               <MotionReveal key={card.title} delay={index * 0.04}>
-                <div className="h-full rounded-xl border border-white/10 bg-white/[0.045] p-6">
-                  <div className="grid h-11 w-11 place-items-center rounded-lg bg-blue-800/70 text-white">
-                    <card.icon aria-hidden="true" size={21} />
+                <div className="h-full rounded-xl border border-white/10 bg-white/[0.055] p-4 transition hover:border-white/20 hover:bg-white/[0.075] sm:p-5">
+                  <div className="grid h-9 w-9 place-items-center rounded-lg bg-blue-800/80 text-white sm:h-10 sm:w-10">
+                    <card.icon aria-hidden="true" size={19} />
                   </div>
-                  <h3 className="mt-4 text-lg font-black text-white">{card.title}</h3>
-                  <p className="mt-2 text-sm font-medium leading-6 text-blue-100/75">
+                  <h3 className="mt-3 text-sm font-black leading-snug text-white sm:text-base">
+                    {card.title}
+                  </h3>
+                  <p className="mt-1.5 text-xs font-medium leading-5 text-blue-100/75 sm:text-sm sm:leading-6">
                     {card.text}
                   </p>
                 </div>
@@ -344,92 +288,53 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[.9fr_1.1fr] lg:px-8">
-          <div className="max-w-xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
-              Batch documentation
-            </p>
-            <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
-              Search the COA library before checkout.
-            </h2>
-            <p className="mt-4 text-base font-medium leading-7 text-slate-600">
-              Product records, batch identifiers, and available files stay close
-              together so teams can review documentation without digging.
-            </p>
-            <Link
-              href="/coa"
-              className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-            >
-              Browse COA records
-              <ArrowRight aria-hidden="true" size={18} />
-            </Link>
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {documentationCards.map((card) => (
-              <div
-                key={card.title}
-                className="h-full rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-100 hover:shadow-lg"
-              >
-                <div className="grid h-10 w-10 place-items-center rounded-lg bg-red-600 text-white">
-                  <card.icon aria-hidden="true" size={20} />
-                </div>
-                <h3 className="mt-4 text-base font-black text-slate-950">
-                  {card.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{card.text}</p>
+      {showPartnerAccessSection ? (
+        <section className="bg-slate-50">
+          <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1fr_0.9fr] lg:px-8">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
+                Partner access
+              </p>
+              <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
+                Built for buyers who need organized records.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">
+                Account access, order history, COA lookup, pricing controls, product imagery,
+                and fulfillment tracking are built to work together as the catalog goes live.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/partner-program"
+                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-red-600 px-5 py-2 text-sm font-black text-white shadow-lg shadow-red-950/15 transition hover:bg-red-500"
+                >
+                  Partner program
+                </Link>
+                <Link
+                  href="/my-account"
+                  className="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-2 text-sm font-black text-blue-950 transition hover:border-blue-200"
+                >
+                  Account dashboard
+                </Link>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-50">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1fr_0.9fr] lg:px-8">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
-              Partner access
-            </p>
-            <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
-              Built for buyers who need organized records.
-            </h2>
-            <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-slate-600">
-              Account access, order history, COA lookup, pricing controls, product imagery,
-              and fulfillment tracking are built to work together as the catalog goes live.
-            </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/partner-program"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-2 text-sm font-black text-white shadow-lg shadow-red-950/15 transition hover:bg-red-500"
-              >
-                Partner program
-                <Sparkles aria-hidden="true" size={18} />
-              </Link>
-              <Link
-                href="/my-account"
-                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-2 text-sm font-black text-blue-950 transition hover:border-blue-200"
-              >
-                Account dashboard
-              </Link>
+            </div>
+            <div className="grid gap-3">
+              {[
+                "Product prices and images managed from backend records",
+                "Order, invoice, and tracking history organized for customers",
+                "COA documents searchable by SKU, batch, product, and lab",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+                >
+                  <CheckCircle2 aria-hidden="true" size={20} className="mt-0.5 shrink-0 text-blue-700" />
+                  <p className="text-sm font-bold leading-6 text-slate-700">{item}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="grid gap-3">
-            {[
-              "Product prices and images managed from backend records",
-              "Order, invoice, and tracking history organized for customers",
-              "COA documents searchable by SKU, batch, product, and lab",
-            ].map((item) => (
-              <div
-                key={item}
-                className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-              >
-                <CheckCircle2 aria-hidden="true" size={20} className="mt-0.5 shrink-0 text-blue-700" />
-                <p className="text-sm font-bold leading-6 text-slate-700">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
     </>
   );
 }

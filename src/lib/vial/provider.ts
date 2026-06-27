@@ -1,4 +1,4 @@
-import type { CommerceProvider, Product, ProductQuery } from "@/lib/commerce/types";
+import type { CommerceProvider, Product, ProductQuery, StockStatus } from "@/lib/commerce/types";
 import { applyDatabaseCatalogOverrides } from "@/lib/catalog/admin-overrides";
 import {
   applyApprovedCoaDocuments,
@@ -31,6 +31,16 @@ function productMatches(product: Product, search: string) {
   ].some((value) => normalize(value).includes(term));
 }
 
+function compareStockStatus(a: StockStatus, b: StockStatus) {
+  const rank: Record<StockStatus, number> = {
+    in_stock: 0,
+    low_stock: 1,
+    out_of_stock: 2,
+  };
+
+  return rank[a] - rank[b];
+}
+
 function sortProducts(products: Product[], sort: ProductQuery["sort"] = "featured") {
   const sorted = [...products];
 
@@ -44,9 +54,11 @@ function sortProducts(products: Product[], sort: ProductQuery["sort"] = "feature
     case "featured":
     default:
       return sorted.sort((a, b) => {
+        const stockOrder = compareStockStatus(a.stockStatus, b.stockStatus);
         const aFeatured = a.tags.includes("featured") ? 0 : 1;
         const bFeatured = b.tags.includes("featured") ? 0 : 1;
-        return aFeatured - bFeatured || a.name.localeCompare(b.name);
+
+        return stockOrder || aFeatured - bFeatured || a.name.localeCompare(b.name);
       });
   }
 }
