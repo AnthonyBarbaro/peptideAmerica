@@ -36,7 +36,7 @@ export function AddToCartButton({
       disabled={disabled}
       aria-label={iconOnly ? buttonLabel : undefined}
       title={iconOnly ? buttonLabel : undefined}
-      className={`subtle-shine inline-flex items-center justify-center gap-2 rounded-md bg-red-600 text-sm font-semibold text-white shadow-lg shadow-red-950/20 transition hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-slate-600 ${sizeClassName} ${className}`}
+      className={`subtle-shine inline-flex items-center justify-center gap-2 rounded-md bg-blue-950 text-sm font-semibold text-white shadow-lg shadow-blue-950/20 transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:bg-slate-600 ${sizeClassName} ${className}`}
       onClick={() => {
         addItem(cartProduct);
         setAdded(true);

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AlertTriangle, ArrowLeft, FileCheck2 } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowRight, BookOpen, FileCheck2 } from "lucide-react";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductCard } from "@/components/product-card";
 import { ProductImage } from "@/components/product-image";
@@ -9,6 +9,7 @@ import { SpecAccordion } from "@/components/spec-accordion";
 import { getProductResearchArea } from "@/lib/catalog/research-areas";
 import { getCommerceProvider } from "@/lib/commerce/provider";
 import { formatCatalogPrice, formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
+import { getResearchArticlesForProduct } from "@/lib/research/articles";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo/jsonld";
 
 type ProductPageProps = {
@@ -44,12 +45,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .filter((item) => item.slug !== product.slug)
     .slice(0, 3);
   const researchArea = getProductResearchArea(product);
+  const linkedResearchArticles = getResearchArticlesForProduct(product);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link
         href="/shop"
-        className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-red-700"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-900"
       >
         <ArrowLeft aria-hidden="true" size={18} />
         Back to shop
@@ -137,7 +139,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
                 <a
                   href={batch.documentUrl}
-                  className="mt-3 inline-flex text-sm font-semibold text-red-700 hover:text-red-600"
+                  className="mt-3 inline-flex text-sm font-semibold text-blue-900 hover:text-blue-700"
                 >
                   View document
                 </a>
@@ -151,6 +153,56 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </section>
+
+      {linkedResearchArticles.length > 0 ? (
+        <section className="mt-14">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-900">
+                Research notes
+              </p>
+              <h2 className="mt-2 text-2xl font-black text-slate-950">
+                Source-backed library links
+              </h2>
+            </div>
+            <Link
+              href="/research-library"
+              className="inline-flex items-center gap-2 text-sm font-bold text-blue-900 hover:text-blue-700"
+            >
+              Browse library
+              <ArrowRight aria-hidden="true" size={17} />
+            </Link>
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {linkedResearchArticles.map((article) => (
+              <Link
+                key={article.slug}
+                href={`/research-library/${article.slug}`}
+                className="group rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="rounded-md bg-blue-50 p-2 text-blue-900">
+                    <BookOpen aria-hidden="true" size={20} />
+                  </div>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+                    {article.sources.length} source
+                    {article.sources.length === 1 ? "" : "s"}
+                  </span>
+                </div>
+                <div className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                  {article.category}
+                </div>
+                <h3 className="mt-2 text-xl font-black text-slate-950">{article.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{article.summary}</p>
+                <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-blue-900 group-hover:text-blue-700">
+                  Read research notes
+                  <ArrowRight aria-hidden="true" size={17} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="mt-14">
         <h2 className="text-2xl font-black text-slate-950">Related products</h2>

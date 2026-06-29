@@ -82,8 +82,13 @@ export function searchArticles(articles: ResearchArticle[], query: string) {
       [
         article.title,
         article.summary,
+        article.category,
         ...article.tags,
-        ...article.sections.flatMap((section) => [section.heading, section.body]),
+        ...article.relatedProductSkus,
+        ...article.researchFocus,
+        ...article.mechanismNotes,
+        ...article.studySummaries.flatMap((summary) => [summary.title, summary.body]),
+        ...article.sources.flatMap((source) => [source.title, source.publisher]),
       ],
       query,
     ),
@@ -126,7 +131,7 @@ export function buildSearchResults({
       type: "article",
       title: article.title,
       href: `/research-library/${article.slug}`,
-      eyebrow: `Research library · ${article.readTime}`,
+      eyebrow: `${article.category} · ${article.readTime}`,
       summary: article.summary,
     })),
   ];

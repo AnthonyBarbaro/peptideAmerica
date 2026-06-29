@@ -10,8 +10,8 @@ import {
   PackageCheck,
   ShieldCheck,
 } from "lucide-react";
+import { FeaturedProductRail } from "@/components/featured-product-rail";
 import { MotionReveal } from "@/components/motion-reveal";
-import { ProductCard } from "@/components/product-card";
 import { getCommerceProvider } from "@/lib/commerce/provider";
 
 const showPartnerAccessSection = false;
@@ -113,7 +113,7 @@ export default async function HomePage() {
         <div className="mx-auto grid min-h-[calc(100svh-7rem)] max-w-7xl items-center gap-8 px-4 py-12 sm:min-h-[680px] sm:px-6 sm:py-18 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
           <div className="w-full min-w-0 max-w-2xl">
             <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-blue-100 bg-white/90 px-3.5 py-2 text-xs font-black uppercase tracking-[0.12em] text-blue-900 shadow-sm">
-              <ShieldCheck aria-hidden="true" size={15} className="shrink-0 text-red-700" />
+              <ShieldCheck aria-hidden="true" size={15} className="shrink-0 text-blue-800" />
               Documentation-first research catalog
             </div>
             <h1 className="mt-5 text-[2.55rem] font-black leading-[1.02] tracking-normal text-blue-950 sm:text-6xl lg:text-[4.4rem]">
@@ -126,7 +126,7 @@ export default async function HomePage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/shop"
-                className="subtle-shine group inline-flex min-h-13 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(100deg,#dc2626,#b91c1c)] px-7 py-3 text-sm font-black text-white shadow-xl shadow-red-950/25 transition hover:-translate-y-0.5 sm:w-auto"
+                className="subtle-shine group inline-flex min-h-13 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(100deg,#172554,#1d4ed8)] px-7 py-3 text-sm font-black text-white shadow-xl shadow-blue-950/25 transition hover:-translate-y-0.5 sm:w-auto"
               >
                 View products
                 <ArrowRight aria-hidden="true" size={18} className="transition group-hover:translate-x-0.5" />
@@ -175,7 +175,7 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 sm:pb-16 lg:px-8">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-900">
               Product catalog
             </p>
             <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
@@ -186,25 +186,11 @@ export default async function HomePage() {
               documentation close to the product record.
             </p>
           </div>
-          <Link href="/shop" className="text-sm font-bold text-red-700 hover:text-red-600">
+          <Link href="/shop" className="text-sm font-bold text-blue-900 hover:text-blue-700">
             View all products
           </Link>
         </div>
-        <div
-          className="-mx-4 mt-8 overflow-x-auto px-4 pb-3 [scrollbar-width:thin] sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
-          aria-label="Featured products"
-        >
-          <div className="flex snap-x snap-mandatory gap-4 lg:gap-5">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="w-[82vw] max-w-[23rem] shrink-0 snap-start sm:w-[20rem] lg:w-[18rem] xl:w-[calc((100%-5rem)/5)] xl:max-w-none"
-              >
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        </div>
+        <FeaturedProductRail products={products} />
         {products.length === 0 ? (
           <div className="mt-8 rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
             <h3 className="text-lg font-semibold text-slate-950">Catalog is being updated</h3>
@@ -219,7 +205,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-900">
               Buying workflow
             </p>
             <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
@@ -230,7 +216,7 @@ export default async function HomePage() {
               buyers can move through the catalog without hunting for basics.
             </p>
             </div>
-            <Link href="/my-account" className="text-sm font-bold text-red-700 hover:text-red-600">
+            <Link href="/my-account" className="text-sm font-bold text-blue-900 hover:text-blue-700">
               View account
             </Link>
           </div>
@@ -292,7 +278,7 @@ export default async function HomePage() {
         <section className="bg-slate-50">
           <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[1fr_0.9fr] lg:px-8">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-900">
                 Partner access
               </p>
               <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
@@ -305,7 +291,7 @@ export default async function HomePage() {
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/partner-program"
-                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-red-600 px-5 py-2 text-sm font-black text-white shadow-lg shadow-red-950/15 transition hover:bg-red-500"
+                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-blue-950 px-5 py-2 text-sm font-black text-white shadow-lg shadow-blue-950/15 transition hover:bg-blue-900"
                 >
                   Partner program
                 </Link>

@@ -1,51 +1,34 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight, BookOpen } from "lucide-react";
-import { MotionReveal } from "@/components/motion-reveal";
-import { researchArticles } from "@/lib/research/articles";
+import { ResearchLibraryClient } from "@/components/research-library-client";
+import { getResearchCategories, researchArticles } from "@/lib/research/articles";
 
 export const metadata: Metadata = {
   title: "Research Library",
   description:
-    "Neutral catalog education for COA documents, batch records, technical specifications, and storage labels.",
+    "Source-backed peptide research notes for catalog review, COA context, and technical literature summaries.",
 };
 
 export default function ResearchLibraryPage() {
+  const categories = getResearchCategories();
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-red-700">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-900">
           Research library
         </p>
-        <h1 className="mt-2 text-4xl font-black text-slate-950">Catalog education</h1>
+        <h1 className="mt-2 text-4xl font-black text-slate-950">
+          Peptide research notes
+        </h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">
-          Short articles about documentation, batch records, specs, and data readiness
-          for research catalog workflows.
+          Scan source summaries by peptide topic, research category, and current catalog
+          mapping. Each article keeps long-form context in the library instead of
+          repeating it across product cards.
         </p>
       </div>
-      <section className="mt-8 grid gap-5 md:grid-cols-2">
-        {researchArticles.map((article, index) => (
-          <MotionReveal key={article.slug} delay={index * 0.06}>
-            <article
-              className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              <BookOpen aria-hidden="true" className="text-red-600" size={28} />
-              <div className="mt-5 text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                {article.readTime}
-              </div>
-              <h2 className="mt-2 text-2xl font-black text-slate-950">{article.title}</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{article.summary}</p>
-              <Link
-                href={`/research-library/${article.slug}`}
-                className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-red-700 hover:text-red-600"
-              >
-                Read article
-                <ArrowRight aria-hidden="true" size={17} />
-              </Link>
-            </article>
-          </MotionReveal>
-        ))}
-      </section>
+      <div className="mt-8">
+        <ResearchLibraryClient articles={researchArticles} categories={categories} />
+      </div>
     </div>
   );
 }

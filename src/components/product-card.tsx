@@ -33,7 +33,7 @@ export function ProductCard({ product, compactMobile = false }: ProductCardProps
 
   return (
     <motion.article
-      className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:border-red-200 hover:shadow-md"
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:border-blue-200 hover:shadow-md"
       initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
       whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
       whileHover={prefersReducedMotion ? undefined : { y: -4 }}
@@ -43,7 +43,7 @@ export function ProductCard({ product, compactMobile = false }: ProductCardProps
       <Link
         href={`/shop/${product.slug}`}
         aria-label={`View ${product.name}`}
-        className="relative block border-b border-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+        className="relative block border-b border-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
       >
         <ProductImage product={product} className={imageClassName} />
         <div className="absolute bottom-3 left-3 max-w-[calc(100%-1.5rem)]">
@@ -63,7 +63,7 @@ export function ProductCard({ product, compactMobile = false }: ProductCardProps
         <div className="min-w-0">
           <Link
             href={`/shop/${product.slug}`}
-            className={`${titleClassName} block hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600`}
+            className={`${titleClassName} block hover:text-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900`}
           >
             {product.name}
           </Link>

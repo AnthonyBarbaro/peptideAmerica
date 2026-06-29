@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
-import { Menu, ReceiptText, ShoppingCart, UserRound, X } from "lucide-react";
+import { Accessibility, Menu, ReceiptText, ShoppingCart, UserRound, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import type { Product } from "@/lib/commerce/types";
@@ -132,6 +132,10 @@ function AccountUserButton() {
   );
 }
 
+function openAccessibilityPanel() {
+  window.dispatchEvent(new Event("open-accessibility-panel"));
+}
+
 export function Header({ products, clerkEnabled }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion();
@@ -187,6 +191,14 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           <SearchDialog products={products} />
+          <button
+            type="button"
+            onClick={openAccessibilityPanel}
+            className="inline-flex min-h-10 items-center gap-2 rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+          >
+            <Accessibility aria-hidden="true" size={18} />
+            Accessibility
+          </button>
           <AccountControl clerkEnabled={clerkEnabled} />
           <Link
             href="/cart"
@@ -257,6 +269,23 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
                     </Link>
                   </motion.div>
                 ))}
+                <motion.div
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
+                  animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+                  transition={{ delay: 0.04 + navItems.length * 0.035, duration: 0.2 }}
+                >
+                  <button
+                    type="button"
+                    className="flex min-h-12 w-full items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base font-bold text-slate-900 transition hover:bg-slate-100"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      openAccessibilityPanel();
+                    }}
+                  >
+                    Accessibility
+                    <Accessibility aria-hidden="true" size={20} />
+                  </button>
+                </motion.div>
               </nav>
               <Link
                 href="/shop"
