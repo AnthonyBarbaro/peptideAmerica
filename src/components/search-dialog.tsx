@@ -5,6 +5,8 @@ import { Search, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { Product } from "@/lib/commerce/types";
+import { trackEvent } from "@/lib/analytics";
+import { formatDisplaySku } from "@/lib/format";
 
 type SearchDialogProps = {
   products: Product[];
@@ -95,7 +97,7 @@ export function SearchDialog({ products }: SearchDialogProps) {
                 >
                   <span>
                     <span className="block font-semibold text-slate-950">{product.name}</span>
-                    <span className="text-sm text-slate-500">{product.sku}</span>
+                    <span className="text-sm text-slate-500">{formatDisplaySku(product.sku)}</span>
                   </span>
                   <span className="text-sm font-medium text-red-700">View</span>
                 </Link>
@@ -108,6 +110,13 @@ export function SearchDialog({ products }: SearchDialogProps) {
           <Dialog.Close asChild>
             <Link
               href={`/search${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ""}`}
+              onClick={() =>
+                trackEvent("search_products", {
+                  term: query.trim(),
+                  source: "dialog",
+                  results: results.length,
+                })
+              }
               className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
             >
               Search site

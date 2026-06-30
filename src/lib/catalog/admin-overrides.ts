@@ -234,7 +234,10 @@ function toPublicCatalogOverrides(rows: CatalogAdminOverride[]): CatalogOverride
 
       if (row.name) override.name = row.name;
       if (row.slug) override.slug = row.slug;
-      if (row.stockStatus) override.stockStatus = row.stockStatus;
+      // Stock status is intentionally NOT overridden from the database. Stock is
+      // sourced live from the Vial inventory endpoint on every catalog fetch so
+      // availability stays current; the DB snapshot (written by catalog:sync)
+      // would otherwise mask live stock until the next sync ran.
       if (row.priceCents !== null) override.priceCents = row.priceCents;
       if (row.category) override.category = row.category;
       if (row.sizeLabel) override.sizeLabel = row.sizeLabel;

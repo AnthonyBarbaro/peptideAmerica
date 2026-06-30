@@ -13,8 +13,8 @@ import { useCartStore } from "@/lib/cart-store";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/coa", label: "COA" },
-  { href: "/research-library", label: "Library" },
+  { href: "/coa", label: "COA Library" },
+  { href: "/research-library", label: "Research Library" },
 ];
 
 type HeaderProps = {
@@ -178,18 +178,18 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
             />
           </span>
         </Link>
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Primary navigation">
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary navigation">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-semibold text-slate-700 underline-offset-4 hover:text-red-700"
+              className="text-sm font-semibold text-slate-700 underline-offset-4 transition hover:text-red-700"
             >
               {item.label}
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <SearchDialog products={products} />
           <button
             type="button"
@@ -202,16 +202,16 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
           <AccountControl clerkEnabled={clerkEnabled} />
           <Link
             href="/cart"
-            className="inline-flex min-h-10 items-center gap-2 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm shadow-red-950/15 transition hover:bg-red-500"
+            className="inline-flex min-h-10 items-center gap-2 rounded-md bg-blue-950 px-3 py-2 text-sm font-semibold text-white shadow-sm shadow-blue-950/20 transition hover:bg-blue-900"
           >
             <ShoppingCart aria-hidden="true" size={18} />
             Cart
-            <span className="rounded-full bg-white px-2 py-0.5 text-xs text-red-700">
+            <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-blue-900">
               {cartCount}
             </span>
           </Link>
         </div>
-        <div className="flex items-center gap-1.5 md:hidden">
+        <div className="flex items-center gap-1.5 lg:hidden">
           <MobileAccountControl clerkEnabled={clerkEnabled} />
           <Link
             href="/cart"
@@ -220,7 +220,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
           >
             <ShoppingCart aria-hidden="true" size={20} />
             {cartCount > 0 ? (
-              <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-red-600 px-1 text-[11px] font-bold leading-none text-white">
+              <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-blue-950 px-1 text-[11px] font-bold leading-none text-white">
                 {cartCount}
               </span>
             ) : null}
@@ -241,7 +241,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
         {mobileOpen ? (
           <motion.div
             id="mobile-navigation-drawer"
-            className="absolute inset-x-0 top-full overflow-hidden border-t border-slate-200 bg-white shadow-2xl shadow-slate-950/12 md:hidden"
+            className="absolute inset-x-0 top-full overflow-hidden border-t border-slate-200 bg-white shadow-2xl shadow-slate-950/12 lg:hidden"
             initial={prefersReducedMotion ? false : { opacity: 0, y: -18 }}
             animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? undefined : { opacity: 0, y: -14 }}
@@ -289,7 +289,7 @@ export function Header({ products, clerkEnabled }: HeaderProps) {
               </nav>
               <Link
                 href="/shop"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 text-sm font-black text-white"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-blue-950 px-4 py-3 text-sm font-black text-white"
                 onClick={() => setMobileOpen(false)}
               >
                 Shop catalog

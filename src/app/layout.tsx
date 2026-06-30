@@ -5,6 +5,7 @@ import { AccessibilityPanel } from "@/components/accessibility-panel";
 import { CartHydrator } from "@/components/cart-hydrator";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { complianceCopy } from "@/lib/compliance/copy";
 import { getCommerceProvider } from "@/lib/commerce/provider";
 import { organizationJsonLd } from "@/lib/seo/jsonld";
 
@@ -48,15 +49,17 @@ export default async function RootLayout({
       >
         Skip to content
       </a>
-      <div className="bg-red-700 text-white">
-        <div className="mx-auto flex h-6 max-w-7xl items-center gap-1.5 overflow-hidden px-4 text-[11px] font-bold leading-none sm:px-6 lg:px-8">
-          <span className="shrink-0 uppercase tracking-[0.14em]">
-            Research use only
+      <div className="border-b border-blue-900 bg-blue-950 text-white">
+        <div className="mx-auto flex min-h-8 max-w-7xl items-center justify-center gap-x-2.5 gap-y-0.5 px-4 py-1.5 text-center text-[12px] font-semibold leading-tight sm:gap-x-3 sm:px-6 lg:px-8">
+          <span className="shrink-0 font-black uppercase tracking-[0.16em]">
+            {complianceCopy.banner.primary}
           </span>
-          <span aria-hidden="true" className="shrink-0 text-white/65">
-            /
+          <span aria-hidden="true" className="hidden h-1 w-1 shrink-0 rounded-full bg-white/60 sm:block" />
+          <span className="shrink-0">{complianceCopy.banner.secondary}</span>
+          <span aria-hidden="true" className="hidden h-1 w-1 shrink-0 rounded-full bg-white/60 md:block" />
+          <span className="hidden text-white/85 md:inline">
+            {complianceCopy.banner.tertiary}
           </span>
-          <span className="min-w-0 truncate">Not for human or animal use.</span>
         </div>
       </div>
       <Header products={products} clerkEnabled={clerkEnabled} />

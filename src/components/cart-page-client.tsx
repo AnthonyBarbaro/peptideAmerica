@@ -1,15 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { FileCheck2, Minus, Plus, ShieldAlert, ShoppingBag, Trash2 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
+import { complianceCopy } from "@/lib/compliance/copy";
 import { getCartTotal, useCartStore } from "@/lib/cart-store";
-import { formatMoney } from "@/lib/format";
+import { formatDisplaySku, formatMoney } from "@/lib/format";
 
 export function CartPageClient() {
   const items = useCartStore((state) => state.items);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
   const total = getCartTotal(items);
+  const itemCount = items.reduce((count, item) => count + item.quantity, 0);
+
+  function handleRemove(productId: string, sku: string) {
+    removeItem(productId);
+    trackEvent("remove_from_cart", { sku });
+  }
 
   if (items.length === 0) {
     return (
@@ -17,12 +25,21 @@ export function CartPageClient() {
         <ShoppingBag aria-hidden="true" className="mx-auto text-red-600" size={42} />
         <h1 className="mt-4 text-3xl font-bold text-slate-950">Your cart is empty</h1>
         <p className="mt-3 text-slate-600">Browse the catalog and add products.</p>
-        <Link
-          href="/shop"
-          className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-500"
-        >
-          Shop catalog
-        </Link>
+        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link
+            href="/shop"
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-500"
+          >
+            Shop catalog
+          </Link>
+          <Link
+            href="/coa"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
+          >
+            <FileCheck2 aria-hidden="true" size={18} />
+            Browse COA library
+          </Link>
+        </div>
       </div>
     );
   }
@@ -30,8 +47,11 @@ export function CartPageClient() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
       <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 p-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-slate-200 p-5">
           <h1 className="text-3xl font-bold text-slate-950">Cart</h1>
+          <p className="text-sm font-medium text-slate-500">
+            {itemCount} {itemCount === 1 ? "item" : "items"}
+          </p>
         </div>
         <div className="divide-y divide-slate-200">
           {items.map((item) => (
@@ -44,7 +64,7 @@ export function CartPageClient() {
                   {item.product.name}
                 </Link>
                 <p className="mt-1 text-sm text-slate-500">
-                  {item.product.sku} · {item.product.sizeLabel}
+                  {formatDisplaySku(item.product.sku)} · {item.product.sizeLabel}
                 </p>
                 <p className="mt-2 text-base font-semibold text-slate-950">
                   {formatMoney(item.product.priceCents)}
@@ -79,7 +99,7 @@ export function CartPageClient() {
                 <button
                   type="button"
                   className="grid h-10 w-10 place-items-center rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-red-700"
-                  onClick={() => removeItem(item.product.id)}
+                  onClick={() => handleRemove(item.product.id, item.product.sku)}
                   aria-label={`Remove ${item.product.name}`}
                 >
                   <Trash2 aria-hidden="true" size={18} />
@@ -101,12 +121,37 @@ export function CartPageClient() {
             <span className="font-semibold text-slate-950">Calculated later</span>
           </div>
         </div>
+        <div className="mt-5 flex gap-3 rounded-lg border border-red-200 bg-red-50 p-3.5">
+          <ShieldAlert aria-hidden="true" className="mt-0.5 shrink-0 text-red-700" size={18} />
+          <p className="text-xs font-medium leading-5 text-red-950">
+            {complianceCopy.cartNotice}
+          </p>
+        </div>
         <Link
           href="/checkout"
-          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-500"
+          onClick={() => trackEvent("begin_checkout", { itemCount, totalCents: total })}
+          className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-red-500"
         >
           Continue to checkout
         </Link>
+        <p className="mt-3 text-xs leading-5 text-slate-500">
+          {complianceCopy.hostedCheckout}
+        </p>
+        <div className="mt-4 grid gap-2 border-t border-slate-200 pt-4">
+          <Link
+            href="/shop"
+            className="inline-flex min-h-10 w-full items-center justify-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+          >
+            Continue shopping
+          </Link>
+          <Link
+            href="/coa"
+            className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+          >
+            <FileCheck2 aria-hidden="true" size={17} />
+            Browse COA library
+          </Link>
+        </div>
       </aside>
     </div>
   );

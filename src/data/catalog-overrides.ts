@@ -30,10 +30,14 @@ export const catalogOverrides = {
     // priceCents: 0,
   },
   "RETATRUTIDE-20MG": {
+    name: "GLP-3 20mg",
+    slug: "glp-3-20mg",
     images: ["/product_images/Retatrutide-20MG.png"],
     // priceCents: 0,
   },
   "RETATRUTIDE-30MG": {
+    name: "GLP-3 30mg",
+    slug: "glp-3-30mg",
     images: ["/product_images/Retatrutide-30MG.png"],
     // priceCents: 0,
   },

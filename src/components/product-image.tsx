@@ -7,16 +7,22 @@ import type { Product } from "@/lib/commerce/types";
 type ProductImageProps = {
   product: Product;
   className?: string;
+  /** Override the default surface so cards can use a per-product tint. */
+  surfaceClassName?: string;
 };
 
-export function ProductImage({ product, className = "" }: ProductImageProps) {
+export function ProductImage({
+  product,
+  className = "",
+  surfaceClassName = "bg-gradient-to-b from-white via-slate-50 to-slate-100",
+}: ProductImageProps) {
   const imageSrc = product.images?.[0]?.trim();
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const showImage = Boolean(imageSrc && imageSrc !== failedSrc);
 
   return (
     <div
-      className={`relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100 ${className}`}
+      className={`relative overflow-hidden ${surfaceClassName} ${className}`}
       aria-label={`${product.name} product image`}
     >
       {showImage ? (

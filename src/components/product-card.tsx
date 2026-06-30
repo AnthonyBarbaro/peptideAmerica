@@ -4,11 +4,13 @@ import Link from "next/link";
 import { FileCheck2 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Product } from "@/lib/commerce/types";
+import { complianceCopy } from "@/lib/compliance/copy";
 import { formatCatalogPrice, formatStockStatus, stockStatusBadgeClassName } from "@/lib/format";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { ProductImage } from "@/components/product-image";
 import {
   getProductResearchArea,
+  getProductSurfaceTint,
   getResearchAreaDetails,
 } from "@/lib/catalog/research-areas";
 
@@ -45,7 +47,11 @@ export function ProductCard({ product, compactMobile = false }: ProductCardProps
         aria-label={`View ${product.name}`}
         className="relative block border-b border-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-900"
       >
-        <ProductImage product={product} className={imageClassName} />
+        <ProductImage
+          product={product}
+          className={imageClassName}
+          surfaceClassName={getProductSurfaceTint(product)}
+        />
         <div className="absolute bottom-3 left-3 max-w-[calc(100%-1.5rem)]">
           <span className="inline-flex max-w-full truncate rounded-full bg-white/92 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-sm ring-1 ring-slate-200 backdrop-blur">
             {researchDetails.group}
@@ -70,25 +76,25 @@ export function ProductCard({ product, compactMobile = false }: ProductCardProps
         </div>
 
         {hasCoaRecords ? (
-          <div className="mt-2 hidden flex-wrap items-center gap-2 sm:mt-4 sm:flex">
-            <span className="hidden items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-800 sm:inline-flex">
-              <FileCheck2 aria-hidden="true" size={14} />
-              COA Available
+          <div className="mt-2 sm:mt-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-800">
+              <FileCheck2 aria-hidden="true" size={13} />
+              COA available
             </span>
           </div>
         ) : null}
 
-        <div className="mt-auto flex items-end justify-between gap-3 border-t border-slate-100 pt-4 sm:pt-5">
-          <div className="min-w-0">
-            <div className="truncate text-xl font-black text-slate-950 sm:text-2xl">
-              {formatCatalogPrice(product.priceCents)}
-            </div>
+        <div className="mt-auto border-t border-slate-100 pt-3 sm:pt-4">
+          <div className="text-xl font-black leading-none text-slate-950 sm:text-2xl">
+            {formatCatalogPrice(product.priceCents)}
           </div>
+          <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400">
+            {complianceCopy.cardMicrocopy}
+          </span>
           <AddToCartButton
             product={product}
-            label="Quick add"
-            iconOnly
-            className="shrink-0"
+            label="Add to cart"
+            className="mt-3 w-full"
           />
         </div>
       </div>

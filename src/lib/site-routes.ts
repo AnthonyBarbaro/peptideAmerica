@@ -14,6 +14,7 @@ export const publicRoutes = [
   "/partner-program",
   "/contact",
   "/policies/research-use-only",
+  "/policies/disclaimer",
   "/policies/privacy",
   "/policies/return-refund",
   "/policies/terms",

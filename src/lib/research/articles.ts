@@ -19,6 +19,7 @@ export type ResearchArticle = {
   readTime: string;
   category: string;
   relatedProductSkus: string[];
+  plainLanguageNotes?: string[];
   researchFocus: string[];
   mechanismNotes: string[];
   studySummaries: ResearchStudySummary[];
@@ -293,10 +294,10 @@ export const researchArticles: ResearchArticle[] = [
     tags: ["NAD+", "Cofactor", "Mitochondrial"],
   },
   {
-    slug: "retatrutide-research-notes",
-    title: "Retatrutide Research Notes",
+    slug: "glp-3-research-notes",
+    title: "GLP-3 Research Notes",
     summary:
-      "A source-backed overview of retatrutide as a multi-receptor incretin research topic.",
+      "A source-backed overview of GLP-3 as a multi-receptor incretin research topic.",
     readTime: "8 min read",
     category: "Metabolic Research",
     relatedProductSkus: ["RETATRUTIDE-20MG", "RETATRUTIDE-30MG"],
@@ -306,14 +307,14 @@ export const researchArticles: ResearchArticle[] = [
       "Catalog language should stay limited to identity, receptor class, and source summaries.",
     ],
     mechanismNotes: [
-      "Retatrutide is discussed as a triple-receptor agonist topic in incretin-related literature.",
+      "GLP-3 is discussed as a triple-receptor agonist topic in incretin-related literature.",
       "Mechanism under review includes the relationship between receptor balance, signaling bias, and metabolic-marker endpoints.",
     ],
     studySummaries: [
       {
         title: "Multi-receptor profile",
         body:
-          "Primary literature frames retatrutide around three receptor systems rather than a single GLP-1 pathway.",
+          "Primary literature frames GLP-3 around three receptor systems rather than a single GLP-1 pathway.",
       },
       {
         title: "Research-page boundary",
@@ -324,13 +325,13 @@ export const researchArticles: ResearchArticle[] = [
     sources: [
       webMdPeptideOverview,
       {
-        title: "Retatrutide phase 2 publication",
+        title: "GLP-3 phase 2 publication",
         publisher: "PubMed",
         url: "https://pubmed.ncbi.nlm.nih.gov/37366315/",
         year: "2023",
       },
     ],
-    tags: ["Retatrutide", "Incretin", "Metabolic"],
+    tags: ["GLP-3", "Incretin", "Metabolic"],
   },
   {
     slug: "tb-500-research-notes",
@@ -932,8 +933,115 @@ export const researchArticles: ResearchArticle[] = [
   },
 ];
 
+const plainLanguageNotesBySlug: Record<string, string[]> = {
+  "aod-9604-research-notes": [
+    "AOD 9604 is discussed as a small growth-hormone-fragment topic tied to metabolic-marker research.",
+    "In simple terms, researchers look at lipid-signaling markers, fragment selectivity, and how it differs from full growth hormone.",
+    "The easy takeaway: it is a metabolic research topic where source quality, fragment identity, and study design matter.",
+  ],
+  "bpc-157-research-notes": [
+    "BPC-157 is usually discussed in relation to tissue-repair research models and cellular stress-response markers.",
+    "In simple terms, researchers look at signaling pathways that show up when controlled models are under review.",
+    "The easy takeaway: most public literature is preclinical, so the useful question is what model was used and what marker was measured.",
+  ],
+  "ghk-cu-research-notes": [
+    "GHK-Cu is a copper-binding peptide studied in relation to skin-structure research.",
+    "In simple terms, researchers look at collagen-related markers, extracellular matrix signaling, and copper-associated cellular pathways.",
+    "The easy takeaway: confirm whether a source is discussing GHK, GHK-Cu, or another copper-peptide material before comparing notes.",
+  ],
+  "glow-blend-research-notes": [
+    "GLOW is best understood as a blend record, so the important work starts with ingredient mapping.",
+    "In simple terms, researchers and catalog managers need the formula, SKU, COA records, and source notes to line up.",
+    "The easy takeaway: a blend should be explained by its confirmed ingredients, not by one vague headline.",
+  ],
+  "hcg-research-notes": [
+    "HCG sits in the glycoprotein hormone family, so the research starts with structure and receptor context.",
+    "In simple terms, researchers compare subunits, receptor binding, and hormone-family behavior.",
+    "The easy takeaway: identity, unit labeling, and documentation matter more than broad retail language.",
+  ],
+  "nad-plus-research-notes": [
+    "NAD+ is a cofactor, meaning it appears in many basic cellular chemistry pathways.",
+    "In simple terms, researchers look at redox markers, mitochondrial context, and cellular energy-accounting models.",
+    "The easy takeaway: separate NAD+ papers from NADH, NR, NMN, and other related-but-different compounds.",
+  ],
+  "glp-3-research-notes": [
+    "GLP-3 is easiest to understand as a multi-receptor incretin research topic.",
+    "In simple terms, researchers review GLP-1, GIP, and glucagon receptor signaling together instead of one pathway alone.",
+    "The easy takeaway: source notes should explain receptor class and study design without turning marker data into product promises.",
+  ],
+  "tb-500-research-notes": [
+    "TB-500 is usually discussed next to thymosin beta-4, so naming clarity is the first thing to check.",
+    "In simple terms, researchers look at actin, cell movement, and sequence-fragment context in controlled models.",
+    "The easy takeaway: ask whether the source is about TB-500, full thymosin beta-4, or a smaller fragment.",
+  ],
+  "semaglutide-research-notes": [
+    "Semaglutide is a single-receptor GLP-1 research topic in the incretin family.",
+    "In simple terms, researchers study how GLP-1 receptor signaling appears in marker-based experiments.",
+    "The easy takeaway: it is a useful comparison point for dual and triple receptor incretin topics.",
+  ],
+  "tirzepatide-research-notes": [
+    "Tirzepatide is a dual-receptor incretin research topic.",
+    "In simple terms, researchers compare GIP and GLP-1 receptor signaling together.",
+    "The easy takeaway: source summaries should keep receptor science separate from broad retail expectations.",
+  ],
+  "cjc-1295-research-notes": [
+    "CJC-1295 is a modified GHRH analog, so the research starts with structure and marker tracking.",
+    "In simple terms, researchers look at how a longer-acting analog changes the research window for GHRH-pathway study.",
+    "The easy takeaway: catalog notes should focus on analog identity, marker readouts, and source quality.",
+  ],
+  "ipamorelin-research-notes": [
+    "Ipamorelin is usually discussed as a ghrelin-receptor secretagogue research topic.",
+    "In simple terms, researchers look at how selective the signal appears compared with nearby endocrine-marker systems.",
+    "The easy takeaway: good source notes explain which markers were measured and avoid broad conclusions.",
+  ],
+  "tesamorelin-research-notes": [
+    "Tesamorelin belongs in the GHRH analog research bucket.",
+    "In simple terms, researchers review how a modified GHRH sequence engages pathway markers.",
+    "The easy takeaway: look for structure, receptor class, and whether the source is a review or original experiment.",
+  ],
+  "sermorelin-research-notes": [
+    "Sermorelin is a GHRH analog topic often compared with other secretagogue literature.",
+    "In simple terms, it organizes research around GHRH receptor signaling and marker readouts.",
+    "The easy takeaway: do not merge every secretagogue paper into one shared conclusion.",
+  ],
+  "pt-141-research-notes": [
+    "PT-141 is part of melanocortin-pathway research.",
+    "In simple terms, researchers look at receptor signaling in the melanocortin family.",
+    "The easy takeaway: naming matters because PT-141 and bremelanotide source records can appear side by side.",
+  ],
+  "melanotan-ii-research-notes": [
+    "Melanotan II is another melanocortin analog topic, but it should stay separate from the PT-141 record.",
+    "In simple terms, researchers review receptor-family signaling and analog identity.",
+    "The easy takeaway: keep naming, source type, and safety-note context clearly separated.",
+  ],
+  "epitalon-research-notes": [
+    "Epitalon is a short tetrapeptide topic, meaning it has only four amino-acid building blocks.",
+    "In simple terms, researchers review cellular markers and model selection.",
+    "The easy takeaway: focus on what marker was measured and what kind of model the paper used.",
+  ],
+  "thymosin-alpha-1-research-notes": [
+    "Thymosin Alpha-1 is a thymic-peptide research topic.",
+    "In simple terms, researchers review immune-signaling markers, pathway context, and model type.",
+    "The easy takeaway: good notes separate pathway context, model type, and paper category.",
+  ],
+  "dsip-research-notes": [
+    "DSIP is a neuropeptide topic with unresolved literature questions.",
+    "In simple terms, researchers have discussed sleep-marker observations, but the pathway story is not fully settled.",
+    "The easy takeaway: this is a good example of why a research library should show uncertainty, not just hype.",
+  ],
+  "mots-c-research-notes": [
+    "MOTS-c is discussed as a mitochondrial-derived peptide topic.",
+    "In simple terms, researchers look at stress-response signaling and gene-expression marker systems.",
+    "The easy takeaway: check whether a source is about cell markers, mitochondrial coding, or broader pathway theory.",
+  ],
+};
+
 export function getResearchArticle(slug: string) {
   return researchArticles.find((article) => article.slug === slug) ?? null;
+}
+
+export function getPlainLanguageNotes(article: ResearchArticle) {
+  return article.plainLanguageNotes ?? plainLanguageNotesBySlug[article.slug] ?? [];
 }
 
 export function getResearchArticlesForProduct(product: Product) {

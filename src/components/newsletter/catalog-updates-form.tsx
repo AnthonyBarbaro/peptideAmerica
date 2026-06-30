@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 export function CatalogUpdatesForm() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,8 @@ export function CatalogUpdatesForm() {
       return;
     }
 
+    // TODO: POST to a catalog-updates endpoint once backend capture exists.
+    trackEvent("newsletter_signup", { source: "footer" });
     setEmail("");
     setMessage("Thanks. Catalog update requests are being collected for launch.");
   }
@@ -21,7 +24,9 @@ export function CatalogUpdatesForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="mt-4">
       <label className="block">
-        <span className="text-sm font-semibold text-slate-700">Catalog updates</span>
+        <span className="text-sm font-semibold text-slate-700">
+          Get catalog and documentation updates
+        </span>
         <span className="mt-2 flex flex-col gap-2 sm:flex-row">
           <input
             type="email"

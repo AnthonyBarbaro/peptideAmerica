@@ -1,5 +1,8 @@
 import type { CoaBatch, Product } from "@/lib/commerce/types";
-import type { ResearchArticle } from "@/lib/research/articles";
+import {
+  getPlainLanguageNotes,
+  type ResearchArticle,
+} from "@/lib/research/articles";
 
 export type SearchResult =
   | {
@@ -85,6 +88,7 @@ export function searchArticles(articles: ResearchArticle[], query: string) {
         article.category,
         ...article.tags,
         ...article.relatedProductSkus,
+        ...getPlainLanguageNotes(article),
         ...article.researchFocus,
         ...article.mechanismNotes,
         ...article.studySummaries.flatMap((summary) => [summary.title, summary.body]),

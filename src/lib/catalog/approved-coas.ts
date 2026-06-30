@@ -95,9 +95,9 @@ const approvedCoaDefinitions: ApprovedCoaDefinition[] = [
   {
     id: "retatrutide-60mg-heavy-metals",
     productSlug: "retatrutide-60mg",
-    productName: "Retatrutide 60mg",
+    productName: "GLP-3 60mg",
     sku: "RETATRUTIDE-60MG",
-    batchNumber: "Retatrutide 60mg heavy metals",
+    batchNumber: "GLP-3 60mg heavy metals",
     labName: "Third-party laboratory",
     testedAt: "Document on file",
     purityPercent: null,
@@ -109,9 +109,9 @@ const approvedCoaDefinitions: ApprovedCoaDefinition[] = [
   {
     id: "retatrutide-60mg-purity",
     productSlug: "retatrutide-60mg",
-    productName: "Retatrutide 60mg",
+    productName: "GLP-3 60mg",
     sku: "RETATRUTIDE-60MG",
-    batchNumber: "Retatrutide 60mg purity",
+    batchNumber: "GLP-3 60mg purity",
     labName: "Third-party laboratory",
     testedAt: "Document on file",
     purityPercent: null,

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
+import { complianceCopy } from "@/lib/compliance/copy";
 import { getCartTotal, useCartStore } from "@/lib/cart-store";
 import { formatMoney } from "@/lib/format";
 
@@ -103,8 +104,7 @@ export function CheckoutPageClient() {
       >
         <h1 className="text-3xl font-bold text-slate-950">Checkout</h1>
         <p className="mt-3 text-slate-600">
-          Enter shipping details to prepare your order. Payment details are handled through
-          a hosted payment page.
+          Enter shipping details to prepare your order. {complianceCopy.hostedCheckout}
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <label className="block">
@@ -225,6 +225,13 @@ export function CheckoutPageClient() {
             />
           </label>
         </div>
+        {/*
+          Purchaser attestation gate. The accepted value is sent to
+          /api/commerce/checkout, which requires `attestationAccepted: true`
+          (Zod literal) and forwards it into the order record, so the
+          attestation is persisted with each order. If the order backend is
+          ever swapped out, keep that server-side enforcement in place.
+        */}
         <label className="mt-6 flex gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
           <input
             type="checkbox"
@@ -234,7 +241,7 @@ export function CheckoutPageClient() {
             required
           />
           <span className="text-sm font-medium leading-6 text-slate-900">
-            I confirm these materials are for research use only and not for human or animal use.
+            {complianceCopy.attestationCheckbox}
           </span>
         </label>
         <button

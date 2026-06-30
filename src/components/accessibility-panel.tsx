@@ -2,7 +2,8 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { Accessibility, Minus, Plus, RotateCcw, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { PointerEvent } from "react";
 
 type TextSize = "normal" | "large" | "larger" | "largest";
 
@@ -21,6 +22,12 @@ type AccessibilityPrefs = {
   readingGuide: boolean;
   reduceMotion: boolean;
   widgetHidden: boolean;
+  widgetPosition: WidgetPosition | null;
+};
+
+type WidgetPosition = {
+  x: number;
+  y: number;
 };
 
 const defaultPrefs: AccessibilityPrefs = {
@@ -38,6 +45,7 @@ const defaultPrefs: AccessibilityPrefs = {
   readingGuide: false,
   reduceMotion: false,
   widgetHidden: false,
+  widgetPosition: null,
 };
 
 const storageKey = "peptide-america-accessibility";
@@ -48,6 +56,25 @@ const textSizeLabels: Record<TextSize, string> = {
   larger: "Larger",
   largest: "Largest",
 };
+const widgetSize = 48;
+const widgetMargin = 16;
+
+function clampWidgetPosition(position: WidgetPosition): WidgetPosition {
+  if (typeof window === "undefined") {
+    return position;
+  }
+
+  return {
+    x: Math.min(
+      Math.max(widgetMargin, position.x),
+      Math.max(widgetMargin, window.innerWidth - widgetSize - widgetMargin),
+    ),
+    y: Math.min(
+      Math.max(widgetMargin, position.y),
+      Math.max(widgetMargin, window.innerHeight - widgetSize - widgetMargin),
+    ),
+  };
+}
 
 function applyPrefs(prefs: AccessibilityPrefs) {
   const root = document.documentElement;
@@ -68,6 +95,13 @@ function applyPrefs(prefs: AccessibilityPrefs) {
 
 export function AccessibilityPanel() {
   const [open, setOpen] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const dragStateRef = useRef<{
+    pointerId: number;
+    offsetX: number;
+    offsetY: number;
+    moved: boolean;
+  } | null>(null);
   const [prefs, setPrefs] = useState<AccessibilityPrefs>(() => {
     if (typeof window === "undefined") {
       return defaultPrefs;
@@ -77,7 +111,13 @@ export function AccessibilityPanel() {
 
     if (saved) {
       try {
-        return { ...defaultPrefs, ...JSON.parse(saved) } as AccessibilityPrefs;
+        const parsed = { ...defaultPrefs, ...JSON.parse(saved) } as AccessibilityPrefs;
+        return {
+          ...parsed,
+          widgetPosition: parsed.widgetPosition
+            ? clampWidgetPosition(parsed.widgetPosition)
+            : null,
+        };
       } catch {
         window.localStorage.removeItem(storageKey);
       }
@@ -90,6 +130,22 @@ export function AccessibilityPanel() {
     applyPrefs(prefs);
     window.localStorage.setItem(storageKey, JSON.stringify(prefs));
   }, [prefs]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPrefs((current) =>
+        current.widgetPosition
+          ? { ...current, widgetPosition: clampWidgetPosition(current.widgetPosition) }
+          : current,
+      );
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const handleOpenAccessibilityPanel = () => {
@@ -122,23 +178,92 @@ export function AccessibilityPanel() {
 
   const reset = () => setPrefs(defaultPrefs);
   const textSizeIndex = textSizes.indexOf(prefs.textSize);
+  const widgetPosition = prefs.widgetPosition;
+  const triggerStyle = widgetPosition
+    ? { left: `${widgetPosition.x}px`, top: `${widgetPosition.y}px` }
+    : undefined;
+  const panelStyle = widgetPosition
+    ? {
+        left: `${Math.min(widgetPosition.x, Math.max(widgetMargin, typeof window === "undefined" ? widgetPosition.x : window.innerWidth - 448 - widgetMargin))}px`,
+        top: `${Math.min(widgetPosition.y + widgetSize + 12, Math.max(widgetMargin, typeof window === "undefined" ? widgetPosition.y + widgetSize + 12 : window.innerHeight - 672 - widgetMargin))}px`,
+        bottom: "auto",
+      }
+    : undefined;
+
+  const handleTriggerPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    dragStateRef.current = {
+      pointerId: event.pointerId,
+      offsetX: event.clientX - rect.left,
+      offsetY: event.clientY - rect.top,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleTriggerPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+    const dragState = dragStateRef.current;
+
+    if (!dragState || dragState.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const nextPosition = clampWidgetPosition({
+      x: event.clientX - dragState.offsetX,
+      y: event.clientY - dragState.offsetY,
+    });
+
+    if (
+      Math.abs(nextPosition.x - (prefs.widgetPosition?.x ?? widgetMargin)) > 3 ||
+      Math.abs(nextPosition.y - (prefs.widgetPosition?.y ?? window.innerHeight - widgetSize - widgetMargin)) > 3
+    ) {
+      dragState.moved = true;
+      setDragging(true);
+    }
+
+    setPrefs((current) => ({ ...current, widgetPosition: nextPosition }));
+  };
+
+  const handleTriggerPointerUp = (event: PointerEvent<HTMLButtonElement>) => {
+    const dragState = dragStateRef.current;
+
+    if (dragState?.pointerId === event.pointerId) {
+      window.setTimeout(() => setDragging(false), 0);
+    }
+
+    dragStateRef.current = null;
+  };
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className={`fixed bottom-4 left-4 z-50 h-12 w-12 place-items-center rounded-full border border-blue-800 bg-blue-950 text-white shadow-lg shadow-blue-950/25 transition hover:bg-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-950 focus-visible:ring-offset-2 ${
+          className={`fixed z-50 h-12 w-12 touch-none place-items-center rounded-full border border-blue-800 bg-blue-950 text-white shadow-lg shadow-blue-950/25 transition hover:bg-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-950 focus-visible:ring-offset-2 ${
             prefs.widgetHidden ? "hidden" : "inline-grid"
-          }`}
+          } ${widgetPosition ? "" : "bottom-4 left-4"}`}
+          style={triggerStyle}
           aria-label="Open accessibility options"
+          title="Open accessibility options. Drag to reposition."
+          onPointerDown={handleTriggerPointerDown}
+          onPointerMove={handleTriggerPointerMove}
+          onPointerUp={handleTriggerPointerUp}
+          onPointerCancel={handleTriggerPointerUp}
+          onClick={(event) => {
+            if (dragging || dragStateRef.current?.moved) {
+              event.preventDefault();
+            }
+          }}
         >
           <Accessibility aria-hidden="true" size={24} />
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/30" />
-        <Dialog.Content className="fixed bottom-20 left-4 z-50 flex max-h-[min(42rem,calc(100dvh-6rem))] w-[min(calc(100vw-2rem),28rem)] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-2xl shadow-blue-950/20">
+        <Dialog.Content
+          className="fixed bottom-20 left-4 z-50 flex max-h-[min(42rem,calc(100dvh-6rem))] w-[min(calc(100vw-2rem),28rem)] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-2xl shadow-blue-950/20"
+          style={panelStyle}
+        >
           <div className="flex items-start justify-between gap-4 border-b border-slate-200 p-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-900">

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CatalogUpdatesForm } from "@/components/newsletter/catalog-updates-form";
+import { fdaDisclaimer } from "@/lib/legal/disclaimer";
 
 const footerSections = [
   {
@@ -33,6 +34,7 @@ const footerSections = [
     title: "Policies",
     links: [
       ["/policies/research-use-only", "Research Use"],
+      ["/policies/disclaimer", "Disclaimer"],
       ["/policies/privacy", "Privacy"],
       ["/policies/return-refund", "Returns"],
       ["/policies/shipping-returns", "Shipping"],
@@ -97,7 +99,19 @@ export function Footer() {
             ))}
           </nav>
         </div>
-        <div className="mt-8 flex flex-col gap-2 border-t border-slate-200 pt-5 text-xs font-medium text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
+          <h2 className="text-xs font-black uppercase tracking-[0.14em] text-slate-700">
+            FDA Disclaimer
+          </h2>
+          <p className="mt-2 text-xs leading-5 text-slate-500">{fdaDisclaimer}</p>
+          <Link
+            href="/policies/disclaimer"
+            className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-blue-900 transition hover:text-blue-700"
+          >
+            Read the full disclaimer →
+          </Link>
+        </div>
+        <div className="mt-6 flex flex-col gap-2 border-t border-slate-200 pt-5 text-xs font-medium text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Peptide America.</p>
           <p>Secure account access, catalog support, and order records.</p>
         </div>

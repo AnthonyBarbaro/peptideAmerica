@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/commerce/types";
+import { formatDisplaySku } from "@/lib/format";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://peptideamerica.com";
 const brandName = process.env.NEXT_PUBLIC_BRAND_NAME ?? "Peptide America";
@@ -17,7 +18,7 @@ export function productJsonLd(product: Product) {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    sku: product.sku,
+    sku: formatDisplaySku(product.sku),
     category: product.category,
     description: product.shortDescription,
     brand: {

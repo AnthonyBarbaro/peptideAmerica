@@ -56,6 +56,20 @@ textarea {
   animation: molecule-drift 12s ease-in-out infinite alternate;
 }
 
+.hero-float {
+  animation: hero-float 7s ease-in-out infinite;
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
 .path-draw {
   stroke-dasharray: 460;
   stroke-dashoffset: 460;

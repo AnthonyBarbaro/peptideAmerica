@@ -3,6 +3,9 @@
 import { FileCheck2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { CoaBatch, Product } from "@/lib/commerce/types";
+import { trackEvent } from "@/lib/analytics";
+import { complianceCopy } from "@/lib/compliance/copy";
+import { formatDisplaySku } from "@/lib/format";
 
 type CoaClientProps = {
   products: Product[];
@@ -107,7 +110,7 @@ export function CoaClient({ products, batches }: CoaClientProps) {
                   <h2 className="text-lg font-bold text-slate-950">
                     {product?.name ?? batch.productName ?? batch.sku}
                   </h2>
-                  <p className="mt-1 text-sm text-slate-500">{batch.sku}</p>
+                  <p className="mt-1 text-sm text-slate-500">{formatDisplaySku(batch.sku)}</p>
                 </div>
                 <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-slate-700">
                   <FileCheck2 aria-hidden="true" size={15} />
@@ -135,12 +138,28 @@ export function CoaClient({ products, batches }: CoaClientProps) {
                 </div>
               </dl>
               <p className="mt-4 text-sm leading-6 text-slate-600">{batch.notes}</p>
-              <a
-                href={batch.documentUrl}
-                className="mt-5 inline-flex min-h-10 items-center justify-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
-              >
-                View document
-              </a>
+              {batch.documentUrl?.trim() ? (
+                <a
+                  href={batch.documentUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("open_coa", {
+                      sku: batch.sku,
+                      batchNumber: batch.batchNumber,
+                      source: "coa_library",
+                    })
+                  }
+                  className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
+                >
+                  <FileCheck2 aria-hidden="true" size={16} />
+                  View document
+                </a>
+              ) : (
+                <p className="mt-5 text-sm font-medium text-slate-500">
+                  {complianceCopy.fallback.batchUnavailable}
+                </p>
+              )}
             </article>
           );
         })}

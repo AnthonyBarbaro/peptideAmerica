@@ -15,6 +15,13 @@ export function formatCatalogPrice(cents: number) {
   return formatMoney(getCatalogPriceCents(cents));
 }
 
+// Display-only SKU branding. The real SKU (e.g. RETATRUTIDE-20MG) is still sent
+// to Vial for inventory, COA matching, and checkout; only what the shopper sees
+// is rebranded.
+export function formatDisplaySku(sku: string) {
+  return sku.replace(/RETATRUTIDE/gi, "GLP-3");
+}
+
 export function formatStockStatus(status: string) {
   switch (status) {
     case "in_stock":
