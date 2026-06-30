@@ -12,6 +12,7 @@ import { organizationJsonLd } from "@/lib/seo/jsonld";
 const brandName = process.env.NEXT_PUBLIC_BRAND_NAME ?? "Peptide America";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://peptideamerica.com";
 const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+const ogImage = "/og-image.png";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,21 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: brandName,
     type: "website",
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${brandName} premium peptide research catalog`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${brandName} | Premium Peptide Catalog`,
+    description:
+      "Batch-aware peptide catalog with product browsing, COA lookup, and cart workflows.",
+    images: [ogImage],
   },
 };
 
